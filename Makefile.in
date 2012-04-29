@@ -1,0 +1,17 @@
+all:
+	cd lib/libcommon && $(MAKE)
+	cd lib/libsms && $(MAKE)
+	cd libvmodem && $(MAKE)
+	cd vmodem && $(MAKE)
+
+clean:
+	cd lib/libcommon && $(MAKE) clean
+	cd lib/libsms && $(MAKE) clean
+	cd libvmodem && $(MAKE) clean
+	cd vmodem && $(MAKE) clean
+
+install:
+	cd vmodem && $(MAKE) install
+
+distclean: clean
+	rm -rf autom4te.cache config.log config.status configure

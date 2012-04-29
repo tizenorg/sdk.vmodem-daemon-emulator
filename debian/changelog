@@ -1,0 +1,62 @@
+vmodemd-emul (0.2.10) unstable; urgency=low
+
+  * modified default rssi value
+
+ -- SungMin Ha <sungmin82.ha@samsung.com> Sat, 21 Apr 2012 20:00:28 +0900
+
+vmodemd-emul (0.2.9) unstable; urgency=low
+
+  * fixed bug of concatenated mo sms
+
+ -- SungMin Ha <sungmin82.ha@samsung.com> Tue, 17 Apr 2012 18:57:28 +0900
+
+vmodemd-emul (0.2.8) unstable; urgency=low
+
+  * modified boilerplate for protex
+  * call release bug fixed when 1waiting, 1active call 
+
+ -- SungMin Ha <sungmin82.ha@samsung.com> Thu, 5 Apr 2012 19:57:28 +0900
+
+vmodemd-emul (0.2.7) unstable; urgency=low
+
+  * unlimited check sim bug is fixed.
+  * add CRSM param get command for mo sms.
+  * modified ss.db for support query of video call 
+
+ -- SungMin Ha <sungmin82.ha@samsung.com> Fri, 30 Mar 2012 08:57:28 +0900
+
+vmodemd-emul (0.2.6) unstable; urgency=low
+
+  * modified initialize ss.db when booting time.
+
+ -- SungMin Ha <sungmin82.ha@samsung.com> Fri, 30 Mar 2012 08:57:28 +0900
+
+vmodemd-emul (0.2.5) unstable; urgency=low
+
+  * modified temporary patch for waiting call.
+
+ -- SungMin Ha <sungmin82.ha@samsung.com> Thu, 29 Mar 2012 17:39:28 +0900
+
+vmodemd-emul (0.2.4) unstable; urgency=low
+
+  * modified for support call and sms.
+
+ -- SungMin Ha <sungmin82.ha@samsung.com>  Tue, 27 Mar 2012 17:10:52 +0900
+
+vmodemd-emul (0.2.3) unstable; urgency=low
+
+  * modified for support at command additional features.
+
+ -- SungMin Ha <sungmin82.ha@samsung.com>  Thu, 22 Mar 2012 18:10:52 +0900
+
+vmodemd-emul (0.2.2) unstable; urgency=low
+
+  * modified for support at command.
+
+ -- SungMin Ha <sungmin82.ha@samsung.com>  Sat, 17 Mar 2012 10:10:52 +0900
+
+vmodemd-emul (0.2.1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- DongKyun Yun <dk77.yun@samsung.com>  Fri, 16 Dec 2011 17:29:52 +0900

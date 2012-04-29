@@ -1,0 +1,174 @@
+BINDIR = $(prefix)/usr/bin
+GLIB_CFLAGS = @GLIB_CFLAGS@
+GLIB_LIBS = @GLIB_LIBS@
+
+DEFINES += __arm__
+DEFINES += _VGSM_DEBUG
+
+CFLAGS = @CFLAGS@
+CFLAGS += $(INCDIRS:%=-I%) $(DEFINES:%=-D%)
+CFLAGS += $(GLIB_CFLAGS)
+CFLAGS += -Wstrict-prototypes
+CFLAGS += -Wmissing-prototypes
+CFLAGS += -Wuninitialized
+CFLAGS += -Wpointer-arith
+CFLAGS += -Wp,-MD,$(dir $@).$(notdir $@).d -Wp,-MT,$@
+# for bypass __stack_chk_fail
+CFLAGS +=-fno-stack-protector 
+
+CC = @CC@
+LD = @LD@
+
+INCDIRS = \
+	../libvmodem \
+	include \
+	include/server \
+	include/db \
+	include/oem \
+	include/at \
+	include/transport \
+	include/sat \
+	../lib/libsms \
+	../lib/libcommon
+
+LIB =	-lsqlite3 \
+	-lvconf \
+	../lib/libcommon/libcommon.a \
+	../lib/libsms/libsms.a \
+	$(GLIB_LIBS)
+
+SOURCES = \
+	transport/gsmstate.c \
+	sat/sat_util.c \
+	sat/apdu_tool.c \
+	at/at_tx_power.c \
+	at/at_rx_power.c \
+	at/at_tx_security.c \
+	at/at_rx_security.c \
+	at/at_tx_display.c \
+	at/at_rx_display.c \
+	at/at_tx_network.c \
+	at/at_rx_network.c \
+	at/at_tx_misc.c \
+	at/at_rx_misc.c \
+	at/at_gen_resp.c \
+	at/at_tx_sms.c \
+	at/at_rx_sms.c \
+	at/at_tx_emulator.c \
+	at/at_msg.c \
+	at/at_recv.c \
+	at/at_tx_ss.c \
+	at/at_rx_ss.c \
+	at/at_tx_snd.c \
+	at/at_rx_snd.c \
+	at/at_tx_gprs.c \
+	at/at_rx_gprs.c \
+	at/at_rx_gps.c \
+	at/at_rx_sap.c \
+	at/at_tx_sat.c \
+	at/at_rx_sat.c \
+	at/at_tx_phonebook.c \
+	at/at_rx_phonebook.c \
+	at/at_tx_call.c \
+	at/at_rx_call.c \
+	at/at_tx_data.c \
+	at/at_rx_data.c \
+	at/at_func.c \
+	at/at_send.c \
+	server/main.c \
+	server/gsm.c \
+	server/phoneserver.c \
+	server/eloop.c \
+	server/server.c \
+	server/client.c \
+	server/func_ps.c \
+	server/misc.c \
+	server/flight.c \
+	db/db_network.c \
+	db/db_ss.c \
+	db/db_security.c \
+	db/db_phonebook.c \
+	db/db_gprs.c \
+	server/server_tx_call.c \
+	server/server_rx_call.c \
+	server/server_common_call.c \
+	server/server_tx_ss.c \
+	server/server_rx_ss.c \
+	server/server_common_ss.c \
+	server/server_tx_power.c \
+	server/server_rx_power.c \
+	server/server_tx_network.c \
+	server/server_rx_network.c \
+	server/server_common_network.c \
+	server/server_tx_display.c \
+	server/server_rx_display.c \
+	server/server_tx_sms.c \
+	server/server_rx_sms.c \
+	server/server_tx_data.c \
+	server/server_rx_data.c \
+	server/server_tx_gprs.c \
+	server/server_rx_gprs.c \
+	server/server_tx_security.c \
+	server/server_rx_security.c \
+	server/server_tx_phonebook.c \
+	server/server_rx_phonebook.c \
+	server/server_rx_misc.c \
+	server/server_common_gprs.c \
+	server/state.c \
+	server/server_common_security.c \
+	server/server_common.c \
+	server/server_dpram.c \
+	server/server_client.c \
+	oem/oem_tx_call.c \
+	oem/oem_rx_call.c \
+	oem/oem_tx_ss.c \
+	oem/oem_rx_ss.c \
+	oem/oem_tx_power.c \
+	oem/oem_rx_power.c \
+	oem/oem_tx_network.c \
+	oem/oem_rx_network.c \
+	oem/oem_tx_display.c \
+	oem/oem_rx_display.c \
+	oem/oem_tx_sms.c \
+	oem/oem_rx_sms.c \
+	oem/oem_tx_data.c \
+	oem/oem_rx_data.c \
+	oem/oem_tx_gprs.c \
+	oem/oem_rx_gprs.c \
+	oem/oem_tx_security.c \
+	oem/oem_rx_security.c \
+	oem/oem_tx_phonebook.c \
+	oem/oem_rx_phonebook.c \
+	oem/oem_rx_misc.c \
+	oem/oem_tx_misc.c \
+	server/logmsg.c
+
+OBJ_COMMON = $(SOURCES:%.c=%.o)
+
+OBJ_X86 += transport/transport_dpram.o
+
+OBJ_ARM += transport/transport_onedram.o
+
+DEPFILES += $(foreach object,$(OBJ),$(dir $(object)).$(notdir $(object)).d)
+
+TARGET_X86 = vmodem_x86
+TARGET_ARM = vmodem_arm
+
+all: $(TARGET_X86) $(TARGET_ARM)
+
+-include $(DEPFILES)
+
+$(TARGET_X86): $(OBJ_X86) $(OBJ_COMMON)
+	$(CC) $(OBJ_X86) $(OBJ_COMMON) -o $@ $(LIB)
+
+$(TARGET_ARM): $(OBJ_ARM) $(OBJ_COMMON)
+	$(CC) $(OBJ_ARM) $(OBJ_COMMON) -o $@ $(LIB)
+
+
+clean:
+	rm -f $(OBJ_COMMON) $(OBJ_ARM) $(OBJ_X86) $(TARGET_ARM) $(TARGET_X86)
+	rm -f $(DEPFILES)
+	find . -name "*.o.d" | xargs rm -f
+
+install:
+	cp -f $(TARGET_X86) $(BINDIR)

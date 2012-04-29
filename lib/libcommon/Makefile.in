@@ -1,0 +1,31 @@
+GLIB_CFLAGS = @GLIB_CFLAGS@
+GLIB_LIBS   = @GLIB_LIBS@
+
+XML_CFLAGS  = @XML_CFLAGS@
+XML_LIBS    = @XML_LIBS@
+
+CC = @CC@
+AR = @AR@
+
+CFLAGS  = @CFLAGS@
+# for bypass __stack_chk_fail
+CFLAGS +=-fno-stack-protector
+CFLAGS	+= $(GLIB_CFLAGS) $(XML_CFLAGS) -DISE_LOGGING -DISE_DEBUG
+
+LIBS	= $(GLIB_LIBS) $(XML_LIBS)
+
+OBJS = logmsg.o \
+	process.o \
+	safestring.o \
+	fileio.o
+
+.SUFFIXES: .c
+
+all: libcommon.a
+
+libcommon.a: $(OBJS)
+	$(AR) r $@ $(OBJS)
+
+clean:
+	rm -f $(OBJS) libcommon.a
+
