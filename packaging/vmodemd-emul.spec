@@ -6,6 +6,7 @@ Summary: Modem Emulator
 Group: System/ModemEmulator
 License: GNU
 Source0: %{name}-%{version}.tar.gz
+Source1001: packaging/vmodemd-emul.manifest 
 ExclusiveArch: %{ix86}
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(vconf)
@@ -18,6 +19,7 @@ Virtual modem emulator
 %setup -q
 
 %build
+cp %{SOURCE1001} .
 autoconf
 %configure
 
@@ -37,6 +39,7 @@ rm -f build
 %postun
 
 %files
+%manifest vmodemd-emul.manifest
 %defattr(-,root,root,-)
 %attr(755,-,-) %{_bindir}/vmodem_x86
 
