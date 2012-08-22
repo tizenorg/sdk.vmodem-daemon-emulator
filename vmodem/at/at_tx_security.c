@@ -74,6 +74,12 @@ int at_tx_sim_sec_get_lock_info_res(void* ptr_data, int data_len)
 	return -1;
 }
 
+int at_tx_sim_sec_check_password_res(void* ptr_data)
+{       
+        TRACE(MSGL_VGSM_SIM, "res\n");
+
+        return at_gen_resp_send((char*)ptr_data);
+}
 
 int at_tx_sim_sec_change_password_res(void* ptr_data)
 {

@@ -535,6 +535,51 @@ int server_rx_sim_sec_get_lock_info_req(void* ptr_data, int data_len)
 	return oem_tx_sim_sec_get_lock_info_res(pdata, sizeof pdata);
 }
 
+int server_rx_sim_sec_check_password_req(void* ptr_data, int data_len)
+{
+	int result = -1;
+        int length_p;
+        int lock_type;
+        char *password=0;
+        int recv_type = 0;
+        char tmpmsg[SEND_BUF_SIZE];
+        memset(tmpmsg, '\0', sizeof(tmpmsg));
+        strcpy(tmpmsg, (char*)ptr_data);
+        char* tdata = strchr(tmpmsg, '=');
+        char token[] = "\"";
+        char* ret = NULL;
+
+        ret = strtok(tdata+1, token);
+        if(ret)
+        {
+                length_p = strlen(ret);
+                password = malloc(length_p+1);
+                strcpy(password, ret);
+                strcat(password, "\0");
+        }
+
+	recv_type = GSM_SEC_LOCK_TYPE_SC;
+	lock_type = GSM_SIM_PIN2_REQ;
+
+	result = server_sec_verify_password(password,lock_type,length_p);
+	/* fail case    */
+        if(result       ==      SIM_FAIL)
+        {
+                // reduce retry count.
+                server_sec_status_mgr(lock_type);
+                oem_tx_sim_sec_check_password_res(AT_CME_ERR_INCORRECT_PWD);
+        }
+        /* success case */
+        else if(result  ==      SIM_SUCCESS)
+        {
+		oem_tx_sim_sec_check_password_res(AT_GEN_ERR_NO_ERROR);
+	}
+
+	if(password)
+                free(password);
+
+	return 1;
+}
 
 int server_rx_sim_sec_change_password_req(void* ptr_data, int data_len)
 {

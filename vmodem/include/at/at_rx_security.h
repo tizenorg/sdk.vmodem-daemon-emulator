@@ -37,6 +37,7 @@ int at_rx_sim_sec_pin_status(char* atmsg);
 int at_rx_sim_sec_lock_info(char* atmsg);
 
 int at_rx_sim_sec_change_password(char* atmsg);
+int at_rx_sim_sec_check_password(char* atmsg);
 
 int at_rx_sim_sec_phone_lock(char* atmsg);
 int at_rx_sim_sec_phone_lock_get(char* atmsg);

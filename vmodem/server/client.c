@@ -45,6 +45,7 @@
 #include "at_rx_func.h"
 #include "misc.h"
 #include "at_send.h"
+#include "at_tx_sms.h"
 #include "state.h"
 
 //#include "db_phonebook.h"
@@ -1443,6 +1444,7 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 		change_state_machine( GSM_CALL_CMD );
 		if( is_flight_mode() ){
 			TRACE(MSGL_VGSM_INFO, "Flight mode on \n");
+			callback_callist();
 			/* not call */
 		}else{
 			TRACE(MSGL_VGSM_INFO, "Flight mode off \n");
@@ -1458,6 +1460,7 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	case GSM_SMS:
 		if( is_flight_mode() ){
 			TRACE(MSGL_VGSM_INFO, "Flight mode on \n");
+			sms_response_for_eventinjector();
 			/* not sms */
 		}else{
 			TRACE(MSGL_VGSM_INFO, "Flight mode off \n");
@@ -1492,8 +1495,8 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
         do_internal(ps, ci, &packet);
         break;
 	//090326
-	case RESTORE_EI_DATA	:
-		do_restore_ei(ps, ci, &packet);
+    case RESTORE_EI_DATA :
+	do_restore_ei(ps, ci, &packet);
 
 
 #if 0

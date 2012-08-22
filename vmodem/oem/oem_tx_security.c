@@ -56,6 +56,11 @@ int oem_tx_sim_sec_get_lock_info_res(void* ptr_data, int data_len)
 	return at_tx_sim_sec_get_lock_info_res(ptr_data, data_len);
 }
 
+int oem_tx_sim_sec_check_password_res(void* ptr_data)
+{       
+        SIM_DEBUG("\n");
+        return at_tx_sim_sec_check_password_res(ptr_data);
+}
 
 int oem_tx_sim_sec_change_password_res(void* ptr_data)
 {

@@ -59,6 +59,12 @@ int at_rx_sim_sec_lock_info(char* atmsg)
 	return oem_rx_sim_sec_get_lock_info_req(atmsg, strlen(atmsg));
 }
 
+int at_rx_sim_sec_check_password(char* atmsg)
+{
+        TRACE(MSGL_VGSM_SIM, "\n");
+        
+        return oem_rx_sim_sec_check_password_req(atmsg, strlen(atmsg));
+} 
 
 int at_rx_sim_sec_change_password(char* atmsg)
 {
@@ -66,7 +72,6 @@ int at_rx_sim_sec_change_password(char* atmsg)
 
 	return oem_rx_sim_sec_change_password_req(atmsg, strlen(atmsg));
 }
-
 
 static int at_rx_sim_sec_set_phone_lock_req(void* ptr_data, int data_len)
 {
@@ -119,8 +124,8 @@ int at_rx_sim_sec_phone_lock_get(char* atmsg)
         ret = strtok(data+1, TOKEN);
 	
 	char token[] = "\"";
-        ret = strtok(NULL, token);
-	ret = strtok(NULL, token);
+        ret = strtok(NULL, TOKEN);
+	ret = strtok(NULL, TOKEN);
 	TRACE(MSGL_VGSM_SIM, "input pw:%s, orig pw:%s\n", ret, origPwd);
 	if(ret)
 	{

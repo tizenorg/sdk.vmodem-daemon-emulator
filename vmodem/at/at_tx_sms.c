@@ -32,6 +32,7 @@
 #include "at_gen_resp.h"
 #include "at_tx_sms.h"
 #include "at_func.h"
+#include "phoneserver.h"
 #include <stdio.h>
 
 int at_tx_sms_deviceReady(void *data, int len)
@@ -122,10 +123,25 @@ int at_tx_sms_stored_msg_count_resp(void)
 	return at_gen_resp_send(AT_GEN_ERR_NO_ERROR);
 }
 
+void sms_response_for_eventinjector()
+{
+	LXT_MESSAGE smsres_packet;
+
+	// for sms receive check        
+        TAPIMessageInit(&smsres_packet);
+        smsres_packet.group  = GSM_SMS;                 // 0x04
+        smsres_packet.action = GSM_SMS_RECEIVE_RES;     // 0x0C
+        FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &smsres_packet);
+}
+
 int at_tx_sms_deliver_report_noti(int result_status)
 {
 	TRACE(MSGL_VGSM_INFO, "+CNMA noti\n");
-	return at_gen_resp_send(AT_GEN_ERR_NO_ERROR);
+	int rc = 0;
+	
+	rc = at_gen_resp_send(AT_GEN_ERR_NO_ERROR);
+	sms_response_for_eventinjector();
+	return rc;
 }
 
 int at_tx_sms_param_count_resp(unsigned char mem_store, unsigned char record_count)

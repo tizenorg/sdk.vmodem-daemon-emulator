@@ -38,6 +38,8 @@
 #include "at_recv.h"
 #include "at_gen_resp.h"
 #include "sms_util.h"
+#include <vconf/vconf.h>
+#include <vconf/vconf-keys.h>
 
 extern SmsAddressInfo g_sca;
 extern int smsSentStatus;
@@ -81,7 +83,7 @@ static int sms_msg_hook_modify(void * data, int len)
 int server_rx_sms_SendMsg(void *ptr_data, int data_len)
 {
 	unsigned char rawdata[0x100];
-	int rawdata_len = 0;
+	int rawdata_len = 0, rssi = 5;
 	unsigned char data[data_len];
 
 	LXT_MESSAGE	packet;
@@ -99,8 +101,14 @@ int server_rx_sms_SendMsg(void *ptr_data, int data_len)
 	packet.length = data_len;
 	
 	sms_msg_hook_modify(packet.data, packet.length);
-	
-	if(smsSentStatus == 0)
+
+	// check RSSI level	
+	if(vconf_get_int(VCONFKEY_TELEPHONY_RSSI, &rssi))
+	{
+		TRACE(MSGL_WARN, "vconf_get_int(%s) fail\n", VCONFKEY_TELEPHONY_RSSI);
+	}
+
+	if(smsSentStatus == 0 && rssi != 0)
 	{
 		FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
 

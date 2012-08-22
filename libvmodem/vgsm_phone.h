@@ -1340,7 +1340,7 @@
 #define GSM_SMS_CB_CONFIG_RES        0x0A
 // by luxmea ]
 #define GSM_SMS_STORED_MSG_CNT_NOTI           0x0B        // by luxmea
-
+#define GSM_SMS_RECEIVE_RES		0x0C
 
 
 /* --------------------------------------------------------------------------

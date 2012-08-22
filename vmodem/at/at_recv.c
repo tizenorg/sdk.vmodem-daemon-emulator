@@ -175,6 +175,11 @@ int at_recv_sms(char* cmd, char* atmsg)
 int at_recv_security(char* cmd, char* atmsg)
 {
 	TRACE(MSGL_VGSM_INFO, "\n");
+	char data[256];
+        strcpy(data, atmsg);
+        char* tdata = strchr(atmsg, '=');
+	char token[] = "\"";
+        char* ret = NULL;
 
 	if( !strcmp(cmd, "!+CRSM=") )
 	{
@@ -194,7 +199,15 @@ int at_recv_security(char* cmd, char* atmsg)
 	}
 	else if( !strcmp(cmd, "!+CPIN=") )
 	{
-		return at_rx_sim_sec_change_password(atmsg);
+		ret = strtok(tdata+1, token);
+                ret = strtok(NULL, token);
+		ret = strtok(NULL, token);
+	        if(ret)
+        	{
+			return at_rx_sim_sec_change_password(data);
+		}
+		else
+			return at_rx_sim_sec_check_password(data);
 	}
 	// return at_rx_sim_sec_pin_status(atmsg);
 
@@ -254,7 +267,7 @@ int at_recv_network(char* cmd, char* atmsg)
 int at_recv_ss(char* cmd, char* atmsg)
 {
 	TRACE(MSGL_VGSM_INFO, "%s\n", atmsg);
-	char data[48];
+	char data[256];
         strcpy(data, atmsg);
 	char* tdata = strchr(atmsg, '=');
         char* ret = NULL;

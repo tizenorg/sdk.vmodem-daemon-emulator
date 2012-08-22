@@ -31,6 +31,8 @@
 #include "at_msg.h"
 #include "logmsg.h"
 
+void sms_response_for_eventinjector(void);
+
 int at_tx_sms_deviceReady(void *data, int len);
 
 int at_tx_sms_NotiIncomingMsg(void *data, int len);

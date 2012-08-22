@@ -1,9 +1,9 @@
 Source: vmodemd-emul
 Section: devel
 Priority: extra
-Maintainer: DongKyun Yun  <dk77.yun@samsung.com>, SungMin Ha <sungmin82.ha@samsung.com>
+Maintainer: SungMin Ha <sungmin82.ha@samsung.com>,Jihye Kim <jihye1128.kim@samsung.com>,Yeongkyoon Lee <yeongkyoon.lee@samsung.com>
 Build-Depends: bison, flex, autoconf, gcc, debhelper, libglib2.0-dev, libxml2-dev, libvconf-dev
-Standards-Version: 0.2.10
+Standards-Version: 0.2.17
 
 Package: vmodemd-emul
 Architecture: i386
