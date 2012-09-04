@@ -234,6 +234,18 @@ int server_rx_call_line_id_get(void)
 	return 1;
 }
 
+int server_rx_call_release_incoming(void)
+{       
+        TRACE(MSGL_VGSM_INFO, "\n");
+        int releaseCnt = 0;
+        
+        releaseCnt = release_incoming_call();
+        if(releaseCnt > 0)
+                server_tx_call_list_noti();
+        
+        return releaseCnt;
+}
+    
 /*
 *	0_SEND=0x01,
 *	Releases all held calls or sets User Determined User Busy (UDUB) for a waiting call

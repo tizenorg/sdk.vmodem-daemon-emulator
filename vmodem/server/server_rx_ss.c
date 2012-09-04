@@ -588,7 +588,9 @@ int server_rx_ss_manage_call_set(char* ptr_data, int data_len)
 
         if(signal == AT_GSM_SS_CM_0_SEND) 	// release all held call
         {
-		rtn = server_rx_call_release_all_held();
+		rtn = server_rx_call_release_incoming();
+                if(rtn == 0)
+                        rtn = server_rx_call_release_all_held();
         }
         else if(signal == AT_GSM_SS_CM_1_SEND)    // release all active call and the other (held or waiting) call
         {

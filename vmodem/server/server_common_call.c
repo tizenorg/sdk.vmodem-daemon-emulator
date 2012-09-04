@@ -514,26 +514,44 @@ int release_all_active_call(void)
     return active_waiting_or_held_call(onWaiting);
 }
 
+int release_incoming_call(void)
+{
+	int i = 0, releaseCnt = 0;
+                
+        for( i=0; i<MAX_CALL_COUNT; ++i )
+        {
+                switch( g_call_list.CallInfo[i].stat )
+                {
+                        case GSM_CALL_STATUS_INCOMING :
+                        case GSM_CALL_STATUS_WAITING :
+            			server_tx_call_release_internal( g_call_list.CallInfo[i].idx );
+				releaseCnt++;
+            			break;
+        		default:
+            			break;
+        	}
+    	}   
+        
+    	return releaseCnt;
+}
+
 int release_all_held_call(void)
 {
-    int i = 0;
+   	 int i = 0;
 
 	for( i=0; i<MAX_CALL_COUNT; ++i )
 	{
 		switch( g_call_list.CallInfo[i].stat )
 		{
-	case GSM_CALL_STATUS_HELD:
-			case GSM_CALL_STATUS_INCOMING :
-			case GSM_CALL_STATUS_WAITING :
-	    server_tx_call_release_internal( g_call_list.CallInfo[i].idx );
-	    break;
+			case GSM_CALL_STATUS_HELD:
+	    			server_tx_call_release_internal( g_call_list.CallInfo[i].idx );
+	    			break;
+			default:
+	    			break;
+		}
+    	}
 
-	default:
-	    break;
-	}
-    }
-
-    return 1;
+    	return 1;
 }
 
 // End of Call.

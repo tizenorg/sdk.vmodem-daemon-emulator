@@ -1,3 +1,11 @@
+vmodemd-emul (0.2.18) unstable; urgency=low
+
+  * modified operation of CHLD=0 for applying spec
+  * Git: slp/pkgs/v/vmodem-daemon-emulator
+  * Tag: vmodemd-emul_0.2.18
+
+ -- Sungmin Ha <sungmin82.ha@samsung.com> Tue, 04 Sep 2012 18:12:38 +0900
+
 vmodemd-emul (0.2.17) unstable; urgency=low
 
   * fixed buffer overflow when call forwarding
