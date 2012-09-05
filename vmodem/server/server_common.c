@@ -36,6 +36,9 @@
 #include "server_tx_display.h"
 #include "server_tx_network.h"
 #include "server_common.h"
+#include "at_func.h"
+#include "vgsm_ss.h"
+#include "oem_rx_ss.h"
 
 //080227 - after editting gprs part in state.c, will be removed.
 #include "state.h"
@@ -65,6 +68,7 @@ void init_vgsm(void)
 	// initialize ss db
 	vgsm_ss_database_init();
 	init_ss_info();
+	oem_rx_ss_cw_set(AT_CALL_CLASS_VOICE, SS_MODE_ACT);
 }
 
 
