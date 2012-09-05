@@ -1,3 +1,11 @@
+vmodemd-emul (0.2.19) unstable; urgency=low
+
+  * modified sms converting flow for umlaut characters
+  * Git: slp/pkgs/v/vmodem-daemon-emulator
+  * Tag: vmodemd-emul_0.2.19
+
+ -- Sungmin Ha <sungmin82.ha@samsung.com> Wed, 05 Sep 2012 17:24:53 +0900
+
 vmodemd-emul (0.2.18) unstable; urgency=low
 
   * modified operation of CHLD=0 for applying spec

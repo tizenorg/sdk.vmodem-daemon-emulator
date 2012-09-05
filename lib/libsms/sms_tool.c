@@ -178,19 +178,40 @@ int MsgConvertGSM7bitToUCS2(unsigned char *pDestText, int maxLength, const unsig
 			fprintf(stderr, ">>>>>>>a_pTextString[i]=%x, The alpha isn't the gsm 7bit code, Never Come here!!!\n", pSrcText[i]);
 			return -1;
 		}
+
+		unsigned char utf8Buf[2], ucs2Buf[4];
 		if(g_GSM7BitToUCS2Table[ pSrcText[i] ] == 0x0/*0*/)
 		{	//extended gsm7bit
+			fprintf(stderr, "extended gsm7bit!\n");
 			i++;
-			lowerByte = g_GSM7BitToUCS2TableExt[ pSrcText[i] ] & 0x00FF;
-			upperByte = (g_GSM7BitToUCS2TableExt[ pSrcText[i] ] & 0xFF00) >> 8;
+			ucs2Buf[0] = (g_GSM7BitToUCS2TableExt[ pSrcText[i] ] & 0xFF00) >> 8;
+			ucs2Buf[1] = g_GSM7BitToUCS2TableExt[ pSrcText[i] ] & 0x00FF;
+			MsgConvertUCS2toUTF8(&utf8Buf, 256, ucs2Buf, 2);
+			pDestText[outTextLen++] = utf8Buf[0];
 		}
 		else
 		{
 			lowerByte = g_GSM7BitToUCS2Table[ pSrcText[i] ] & 0x00FF;
 			upperByte = (g_GSM7BitToUCS2Table[ pSrcText[i] ] & 0xFF00) >> 8;
+		
+			if(upperByte != 0x00)
+			{
+				fprintf(stderr, "upperByte is not 0x00\n");
+				ucs2Buf[0] = upperByte;
+				ucs2Buf[1] = lowerByte;
+				MsgConvertUCS2toUTF8(&utf8Buf, 256, ucs2Buf, 2);
+				pDestText[outTextLen++] = utf8Buf[0];
+				pDestText[outTextLen++] = utf8Buf[1];
+				fprintf(stderr,"upperByte:%x, lowerByte:%x\n", upperByte, lowerByte);
+			}
+			else
+			{
+				pDestText[outTextLen++] = lowerByte;
+				fprintf(stderr,"lowerByte:%x\n", lowerByte);
+			}
 		}
-		pDestText[outTextLen++] = upperByte;
-		pDestText[outTextLen++] = lowerByte;
+		//pDestText[outTextLen++] = upperByte;
+		//pDestText[outTextLen++] = lowerByte;
 		maxLength -= 2;
 	}
 
@@ -500,9 +521,11 @@ int MsgConvertGSM7bitToUTF8(unsigned char *pDestText, int maxLength,  const unsi
 	fprintf(stderr, "max dest Length = %d\n", maxLength);
 
 	ucs2Length = MsgConvertGSM7bitToUCS2((unsigned char*)pUCS2Text, maxUCS2Length * sizeof(unsigned short), pSrcText,  srcTextLen);
-	utf8Length = MsgConvertUCS2toUTF8(pDestText, maxLength, (unsigned char*)pUCS2Text, ucs2Length);
+	memcpy(pDestText, pUCS2Text, ucs2Length);
+	//utf8Length = MsgConvertUCS2toUTF8(pDestText, maxLength, (unsigned char*)pUCS2Text, ucs2Length);
 
-	return utf8Length;
+	//return utf8Length;
+	return ucs2Length;
 }
 
 
