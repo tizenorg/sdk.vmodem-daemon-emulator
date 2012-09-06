@@ -103,7 +103,7 @@ int server_tx_call_status(void) // it means call state.
 		// find client id of incoming call & set active
 		get_call_list(callList);
 		for( i=0; i<MAX_CALL_COUNT; ++i ) {
-			if(callList->CallInfo[i].stat  == GSM_CALL_STATUS_INCOMING ){
+			if(callList->CallInfo[i].stat  == GSM_CALL_STATUS_INCOMING || callList->CallInfo[i].stat == GSM_CALL_STATUS_WAITING){
 				log_msg(MSGL_VGSM_INFO,"call id(%d) is GSM_CALL_STATUS_INCOMING \n", i);
 				set_call_id( i );
 				break;
@@ -604,13 +604,14 @@ int server_tx_call_release_internal(int call_id)
 
 	set_ss_state(SS_NONE);
 
+	log_msg(MSGL_VGSM_INFO,"deleted call id : %d \n", call_id);
+        delete_call_list( call_id );
+
 	if( find_next_state( &next, STATE_FLAG_ALL ) ) {
 		set_state_machine( next );
 		send_msg();
 	}
 
-	log_msg(MSGL_VGSM_INFO,"deleted call id : %d \n", call_id);
-	delete_call_list( call_id );
 	get_call_list(list);
 	if(list){
 		packet.data = list;

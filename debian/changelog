@@ -1,3 +1,11 @@
+vmodemd-emul (0.2.21) unstable; urgency=low
+
+  * modified end call bug when conference call
+  * Git: slp/pkgs/v/vmodem-daemon-emulator
+  * Tag: vmodemd-emul_0.2.21
+
+ -- Sungmin Ha <sungmin82.ha@samsung.com> Thu, 06 Sep 2012 18:01:20 +0900
+
 vmodemd-emul (0.2.20) unstable; urgency=low
 
   * modified default call-waiting on

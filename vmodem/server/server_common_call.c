@@ -88,7 +88,7 @@ void set_call_list_status( int call_id, int mpty, gsm_call_status_e_type stat )
 {
     _ENTER();
 
-    if( g_call_list.CallCount >= MAX_CALL_COUNT )
+    if( g_call_list.CallCount > MAX_CALL_COUNT )
 	return;
 
     g_call_list.CallInfo[call_id].stat = stat;
