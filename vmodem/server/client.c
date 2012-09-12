@@ -204,11 +204,42 @@ void do_ext(PhoneServer* ps, TClientInfo * ci, LXT_MESSAGE * packet)
 // 090326 		// restore data in EI
 static void do_restore_ei(PhoneServer* ps, TClientInfo * ci, LXT_MESSAGE * packet)
 {
+	unsigned char data[MAX_GSM_DIALED_DIGITS_NUMBER+4];
+
 	log_msg(MSGL_VGSM_INFO,"do_restore_EI\n");
 
 	init_ss_info_re();
 	init_plmn_list();
 	server_sim_db_init();
+	
+	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+	LXT_MESSAGE MOpacket;
+        TAPIMessageInit(&MOpacket);
+	int i = 0;
+
+	get_call_list(callList);
+
+	for( i=0; i<MAX_CALL_COUNT; ++i )
+	{
+        	if(callList->CallInfo[i].stat == GSM_CALL_STATUS_DIALING || callList->CallInfo[i].stat == GSM_CALL_STATUS_ALERT)
+		{
+			data[0] = callList->CallInfo[i].idx;
+		        data[1] = callList->CallInfo[i].call_type;
+		        data[2] = callList->CallInfo[i].num_len;
+		        data[3] = callList->CallInfo[i].stat;
+        
+		        memset(&data[4], 0, MAX_GSM_DIALED_DIGITS_NUMBER);
+		        memcpy(&data[4], callList->CallInfo[i].number, callList->CallInfo[i].num_len);  
+   			MOpacket.data = data;
+		        MOpacket.group  = GSM_CALL;
+		        MOpacket.action = GSM_CALL_MAKE_REQ;
+		        MOpacket.length = callList->CallInfo[i].num_len + 4;
+        
+		        FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &MOpacket);
+		}
+	}
+
+        free(callList);
 	callback_callist();
 
 	log_msg(MSGL_VGSM_INFO,"do_restore_EI\n");
@@ -1218,7 +1249,7 @@ void do_power(PhoneServer* ps, TClientInfo * ci, LXT_MESSAGE * packet)
     {
         case LXT_PDA_POWER_ON_REQUEST :
             /*
-			 * Interanl state는 실제 dpram event에서 active를 확인한 후에 처리
+			 * Interanl state\B4\C2 \BD\C7\C1\A6 dpram event\BF\A1\BC\AD active\B8\A6 확\C0\CE\C7\D1 \C8커\A1 처\B8\AE
 			 */
 			Device->PowerOnDevice(&GlobalS, 0);
             break;

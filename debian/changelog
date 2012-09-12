@@ -1,3 +1,11 @@
+vmodemd-emul (0.2.22) unstable; urgency=low
+
+  * modified for sending MO call dialling or alert when connect with event injector
+  * Git: slp/pkgs/v/vmodem-daemon-emulator
+  * Tag: vmodemd-emul_0.2.22
+
+ -- Sungmin ha <sungmin82.ha@samsung.com> Wed, 12 Sep 2012 20:00:18 +0900
+
 vmodemd-emul (0.2.21) unstable; urgency=low
 
   * modified end call bug when conference call
