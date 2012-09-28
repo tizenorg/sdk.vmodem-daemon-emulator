@@ -1,3 +1,11 @@
+vmodemd-emul (0.2.23) unstable; urgency=low
+
+  * added checking flight mode when MT sms
+  * Git: slp/pkgs/v/vmodem-daemon-emulator
+  * Tag: vmodemd-emul_0.2.23
+
+ -- Sungmin ha <sungmin82.ha@samsung.com> Fri, 28 Sep 2012 14:38:29 +0900
+
 vmodemd-emul (0.2.22) unstable; urgency=low
 
   * modified for sending MO call dialling or alert when connect with event injector
