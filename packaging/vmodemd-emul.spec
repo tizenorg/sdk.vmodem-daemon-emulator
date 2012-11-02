@@ -6,6 +6,7 @@ Summary: Modem Emulator
 Group: System/ModemEmulator
 License: GNU
 Source0: %{name}-%{version}.tar.gz
+Source1001: packaging/vmodemd-emul.manifest
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(vconf)
 BuildRequires: pkgconfig(sqlite3)
