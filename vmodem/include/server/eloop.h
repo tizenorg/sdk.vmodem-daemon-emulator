@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
