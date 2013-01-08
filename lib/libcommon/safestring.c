@@ -92,12 +92,15 @@ gsize s_strcmp(const char *dst, const char *src)
 	srcsize = strlen(src);
 	dstsize = strlen(dst);
 
+	if (!dst || !src) {
+		return -1;
+	}
+
 	if ((srcsize == 0) && (dstsize == 0)) {
 		return 0;
 	}
 
-	if (!dst || !src || srcsize == 0 || dstsize == 0)
-	{
+	if (srcsize == 0 || dstsize == 0) {
 		return -1;
 	}
 
@@ -126,17 +129,23 @@ gsize s_strncmp(const char *dst, const char *src, int n)
 	srcsize = strlen(src);
 	dstsize = strlen(dst);
 
-	if ((srcsize == 0) && (dstsize == 0))
-		return 0;
+	if (!dst || !src) {
+		return -1;
+	}
 
-	if (!dst || !src || srcsize == 0 || dstsize == 0 || n == 0) {
+	if ((srcsize == 0) && (dstsize == 0)) {
+		return 0;
+	}
+
+	if (srcsize == 0 || dstsize == 0 || n == 0) {
 		log_msg (MSGL_WARN, "Cannot compare the string. Null args or size zero.\n");
 		return -1;
 	}
 
-	if (srcsize==dstsize)
+	if (srcsize==dstsize) {
 		return (strncmp(src, dst, n));
-
-	else
+	}
+	else {
 		return -1;
+	}
 }
