@@ -525,7 +525,6 @@ int MsgConvertGSM7bitToUTF8(unsigned char *pDestText, int maxLength,  const unsi
 	ucs2Length = MsgConvertGSM7bitToUCS2((unsigned char*)pUCS2Text, maxUCS2Length * sizeof(unsigned short), pSrcText,  srcTextLen);
 	if(ucs2Length < 0) {
 		fprintf(stderr, "MsgConvertGSM7bitToUTF8: UCS2 to GSM7bit Failed as text length is 0\n");
-		*rawdata_len = index;
 		return ucs2Length;
 	}
 	memcpy(pDestText, pUCS2Text, ucs2Length);
