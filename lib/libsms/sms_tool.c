@@ -709,6 +709,7 @@ int DecodeSmsSubmitTpdu(TPDU_SMS_SUBMIT *tpdu_submit, int pdu_len , char * pPDU,
 	BYTE    tmp_buff[BUFF_SIZE];
 	int size, udhl = 0;
 	int i = 0, fillbits = 0;
+	size_t limit_len = TAPI_NETTEXT_SCADDRESS_LEN_MAX + 1;
 	position=0;
 
 	/* SCA_ADDR */
@@ -729,14 +730,18 @@ int DecodeSmsSubmitTpdu(TPDU_SMS_SUBMIT *tpdu_submit, int pdu_len , char * pPDU,
 	if ( sca_ton == SIM_TON_INTERNATIONAL )
 	{
 		scaAddr[0] = '+';
-		memcpy( &scaAddr[1], diallingNum, scaAddr_len );
-		scaAddr[scaAddr_len+1] = '\0';
+		limit_len = ((limit_len < (scaAddr_len+1)) ? limit_len : (scaAddr_len+1));
+		memcpy( &scaAddr[1], diallingNum, limit_len-1 );
+		scaAddr[limit_len] = '\0';
 	}
 	else
 	{
-		memcpy( scaAddr, diallingNum, scaAddr_len );
-		scaAddr[scaAddr_len] = '\0';
+		limit_len = ((limit_len < scaAddr_len) ? limit_len : scaAddr_len);
+		memcpy( scaAddr, diallingNum, limit_len );
+		scaAddr[limit_len] = '\0';
 	}
+
+	limit_len = TAPI_NETTEXT_SCADDRESS_LEN_MAX + 1;
 
 	/* TP-MTI, TP-RD, TP-VPF,  TP-RP, TP_UDHI, TP-SRR */
 
@@ -772,16 +777,18 @@ int DecodeSmsSubmitTpdu(TPDU_SMS_SUBMIT *tpdu_submit, int pdu_len , char * pPDU,
 	{
 		destAddr[0] = '+';
 		memcpy( &destAddr[1], diallingNum, destAddr_len );
-		destAddr[destAddr_len+1] = '\0';
-		tpdu_submit->desAddr.dialnumLen= destAddr_len + 1;
-		memcpy(tpdu_submit->desAddr.diallingNum, destAddr , destAddr_len + 1);
+		limit_len = ((limit_len < (destAddr_len+1)) ? limit_len : (destAddr_len+1));
+		destAddr[limit_len] = '\0';
+		tpdu_submit->desAddr.dialnumLen = limit_len;
+		memcpy(tpdu_submit->desAddr.diallingNum, destAddr , limit_len);
 	}
 	else
 	{
 		memcpy( destAddr, diallingNum, destAddr_len );
-		destAddr[destAddr_len] = '\0';
-		tpdu_submit->desAddr.dialnumLen= destAddr_len;
-		memcpy(tpdu_submit->desAddr.diallingNum, destAddr , destAddr_len);
+		limit_len = ((limit_len < destAddr_len) ? sizeof(tpdu_submit->desAddr.dialnumLen) : destAddr_len);
+		destAddr[limit_len] = '\0';
+		tpdu_submit->desAddr.dialnumLen = limit_len;
+		memcpy(tpdu_submit->desAddr.diallingNum, destAddr , limit_len);
 	}
 
 	tpdu_submit->desAddr.npi = dest_npi;
