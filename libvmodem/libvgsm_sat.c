@@ -69,14 +69,16 @@ int vgsm_sat_display_text(LXT_HANDLE * handle,char priority,char  clear_msg,char
 {
 	printf("\n vgsm_sat_display_text\n");
 
-	DP_TEXT *dp_text;
-	dp_text = malloc(sizeof(DP_TEXT));
-	int ret;
-
-	memset(dp_text,0,sizeof(DP_TEXT));
-
 	if( handle == NULL )
 		return -1;
+
+	DP_TEXT *dp_text;
+	int ret;
+
+	dp_text = malloc(sizeof(DP_TEXT));
+	if(!dp_text)
+		return -1;
+	memset(dp_text,0,sizeof(DP_TEXT));
 
 	dp_text->priority				=	priority;
 	dp_text->clear_msg			=	clear_msg;
@@ -111,14 +113,16 @@ int vgsm_sat_get_inkey(LXT_HANDLE * handle,char cmd_detail,char* textstring,char
 {
 	printf("\n vgsm_sat_get_inkey\n");
 
-	GET_INKEY *get_inkey;
-	get_inkey = malloc(sizeof(GET_INKEY));
-	int ret;
-	memset(get_inkey,0,sizeof(GET_INKEY));
-
-
 	if( handle == NULL )
 		return -1;
+
+	GET_INKEY *get_inkey;
+	int ret;
+	
+	get_inkey = malloc(sizeof(GET_INKEY));
+	if(!get_inkey)
+		return -1;
+	memset(get_inkey,0,sizeof(GET_INKEY));
 
 	get_inkey->cmd_detail			=	cmd_detail;
 	memcpy(get_inkey->text_string,textstring,strlen(textstring));
@@ -150,13 +154,15 @@ int vgsm_sat_get_input(LXT_HANDLE * handle,char cmd_detail,char* textstring,char
 {
 	printf("\n vgsm_sat_get_input\n");
 
-	GET_INPUT *get_input;
-	get_input = malloc(sizeof(GET_INPUT));
-	int ret;
-	memset(get_input,0,sizeof(GET_INPUT));
-
 	if( handle == NULL )
 		return -1;
+
+	GET_INPUT *get_input;
+	int ret;
+	get_input = malloc(sizeof(GET_INPUT));
+	if(!get_input)
+		return -1;
+	memset(get_input,0,sizeof(GET_INPUT));
 
 	get_input->cmd_detail			=	cmd_detail;
 	memcpy(get_input->text_string,textstring,strlen(textstring));
@@ -188,14 +194,16 @@ int vgsm_sat_set_up_menu(LXT_HANDLE * handle,unsigned char cmd_detail,int num,vo
 {
 	printf("\n vgsm_sat_set_up_menu \n");
 
-	unsigned char *data;
-	data = malloc(num * sizeof(SET_MENU) + 2);
-//	int i=0;
-	int ret=0;
-	memset(data,0,num *sizeof(SET_MENU) + 2);
-
 	if( handle == NULL )
 		return -1;
+
+	unsigned char *data;
+//	int i=0;
+	int ret=0;
+	data = malloc(num * sizeof(SET_MENU) + 2);
+	if(!data)
+		return -1;
+	memset(data,0,num *sizeof(SET_MENU) + 2);
 
 	data[0] =(unsigned char)num;
 	data[1] = cmd_detail;
@@ -223,14 +231,16 @@ int vgsm_sat_select_item(LXT_HANDLE * handle, unsigned char cmd_detail, int num,
 {
 	printf("\n vgsm_sat_select_item \n");
 
-	unsigned char *data;
-	data = malloc(num * sizeof(SET_MENU) + 2);
-//	int i=0;
-	int ret=0;
-	memset(data,0,num *sizeof(SET_MENU) + 2);
-
 	if( handle == NULL )
 		return -1;
+
+	unsigned char *data;
+//	int i=0;
+	int ret=0;
+	data = malloc(num * sizeof(SET_MENU) + 2);
+	if(!data)
+		return -1;
+	memset(data,0,num *sizeof(SET_MENU) + 2);
 
 	data[0] =(unsigned char)num;
 	data[1] = cmd_detail;
@@ -259,14 +269,16 @@ int vgsm_sat_send_sms(LXT_HANDLE * handle, unsigned char cmd_detail, unsigned ch
 {
 	printf("\n vgsm_sat_send_sms \n");
 
+	if( handle == NULL )
+		return -1;
+
 	//unsigned char *data;
 	SEND_SMS *send_sms_packet;
 	int ret=0;
 	send_sms_packet = malloc(sizeof(SEND_SMS));
-	memset(send_sms_packet,0,sizeof(SEND_SMS));
-
-	if( handle == NULL )
+	if(!send_sms_packet)
 		return -1;
+	memset(send_sms_packet,0,sizeof(SEND_SMS));
 
 	send_sms_packet->cmd_detail=cmd_detail;
 	send_sms_packet->address=address ;
@@ -295,6 +307,9 @@ int vgsm_sat_send_sms(LXT_HANDLE * handle, unsigned char cmd_detail, unsigned ch
  int vgsm_sat_set_up_call(LXT_HANDLE * handle,unsigned char cmd_detail,char* dial_number,char *alpha_user,/*char *alpha_call ,*/unsigned char address,unsigned char options,char duration_unit)
 {
 	printf("\n vgsm_sat_send_sms \n");
+
+	if( handle == NULL )
+		return -1;
 
 	unsigned char *data = NULL;
 	unsigned char *pdata = NULL;
@@ -405,9 +420,6 @@ int vgsm_sat_send_sms(LXT_HANDLE * handle, unsigned char cmd_detail, unsigned ch
 	}
 
 	printf("\n vgsm_sat_set_up_call \n");
-
-	if( handle == NULL )
-		return -1;
 
 	ret = lxt_msg_send_message
 		(

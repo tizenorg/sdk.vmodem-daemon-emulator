@@ -82,6 +82,11 @@ static int connect_af_unix()
     // create socket
     sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
 
+    if (sockfd < 0) {
+        perror("socket");
+        return -1;
+    }
+
     // set address type
     address.sun_family = AF_UNIX;
 
@@ -98,6 +103,7 @@ static int connect_af_unix()
     if (rc == -1)
     {
         perror("connect");
+	close(sockfd);
         return -1;
     }
 
@@ -155,7 +161,7 @@ static int connect_af_inet(const char* hostname)
 static int connect_af_inet(const char* hostname)
 {
 	int sockfd;
-	struct sockaddr_in server; // = {AF_INET, 3578, {INADDR_ANY}};
+	struct sockaddr_in server = {0}; // = {AF_INET, 3578, {INADDR_ANY}};
 
 	server.sin_family = AF_INET;
 	server.sin_port = htons(3578);
@@ -169,6 +175,7 @@ static int connect_af_inet(const char* hostname)
 	if(connect(sockfd, (struct sockaddr*)&server, SIZE) == -1)
 	{
 		perror("connect() failed");
+		close(sockfd);
 		return -1;
 	}
 
@@ -246,8 +253,10 @@ LXT_HANDLE* lxt_initialize(LXT_ID_CLIENT clientclass, LXT_CALLBACK cb)
 
 	// allocate memory
 	handle = malloc(sizeof(LXT_HANDLE));
-	if (!handle)
+	if (!handle) {
+		close(sockfd);
 		return NULL;
+	}
 
 	// save client class
 	handle->clientclass = clientclass;
@@ -450,11 +459,11 @@ LXT_HANDLE* vgsm_manager_initialize(LXT_CALLBACK cb)
 
 int vgsm_injector_release(LXT_HANDLE* handle)
 {
-	LIBVGSM_DEBUG("handle->fd = %d \n", handle->fd);
-
 	// check handle
 	if (handle == NULL)
 		return -1;
+
+	LIBVGSM_DEBUG("handle->fd = %d \n", handle->fd);
 
 	vgsm_client_release_notify(handle);
 

@@ -33,13 +33,13 @@
 
 int vgsm_network_registration(LXT_HANDLE* handle, gsm_network_reg_t reg)
 {
+	if( handle == NULL )
+		return -1;
+
 	int nretn = 0;
 	int	length = 9;
 
 	unsigned char * pdata = (unsigned char *) malloc(length);
-
-	if( handle == NULL )
-		return -1;
 
 	if (!pdata)
 		return (-1);
@@ -72,18 +72,18 @@ int vgsm_network_registration(LXT_HANDLE* handle, gsm_network_reg_t reg)
 /* vgsm network plmn information by cosmos in 20090212 */
 int vgsm_network_plmn_information(LXT_HANDLE* handle, gsm_network_plmn_info_t reg)
 {
+	if( handle == NULL )
+		return -1;
+
 	int nretn = 0;
 	int	length = 9;
 
 	unsigned char * pdata = (unsigned char *) malloc(length);
 
-	if( handle == NULL )
-		return -1;
-
 	if (!pdata)
 		return (-1);
 
-	memset(pdata, '0', length);
+	memset(pdata, 0, length);
 
 	pdata[0] = (unsigned char)reg.act;
 	pdata[1] = (unsigned char)reg.statusplmn.status;
@@ -106,15 +106,15 @@ int vgsm_network_plmn_information(LXT_HANDLE* handle, gsm_network_plmn_info_t re
 /* vgsm network plmn information by cosmos in 20090212 */
 int vgsm_network_nitz_information(LXT_HANDLE* handle, gsm_network_nitz_info_t reg)
 {
+	if( handle == NULL )
+		return -1;
+
 	int nretn = 0;
 	int	length = 56;
 
 	unsigned char * pdata = (unsigned char *) malloc(length);
 
 	printf("size of gsm_network_nitz_info_t : %d\n",sizeof(reg));
-
-	if( handle == NULL )
-		return -1;
 
 	if (!pdata)
 		return (-1);
@@ -148,13 +148,13 @@ int vgsm_network_nitz_information(LXT_HANDLE* handle, gsm_network_nitz_info_t re
 
 int vgsm_network_plmn_list(LXT_HANDLE* handle, gsm_network_plmn_list_t plmn_list)
 {
+	if (handle == NULL)
+		return -1;
+
 	int nretn = 0, i = 0, j = 1;
 	int length = 1+(plmn_list.num_record*8);
 
 	unsigned char * pdata = (unsigned char *) malloc(length);
-
-	if (handle == NULL)
-		return -1;
 
 	if (!pdata)
 		return -1;
@@ -183,12 +183,15 @@ int vgsm_network_plmn_list(LXT_HANDLE* handle, gsm_network_plmn_list_t plmn_list
 // added by mckim (2007.2.26)
 int vgsm_network_current_plmn(LXT_HANDLE *handle, gsm_network_plmn_record_t plmn)
 {
-	int length = 8;
+	if (handle == NULL)
+		return -1;
+
+	int length = 9;
 	int nretn = 0;
 
 	unsigned char *pdata = (unsigned char *)malloc(length);
 
-	if (handle == NULL || !pdata)
+	if (!pdata)
 		return -1;
 
 	memset(pdata, 0, length);

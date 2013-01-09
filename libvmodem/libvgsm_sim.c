@@ -174,14 +174,16 @@ int vgsm_get_all_pb_db(LXT_HANDLE * handle,  gsm_pb_storage_type_e_type storage_
 {
 	printf("[LIBVGSM-SIM] vgsm_get_pb_db\n");
 
-	PB_ *pb;
-	pb = malloc(sizeof(PB_));
-	memset(pb,0,sizeof(PB_));
-	int ret;
-	
 	if( handle == NULL ||(int) storage_type < 0 || storage_type > GSM_PB_ST_GAS )
 		return -1;
 
+	PB_ *pb;
+	pb = malloc(sizeof(PB_));
+	if(!pb)
+		return -1;
+	memset(pb,0,sizeof(PB_));
+	int ret;
+	
 	pb->db_st_type = storage_type;
 	
 	printf("vgsm_get_all_pb_db : %d ",pb->db_st_type);
@@ -205,13 +207,15 @@ int vgsm_get_pb_db(LXT_HANDLE * handle, gsm_pb_storage_type_e_type storage_type,
 {
 	printf("[LIBVGSM-SIM] vgsm_get_pb_db\n");
 
-	PB_ *pb;
-	pb = malloc(sizeof(PB_));
-	memset(pb,0,sizeof(PB_));
-	int ret;
-	
 	if( handle == NULL ||(int)storage_type < 0 || storage_type > GSM_PB_ST_GAS )
 		return -1;
+	
+	PB_ *pb;
+	pb = malloc(sizeof(PB_));
+	if(!pb)
+		return -1;
+	memset(pb,0,sizeof(PB_));
+	int ret;
 	
 	pb->db_st_type	= storage_type;
 	//pb->index		= atoi(index_);
@@ -239,14 +243,16 @@ int vgsm_add_pb_db(LXT_HANDLE * handle, gsm_pb_storage_type_e_type storage_type,
 {
 	printf("[LIBVGSM-SIM] vgsm_add_pb_db\n");
 
-	PB_ *pb;
-	pb = malloc(sizeof(PB_));
-	int ret;
-	
-	memset(pb,0,sizeof(PB_));
-
 	if( handle == NULL ||(int)storage_type < 0 || storage_type > GSM_PB_ST_GAS )
 		return -1;
+
+	PB_ *pb;
+	int ret;
+	
+	pb = malloc(sizeof(PB_));
+	if(!pb)
+		return -1;
+	memset(pb,0,sizeof(PB_));
 
 	printf(" \n** 1 **");
 	pb->db_st_type = storage_type;
@@ -276,14 +282,16 @@ int vgsm_delete_pb_db(LXT_HANDLE * handle, gsm_pb_storage_type_e_type storage_ty
 {
 	printf("[LIBVGSM-SIM] vgsm_delete_pb_db\n");
 
-	PB_ *pb;
-	pb = malloc(sizeof(PB_));
-	int ret;
-	memset(pb,0,sizeof(PB_));
-
 	if( handle == NULL ||(int)storage_type < 0 || storage_type > GSM_PB_ST_GAS )
 		return -1;
 	
+	PB_ *pb;
+	pb = malloc(sizeof(PB_));
+	if(!pb)
+		return -1;
+	int ret;
+	memset(pb,0,sizeof(PB_));
+
 	pb->db_st_type	= storage_type;
 	//pb->index		= atoi(index_);
 	memcpy(pb->name,index_,strlen(index_));
@@ -329,33 +337,42 @@ int vgsm_sim_change_password(LXT_HANDLE * handle,	gsm_sec_lock_e_type type, char
 {
 	printf("[LIBVGSM-SIM] vgsm_sim_change_password\n");
 
+	if( handle == NULL )
+		return -1;
+
 	//if ( type != GSM_SEC_LOCK_TYPE_SC && type != GSM_SEC_LOCK_TYPE_SC2 )	// original before 090215
 	//090215
 	if ( type != GSM_SEC_LOCK_TYPE_SC && type != GSM_SEC_LOCK_TYPE_SC2 && type != GSM_SEC_LOCL_TYPE_PUK2 && type != GSM_SEC_LOCL_TYPE_PUK)
 		return -1;
 
+	int ret = -1;
 	char *new_password=0;
 	new_password = malloc(length + 1); // 1 <= type
 
-  	if(!new_password)
+  	if(!new_password){
 		printf("memory alloc err");
+		return ret;
+	}
 
 	new_password[0] = (char)type;
 	memcpy(&new_password[1],password,length);
 
 	printf(" [LIBVGSM-SIM]  input password =[%s] \n\n",&new_password[1]);
 
-	if( handle == NULL )
-		return -1;
-
-	return lxt_msg_send_message
+/*	return lxt_msg_send_message
 		(
 			handle->fd,
 			GSM_SIM,
 			GSM_SIM_CHANGE_PASS_SET,
 			length+1,
 			new_password
-		);
+		); modify to free new_password and use ret */
+	ret = lxt_msg_send_message(handle->fd, GSM_SIM, GSM_SIM_CHANGE_PASS_SET, length+1, new_password);
+
+	if(new_password)
+		free(new_password);
+
+	return ret;
 }
 
 

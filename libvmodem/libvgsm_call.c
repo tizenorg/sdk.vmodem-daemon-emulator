@@ -43,10 +43,10 @@ int vgsm_call_make(LXT_HANDLE* handle, gsm_call_info_t callinfo)
 
 	length = sizeof(gsm_call_info_t);
 	
-	unsigned char * pdata = (unsigned char *) malloc(length);
-
 	if( handle == NULL )
 		return -1;
+
+	unsigned char * pdata = (unsigned char *) malloc(length);
 
 	if (!pdata)
 		return (-1);

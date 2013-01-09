@@ -52,15 +52,17 @@
 
 int vgsm_get_pb_edb(LXT_HANDLE * handle)
 {
+	if( handle == NULL )
+		return -1;
+	
 	printf("[LIBVGSM-SIM] vgsm_get_pb_edb\n");
 
 	_Pb_edb *pb_edb;
 	pb_edb = malloc(sizeof(_Pb_edb));
+	if(!pb_edb)
+		return -1;
 	memset(pb_edb,0,sizeof(_Pb_edb));
 	int ret;
-	
-	if( handle == NULL )
-		return -1;
 	
 	ret =  lxt_msg_send_message
 		(
