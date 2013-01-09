@@ -34,10 +34,10 @@ int vgsm_data_status(LXT_HANDLE* handle, GSM_DataCallStatus status)
 	int nretn = 0;
 	int	length = 4;
 
-	unsigned char * pdata = (unsigned char *) malloc(length);
-
 	if( handle == NULL )
 		return -1;
+
+	unsigned char * pdata = (unsigned char *) malloc(length);
 
 	if (!pdata)
 		return (-1);

@@ -100,13 +100,13 @@ void FreeAllMultiNodeList()
 
 void PushHDLCMultiFrameInfo(HDLCFrame_t const* pframe)
 {
-	TRACE(MSGL_VGSM_INFO, "\n");
-
-	HDLCNode* pnode = malloc(sizeof(HDLCNode));
-
 	if (!pframe)
 		return;
 
+	TRACE(MSGL_VGSM_INFO, "\n");
+
+	HDLCNode* pnode = malloc(sizeof(HDLCNode));
+	if(!pnode) return;
 	memset(pnode, 0, sizeof(HDLCNode));
 
 	pnode->m_HDLCNode.m_Length = pframe->m_Length;
