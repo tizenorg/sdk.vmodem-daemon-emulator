@@ -523,6 +523,11 @@ int MsgConvertGSM7bitToUTF8(unsigned char *pDestText, int maxLength,  const unsi
 	fprintf(stderr, "max dest Length = %d\n", maxLength);
 
 	ucs2Length = MsgConvertGSM7bitToUCS2((unsigned char*)pUCS2Text, maxUCS2Length * sizeof(unsigned short), pSrcText,  srcTextLen);
+	if(ucs2Length < 0) {
+		fprintf(stderr, "MsgConvertGSM7bitToUTF8: UCS2 to GSM7bit Failed as text length is 0\n");
+		*rawdata_len = index;
+		return ucs2Length;
+	}
 	memcpy(pDestText, pUCS2Text, ucs2Length);
 	//utf8Length = MsgConvertUCS2toUTF8(pDestText, maxLength, (unsigned char*)pUCS2Text, ucs2Length);
 
@@ -659,6 +664,11 @@ BOOL EncodeSmsDeliverTpdu(SmsAddressInfo SCA, TPDU_SMS_DELIVER tpdu_deliver, cha
 			packet[index++] = size + 1;
 			memset(tmp_buff, '\0', BUFF_SIZE);
 			pos = MsgConvertUTF8ToGSM7bit ( tmp_buff, BUFF_SIZE, (char*)tpdu_deliver.userData, size);
+			if(pos < 0) {
+			    fprintf(stderr, "EncodeSmsDeliverTpdu: UTF8 to GSM7bit Failed as text length is 0\n");
+			    *rawdata_len = index;
+			    return FALSE;
+			}
 			memcpy(tpdu_deliver.userData, tmp_buff, pos);
 			pos =SmsUtilPackGSMCode( packet + index, (char *)tpdu_deliver.userData, pos);
 			index += pos;
@@ -673,6 +683,11 @@ BOOL EncodeSmsDeliverTpdu(SmsAddressInfo SCA, TPDU_SMS_DELIVER tpdu_deliver, cha
 			packet[index++] = size; //one unicode has 2 bytes
 			memset(tmp_buff, '\0', BUFF_SIZE);
 			pos = MsgConvertUTF8toUCS2 ( tmp_buff, BUFF_SIZE, (char*)tpdu_deliver.userData, size );
+			if(pos < 0) {
+			    fprintf(stderr, "EncodeSmsDeliverTpdu: UTF8 to UCS2 Failed as text length is 0\n");
+			    *rawdata_len = index;
+			    return FALSE;
+			}
 			memcpy(tpdu_deliver.userData, tmp_buff, pos);
 			memcpy(packet + index, tmp_buff, pos);
 			index += pos;
