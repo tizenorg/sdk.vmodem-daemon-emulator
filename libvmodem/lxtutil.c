@@ -51,6 +51,7 @@
 int lxt_util_readRawBytes(int fd, void *data, int size)
 {
     int rc;
+    LXT_MESSAGE tmp_buf;
 
     // check
     if ( (data == 0) || (fd < 0) )
@@ -62,7 +63,11 @@ int lxt_util_readRawBytes(int fd, void *data, int size)
         return -1;
     }
 
-    rc = read(fd, data, size);
+    rc = read(fd, &tmp_buf, size);
+
+    ((LXT_MESSAGE*)data)->length = (unsigned short)tmp_buf.length;
+    ((LXT_MESSAGE*)data)->group = (unsigned char)tmp_buf.group;
+    ((LXT_MESSAGE*)data)->action = (unsigned char)tmp_buf.action;
 
     if (rc <= 0)
     {

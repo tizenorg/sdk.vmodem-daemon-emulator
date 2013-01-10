@@ -383,7 +383,7 @@ static int lxt_callback(LXT_HANDLE* handle)
 	}
 
 	// check length
-	if (packet.length > 0)
+	if (packet.length != 0)
 	{
 		// allocated memory
 		packet.data = malloc(packet.length);
