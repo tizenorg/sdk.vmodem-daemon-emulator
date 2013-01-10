@@ -1013,8 +1013,10 @@ int db_sim_sec_add(void)
 	SIM_DEBUG("\n");
 
 	sim_sec = malloc(sizeof(SimSecurity));
+	if(!sim_sec)
+		return -1;
 
-	memset(sim_sec,0,sizeof(sim_sec));
+	memset(sim_sec,0,sizeof(SimSecurity));
 
 	memcpy(sim_sec->pin_value,pin,strlen(pin)+1);
 	memcpy(sim_sec->pin2_value,pin2,strlen(pin2)+1);
@@ -1086,6 +1088,7 @@ Done:
 	// close the database
 	if (db) sqlite3_close(db);
 
+	if(sim_sec) free(sim_sec);
 	// return status
 	return err == SQLITE_OK ? SIM_SUCCESS : err;
 }
