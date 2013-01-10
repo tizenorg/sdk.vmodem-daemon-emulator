@@ -739,14 +739,12 @@ static int cmd_set_menu_callback(int request, char* bufferP, int* bufferSize, vo
 			{
 				dataP[0] = temp_set_menu->id_num;
 				memcpy(dataP + 1, temp_set_menu->item_string, str_len);
+				TRACE(MSGL_VGSM_INFO, "Id number is <%d>\n",dataP[0]);
+				TRACE(MSGL_VGSM_INFO, "text string is <%s>\n",dataP + 1);
 			}
 
 			else
 				err = -1;
-
-			TRACE(MSGL_VGSM_INFO, "Id number is <%d>\n",dataP[0]);
-			TRACE(MSGL_VGSM_INFO, "text string is <%s>\n",dataP + 1);
-
 
 			break;
 
@@ -866,14 +864,13 @@ static int cmd_select_item_callback(int request, char* bufferP, int* bufferSize,
 			{
 				dataP[0] = temp_set_menu->id_num;
 				memcpy(dataP + 1, temp_set_menu->item_string, str_len);
+			
+				TRACE(MSGL_VGSM_INFO, "Id number is <%d>\n",dataP[0]);
+				TRACE(MSGL_VGSM_INFO, "text string is <%s>\n",dataP + 1);
 			}
 
 			else
 				err = -1;
-
-			TRACE(MSGL_VGSM_INFO, "Id number is <%d>\n",dataP[0]);
-			TRACE(MSGL_VGSM_INFO, "text string is <%s>\n",dataP + 1);
-
 
 			break;
 
@@ -1236,15 +1233,15 @@ static int cmd_set_up_call_callback(int request, char* bufferP, int* bufferSize,
 				tmp_address = address;
 				dataP[0] =(char)tmp_address;
 				memcpy(dataP + 1, dial_num, dial_len);
+				TRACE(MSGL_VGSM_INFO,"Id number is <%#x>\n",dataP[0]);
+				TRACE(MSGL_VGSM_INFO,"text string is <%s>\n",dataP + 1);
 			}
 
 			else
-				{
-					TRACE(MSGL_VGSM_INFO,"dataP is NULL \n");
-					err = -1;
-				}
-			TRACE(MSGL_VGSM_INFO,"Id number is <%#x>\n",dataP[0]);
-			TRACE(MSGL_VGSM_INFO,"text string is <%s>\n",dataP + 1);
+			{
+				TRACE(MSGL_VGSM_INFO,"dataP is NULL \n");
+				err = -1;
+			}
 
 			break;
 
@@ -1515,14 +1512,18 @@ int   Display_Text( DP_TEXT* dp_text)
 		return err;
 	}
 
-	if(apduStrP==NULL)
+	if(apduStrP==NULL){
 		TRACE(MSGL_VGSM_INFO,"NULL\n");
+		return -1;
+	}
 
 	str_size = strlen(apduStrP);
 
 	if ((err = str_to_bin(apduStrP, &apduP, &apduLen)) != 0)
 	{
 		TRACE(MSGL_VGSM_INFO, "Display_Text: str_to_bin failed with error (0x%08x).", err);
+		if(apduStrP)
+			free(apduStrP);
 		return err;
 	}
 
@@ -1530,8 +1531,9 @@ int   Display_Text( DP_TEXT* dp_text)
 	cmd.cmd = (unsigned char*)apduP;
 	TxSAT_ATGetProactiveCommand(&cmd);
 
+	if(apduStrP)
+		free(apduStrP);
 	return 1;
-
 }
 
 int   Get_Inkey( GET_INKEY* get_inkey)
@@ -1565,7 +1567,9 @@ int   Get_Inkey( GET_INKEY* get_inkey)
 	if ((err = str_to_bin(apduStrP, &apduP, &apduLen)) != 0)
 	{
 		TRACE(MSGL_VGSM_INFO, "str_to_bin failed with error (0x%08x).", err);
-
+		
+		if(apduStrP)
+			free(apduStrP);
 		return err;
 
 	}
@@ -1574,6 +1578,8 @@ int   Get_Inkey( GET_INKEY* get_inkey)
 	cmd.cmd = (unsigned char*)apduP;
 	TxSAT_ATGetProactiveCommand(&cmd);
 
+	if(apduStrP)
+		free(apduStrP);
 	return 1;
 
 }
@@ -1608,6 +1614,8 @@ int   Get_Input( GET_INPUT* get_input)
 	{
 		TRACE(MSGL_VGSM_ERR, "str_to_bin failed with error (0x%08x).", err);
 
+		if(apduStrP)
+			free(apduStrP);
 		return err;
 
 	}
@@ -1616,6 +1624,8 @@ int   Get_Input( GET_INPUT* get_input)
 	cmd.cmd = (unsigned char*)apduP;
 	TxSAT_ATGetProactiveCommand(&cmd);
 
+	if(apduStrP)
+		free(apduStrP);
 	return 1;
 
 }
@@ -1649,6 +1659,8 @@ int   Set_Menu(void *data)
 	if ((err = str_to_bin(apduStrP, &apduP, &apduLen)) != 0)
 	{
 		TRACE(MSGL_VGSM_ERR, "str_to_bin failed with error (0x%08x).", err);
+		if(apduStrP)
+			free(apduStrP);
 		return err;
 	}
 
@@ -1656,6 +1668,8 @@ int   Set_Menu(void *data)
 	cmd.cmd = (unsigned char*)apduP;
 	TxSAT_ATGetProactiveCommand(&cmd);
 
+	if(apduStrP)
+		free(apduStrP);
 	return 1;
 
 }
@@ -1690,6 +1704,8 @@ int   Select_Item(void *data)
 	if ((err = str_to_bin(apduStrP, &apduP, &apduLen)) != 0)
 	{
 		TRACE(MSGL_VGSM_ERR, "str_to_bin failed with error (0x%08x).", err);
+		if(apduStrP)
+			free(apduStrP);
 		return err;
 	}
 
@@ -1697,6 +1713,8 @@ int   Select_Item(void *data)
 	cmd.cmd = (unsigned char*)apduP;
 	TxSAT_ATGetProactiveCommand(&cmd);
 
+	if(apduStrP)
+		free(apduStrP);
 	return 1;
 
 }
@@ -1731,6 +1749,8 @@ int   Send_SMS(void *data)
 	{
 		TRACE(MSGL_VGSM_ERR, "str_to_bin failed with error (0x%08x).", err);
 
+		if(apduStrP)
+			free(apduStrP);
 		return err;
 
 	}
@@ -1739,6 +1759,8 @@ int   Send_SMS(void *data)
 	cmd.cmd = (unsigned char*)apduP;
 	TxSAT_ATGetProactiveCommand(&cmd);
 
+	if(apduStrP)
+		free(apduStrP);
 	return 1;
 
 }
@@ -1772,6 +1794,8 @@ int   Set_Up_Call(void *data)
 	{
 		TRACE(MSGL_VGSM_ERR, "str_to_bin failed with error (0x%08x).", err);
 
+		if(apduStrP)
+			free(apduStrP);
 		return err;
 
 	}
@@ -1781,6 +1805,8 @@ int   Set_Up_Call(void *data)
 	cmd.cmd = (unsigned char*)apduP;
 	TxSAT_ATGetProactiveCommand(&cmd);
 
+	if(apduStrP)
+		free(apduStrP);
 	return 1;
 
 }
