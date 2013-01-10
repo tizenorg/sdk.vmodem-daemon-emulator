@@ -7,7 +7,6 @@
  * Sooyoung Ha <yoosah.ha@samsung.com>
  * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * HyunGoo Kang <hyungoo1.kang@samsung.com>
  * 
  * This program is free software; you can redistribute it and/or

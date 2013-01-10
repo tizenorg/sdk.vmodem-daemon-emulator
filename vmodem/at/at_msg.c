@@ -127,10 +127,12 @@ void ATFreeAllMultiNodeList(void)
 void ATPushHDLCMultiFrameInfo(HDLCFrame_t const* pframe)
 {
 	TRACE(MSGL_VGSM_INFO, "\n");
+	if (!pframe)
+		return;
 
 	HDLCNode* pnode = malloc(sizeof(HDLCNode));
 
-	if (!pframe)
+	if (!pnode)
 		return;
 
 	memset(pnode, 0, sizeof(HDLCNode));

@@ -7,7 +7,6 @@
  * Sooyoung Ha <yoosah.ha@samsung.com>
  * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * HyunGoo Kang <hyungoo1.kang@samsung.com>
  * 
  * This program is free software; you can redistribute it and/or
@@ -374,17 +373,13 @@ uint8_t hexCharToInt(char c)
 
 int hexStringToBytes(char* d, char * s)
 {
-    char* ret;
     int i;
     int sz;
 
-    if(s == NULL)
+    if(s == NULL || d == NULL)
         return 0;
 
-	sz = strlen(s);
-
-    ret = malloc(sz /2);
-
+    sz = strlen(s);
 
     for(i = 0; i < sz; i += 2)
     {
