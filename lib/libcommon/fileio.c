@@ -148,6 +148,7 @@ gchar *get_kernel_path(void)
 	gchar *kernel_path = NULL;
 	kernel_path = (char *)malloc( 512);
 	if(kernel_path == NULL){
+	    g_free(path);
 	    return NULL;
 	}
 	memset(kernel_path, 0, 512);
@@ -204,6 +205,7 @@ gchar *get_conf_path(void)
 	gchar *path = NULL;
 	path = get_path();
 	if(path == NULL){
+	    g_free(conf_path);
 	    return NULL;
 	}
 
