@@ -89,12 +89,12 @@ gsize s_strcmp(const char *dst, const char *src)
 	int srcsize;
 	int dstsize;
 
-	srcsize = strlen(src);
-	dstsize = strlen(dst);
-
 	if (!dst || !src) {
 		return -1;
 	}
+
+	srcsize = strlen(src);
+	dstsize = strlen(dst);
 
 	if ((srcsize == 0) && (dstsize == 0)) {
 		return 0;
@@ -126,12 +126,12 @@ gsize s_strncmp(const char *dst, const char *src, int n)
 	int srcsize;
 	int dstsize;
 
-	srcsize = strlen(src);
-	dstsize = strlen(dst);
-
 	if (!dst || !src) {
 		return -1;
 	}
+
+	srcsize = strlen(src);
+	dstsize = strlen(dst);
 
 	if ((srcsize == 0) && (dstsize == 0)) {
 		return 0;
