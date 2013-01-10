@@ -573,6 +573,8 @@ static int at_rx_sim_sec_get_rsim_access_req(char* atmsg)
 	
 		int hexaStringSize = (len * 2) + 1;	
 		char* hexaStringP = malloc(hexaStringSize);
+		if(!hexaStringP)
+                	return -1;
 
 		TRACE(MSGL_VGSM_INFO, "hexaStringSize:%d\n", hexaStringSize);
 

@@ -109,6 +109,8 @@ int at_msg_send(unsigned char ack, void *data, int datasize)
 	if (datasize <= MAX_HDLC_FRAME_SIZE) {
 	    // allocate memory
 	    rawdata = malloc(datasize + 1);
+	    if(!rawdata)
+		    return -1;
 
 	    // make at rawdata
 	    rc = make_single_at(data, datasize, rawdata);
