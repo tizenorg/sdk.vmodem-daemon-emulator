@@ -672,6 +672,8 @@ static void do_sim(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 		{
 			type = p[0];
 			password = malloc(length-1);
+			if(!password)
+				return;
 			memcpy(password,&p[1],length-1);
 
 			switch(type)
@@ -893,6 +895,8 @@ static void do_sim(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 			log_msg(MSGL_VGSM_ERR,"ERROR - Not handled action =[%x] \n", action);
 		break;
 	}
+	if(password)
+		free(password);
 }
 
 

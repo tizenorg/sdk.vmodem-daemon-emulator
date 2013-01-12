@@ -67,7 +67,7 @@ gsm_network_nitz_info_t   g_network_identity ;
  */
 void init_plmn_list(void)
 {
-	NetworkEntry entry;
+	NetworkEntry entry = {0};
 	/* Update for public open
 	   0x34, 0x35, 0x30, 0x30, 0x31, 0x23 // 45001#
 	   =>
@@ -95,7 +95,7 @@ void init_plmn_list(void)
 	if (g_plmn_list.num_record == 0) {
 		g_plmn_list.num_record = 1;
 		g_plmn_list.precord = malloc(sizeof(gsm_network_plmn_record_t)*g_plmn_list.num_record); // it needs free().
-		memset(g_plmn_list.precord, '\0', sizeof(g_plmn_list.precord));
+		memset(g_plmn_list.precord, '\0', sizeof(gsm_network_plmn_record_t));
 		g_plmn_list.precord[0].status = GSM_NET_PLMN_STATUS_AVAIL; // PLMN_STATUS
 		
 		//memcpy(g_plmn_list.precord[0].plmn, plmn, 6);
@@ -148,7 +148,7 @@ void init_plmn_list(void)
 void set_plmn_list( unsigned char *data, int len )
 {
 	int i = 0, j = 1;
-	NetworkEntry entry;
+	NetworkEntry entry = {0};
 	VGSM_DEBUG("\n");
 
 	if (g_plmn_list.num_record != 0) {

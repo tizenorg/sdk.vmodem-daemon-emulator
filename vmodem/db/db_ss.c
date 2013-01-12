@@ -1148,7 +1148,7 @@ int send_call_barring_entry(call_barring_entry_t* entry)
 call_barring_entry_t *  find_call_barring_entry(int tel_class, int type)
 {
 	int i, status = SS_MODE_DEACT, found = 0;
-	call_barring_entry_t * entry = (call_barring_entry_t*)malloc(sizeof(call_barring_entry_t));
+	call_barring_entry_t * entry;// = (call_barring_entry_t*)malloc(sizeof(call_barring_entry_t));
 
 	log_msg(MSGL_VGSM_INFO,"1. [find_call_barring_entry]--------telclass : %d, type : %d\n", tel_class, type );
 	for(i = 0; i<g_cb_entry[0].count; i++)
@@ -1305,7 +1305,7 @@ call_forwarding_entry_t g_cf_entry_tmp;
 
 call_forwarding_entry_t * find_call_forwarding_entry(int tel_class, int type)
 {
-	int i, class;
+	int i, class = -128;
 	call_forwarding_entry_t * entry ;
 
 	log_msg(MSGL_VGSM_INFO,"tel_class=0x%x  type=%d\n", tel_class,type);

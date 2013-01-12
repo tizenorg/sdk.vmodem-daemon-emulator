@@ -723,7 +723,7 @@ int DecodeSmsSubmitTpdu(TPDU_SMS_SUBMIT *tpdu_submit, int pdu_len , char * pPDU,
 	BYTE    tmp_buff[BUFF_SIZE];
 	int size, udhl = 0;
 	int i = 0, fillbits = 0;
-	size_t limit_len = TAPI_NETTEXT_SCADDRESS_LEN_MAX + 1;
+	size_t limit_len = TAPI_NETTEXT_SCADDRESS_LEN_MAX;
 	position=0;
 
 	/* SCA_ADDR */

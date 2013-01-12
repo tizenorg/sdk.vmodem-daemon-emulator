@@ -55,6 +55,8 @@ static call_waiting_entry_t * setinitDB(call_waiting_entry_t *entry, int class, 
 int init_ss_info_re(void)
 {
 	call_waiting_entry_t * entry = malloc(sizeof(call_waiting_entry_t));
+	if(!entry)
+		return -1;
 	memset(entry, 0, sizeof(call_waiting_entry_t));
 
 
@@ -112,6 +114,8 @@ int init_ss_info_re(void)
 	if(cb_pwd_packet.length)
 		FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &cb_pwd_packet);	// &ServerHandle->server_cast
 
+	if(entry)
+		free(entry);
 	return 1;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,6 +123,8 @@ int init_ss_info_re(void)
 int init_ss_info(void)
 {
 	call_waiting_entry_t * entry = (call_waiting_entry_t *)malloc(sizeof(call_waiting_entry_t));
+	if(!entry)
+		return -1;
 	memset(entry, 0, sizeof(call_waiting_entry_t));
 
 
@@ -189,6 +195,8 @@ int init_ss_info(void)
 	if(cb_pwd_packet.length)
 		FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &cb_pwd_packet);	// &ServerHandle->server_cast
 
+	if(entry)
+		free(entry);
 	return 1;
 }
 
