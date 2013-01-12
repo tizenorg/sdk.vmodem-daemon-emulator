@@ -199,6 +199,8 @@ int server_rx_ss_cf_set(int ss_mode, int type, int tel_class, int replyTime, int
 	TAPIMessageInit(&packet);
 
 	call_forwarding_entry_t * entry = malloc(sizeof(call_forwarding_entry_t));
+	if(!entry)
+		return -1;
 	memset(entry, 0, sizeof(call_forwarding_entry_t));
 
 	entry->ss_mode = ss_mode;
@@ -312,6 +314,8 @@ int server_rx_ss_cb_set(int cb_type, int ss_mode, int tel_class, char *passwd)
 	int cb_pwd_fail_count = 0;
 
 	call_barring_entry_t * entry =  malloc(sizeof(call_barring_entry_t));
+	if(!entry)
+		return -1;
 	memset(entry, 0, sizeof(call_barring_entry_t));
 
 	entry->type =cb_type;
@@ -446,6 +450,8 @@ int server_rx_ss_cb_set(int cb_type, int ss_mode, int tel_class, char *passwd)
 int server_rx_ss_cb_passwd_set(char* curr_passwd, char* new_passwd)
 {
 	VGSM_DEBUG("\n");
+	if(!curr_passwd || !new_passwd)
+		return -1
 
 	int gen_resp_err;
 	LXT_MESSAGE packet;
@@ -490,7 +496,7 @@ int server_rx_ss_cb_passwd_set(char* curr_passwd, char* new_passwd)
 	packet.data = new_passwd;
 	packet.group  = GSM_SUPS;
 	packet.action = GSM_SUPS_PWDSET_CB_REQ;
-	packet.length = sizeof(new_passwd);
+	packet.length = strlen(new_passwd);
 
 	VGSM_DEBUG("CallBarring Passwd changed\n");
 
