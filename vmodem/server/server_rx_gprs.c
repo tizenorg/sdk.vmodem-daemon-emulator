@@ -122,11 +122,15 @@ int server_rx_gprs_SetPSActDeact(void *ptr_data, int data_len )
 		TAPIMessageInit(&packet);
 
 		data = malloc(sizeof(char)*1);
+		if(!data)
+			return 0;
 		ret = strtok(tdata+1, TOKEN);
 		if(ret)
                         data[0] = atoi(ret);  /* 0: stop, 1: start */
-                else 
+                else {
+			free(data);
                         return 0;
+		}
 
 		ret = strtok(NULL, TOKEN);
 		if(ret)

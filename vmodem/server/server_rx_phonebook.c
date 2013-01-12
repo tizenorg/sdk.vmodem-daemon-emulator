@@ -120,6 +120,8 @@ int server_rx_sim_pb_set_access_req(void* ptr_data, int data_len)
 			{
 				cnt++;//mode
 				pb= malloc(sizeof(PB));
+				if(!pb)
+					return -1;
 				memset(pb,0,(sizeof(PB)));
 				add_len=p[cnt];
 
@@ -158,6 +160,8 @@ int server_rx_sim_pb_set_access_req(void* ptr_data, int data_len)
 			case 0x02://DELETE
 			{
 				pb= malloc(sizeof(PB));
+				if(pb == NULL)
+					return -1;
 				memset(pb,0,(sizeof(PB)));
 
 				add_len=p[cnt];

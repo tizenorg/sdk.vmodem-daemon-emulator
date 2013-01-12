@@ -87,6 +87,8 @@ int server_tx_call_status(void) // it means call state.
 
 	LXT_MESSAGE packet;
 	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+	if(!callList)
+		return -1;
 
 	get_prev_state_machine( &prev );
 
@@ -158,7 +160,7 @@ int server_tx_call_status(void) // it means call state.
 	int at_stat = change_stat_for_at(callList->CallInfo[get_call_id()].stat);
 	TRACE(MSGL_VGSM_INFO, "call id:%d, orignal stat: %d, send stat: %d\n", get_call_id(), callList->CallInfo[get_call_id()].stat, at_stat);
 	
-	if(callList->CallInfo[get_call_id()].number)
+	if(strcmp(callList->CallInfo[get_call_id()].number, ""))
 	{
 		sprintf((char*)pdata, "%d,%d,%d,%d,%d,%s,%d", get_call_id() + 1, change_dir_for_at(callList->CallInfo[get_call_id()].dir), 
 								at_stat, AT_CALL_MODE_VOICE, AT_CALL_MPTY_FALSE, 

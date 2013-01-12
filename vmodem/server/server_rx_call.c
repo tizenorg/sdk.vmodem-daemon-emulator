@@ -101,6 +101,8 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 	STATE next;
 
 	number = malloc(MAX_GSM_DIALED_DIGITS_NUM);
+	if(!number)
+		return -1;
 	TRACE(MSGL_VGSM_INFO, "\n");
 	char* call_data = strchr((char*)p, 'D');
         char token[] = ";";
@@ -136,6 +138,8 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 
 		oem_tx_call_gen_resp(AT_CME_ERR_OPER_NOT_ALLOWED);
 	
+		if(number)
+			free(number);
 		return 1;
 	}
 	oem_tx_call_gen_resp(AT_GEN_ERR_NO_ERROR);
@@ -151,8 +155,10 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 	data[0] = call_id;
 	data[1] = call_type;
 
-	if(clir_status == GSM_CALL_CLIR_STATUS_INVOCATION)
-		num_len = 0;
+	// On this path, the condition "clir_status == GSM_CALL_CLIR_STATUS_INVOCATION" cannot be true.
+	// Because clir_status = GSM_CALL_STATUS_DIALING;
+	//if(clir_status == GSM_CALL_CLIR_STATUS_INVOCATION)
+	//	num_len = 0;
 
 	data[2] = num_len;
 	data[3] = clir_status;
@@ -189,6 +195,8 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 		set_state_machine( next );
 		send_msg();
 	}
+	if(number)
+		free(number);
 	return 1;
 }
 
