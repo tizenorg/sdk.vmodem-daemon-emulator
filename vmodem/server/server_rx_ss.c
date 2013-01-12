@@ -451,7 +451,7 @@ int server_rx_ss_cb_passwd_set(char* curr_passwd, char* new_passwd)
 {
 	VGSM_DEBUG("\n");
 	if(!curr_passwd || !new_passwd)
-		return -1
+		return -1;
 
 	int gen_resp_err;
 	LXT_MESSAGE packet;
