@@ -1,7 +1,7 @@
 #git:slp/pkgs/v/vmodem-daemon-emulator
 Name: vmodemd-emul
-Version: 0.2.28
-Release: 2
+Version: 0.2.29
+Release: 1
 Summary: Modem Emulator
 Group: System/ModemEmulator
 License: GNU

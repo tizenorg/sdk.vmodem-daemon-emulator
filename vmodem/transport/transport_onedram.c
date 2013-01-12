@@ -239,6 +239,8 @@ int UART_PSI_load (void)
 	
 	/* Read PSI from AP */
 	data_buffer = (unsigned char *)malloc(data_len);
+	if(!data_buffer)
+		goto error;
 	bzero((char *)data_buffer, data_len);
 
 	nCRC = 0;
@@ -281,12 +283,16 @@ int UART_PSI_load (void)
 	}
 
 	/* Finish the downloading of PSI*/
-	close(AT_socket);	
+	close(AT_socket);
+	if(data_buffer)
+		free(data_buffer);
 	return 1;
 	
 error:
-	if(AT_socket > 0)
+	if(AT_socket >= 0)
 		close(AT_socket);
+	if(data_buffer)
+		free(data_buffer);
 	return 0;
 }
 
