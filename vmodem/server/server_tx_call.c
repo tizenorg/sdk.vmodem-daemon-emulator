@@ -89,6 +89,7 @@ int server_tx_call_status(void) // it means call state.
 	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
 	if(!callList)
 		return -1;
+	memcpy(callList, 0, sizeof(gsm_call_list_t));
 
 	get_prev_state_machine( &prev );
 
@@ -490,6 +491,8 @@ int server_tx_call_release_exec(LXT_MESSAGE * packet )
 	// STATE_CALL_WAITING_INCOMING
 
 	gsm_call_list_t *callList = malloc(sizeof(gsm_call_list_t));
+	if(!callList)
+		return -1;
 
 	p = (unsigned char *)packet->data; // call id
 
@@ -510,6 +513,7 @@ int server_tx_call_release_exec(LXT_MESSAGE * packet )
 	}
 
 	_LEAVE();
+	free(callList);
 	return ret;
 }
 
@@ -588,6 +592,8 @@ int server_tx_call_release_internal(int call_id)
 	LXT_MESSAGE packet;
 	STATE next;
 	gsm_call_list_t * list = malloc(sizeof(gsm_call_list_t));
+	if(!list)
+		return -1;
 
 	TRACE(MSGL_VGSM_INFO, "\n");
 
