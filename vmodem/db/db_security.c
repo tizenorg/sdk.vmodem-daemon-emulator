@@ -1067,9 +1067,6 @@ int db_sim_sec_add(void)
 
 	SIM_DEBUG("SQL statement : %s\n", str);
 
-	if(sim_sec)
-		free(sim_sec);
-
 	// add a row
 	err = sqlite3_exec(db,str,0,0,&mesg);
 
