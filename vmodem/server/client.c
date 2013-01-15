@@ -572,7 +572,7 @@ static void do_sim(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 	gsm_sec_status_type status;
 	gsm_sec_lock_mode_e_type flag;
 
-	char *password;
+	char *password = NULL;
 	PB * pb;
 
 	STATE current;

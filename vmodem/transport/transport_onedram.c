@@ -110,7 +110,7 @@ int UART_PSI_load (void)
 	unsigned char ch;
 	int length = 0;
 	unsigned int data_len = 0;
-	unsigned char *data_buffer;
+	unsigned char *data_buffer = NULL;
 	int i;
 	int nCRC = 0;
 	int at_num = 0;

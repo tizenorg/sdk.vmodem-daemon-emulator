@@ -1786,7 +1786,8 @@ int   Set_Up_Call(void *data)
 		TRACE(MSGL_VGSM_ERR, "sat_apdu_encode failed with error (0x%08x).", err);
 		return err;
 	}
-
+	if(!apduStrP)
+		return -1;
 	str_size = strlen(apduStrP);
 
 

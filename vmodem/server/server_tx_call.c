@@ -626,11 +626,11 @@ int server_tx_call_release_internal(int call_id)
 	if(list){
 		packet.data = list;
 		packet.length = sizeof(gsm_call_list_t);
-	}
+	}/* Execution cannot reach this statement
 	else{
 		packet.data = NULL;
 		packet.length = 0;
-	}
+	}*/
 
 	packet.group  = GSM_CALL;
 	packet.action = GSM_CALL_STATUS_NOTI;
