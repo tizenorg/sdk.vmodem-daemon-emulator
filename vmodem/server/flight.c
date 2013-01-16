@@ -45,8 +45,8 @@ bool is_flight_mode(void)
 	bool ret = false;
 	int status;
 
-	if(vconf_get_bool(VCONFKEY_SETAPPL_FLIGHT_MODE_BOOL, &status)) {
-		TRACE(MSGL_WARN, "vconf_get_bool(%s) fail\n", VCONFKEY_SETAPPL_FLIGHT_MODE_BOOL);
+	if(vconf_get_bool(VCONFKEY_TELEPHONY_FLIGHT_MODE, &status)) {
+		TRACE(MSGL_WARN, "vconf_get_bool(%s) fail\n", VCONFKEY_TELEPHONY_FLIGHT_MODE);
 		return ret; 
 	}    
 
