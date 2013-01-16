@@ -89,7 +89,7 @@ int server_tx_call_status(void) // it means call state.
 	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
 	if(!callList)
 		return -1;
-	memcpy(callList, 0, sizeof(gsm_call_list_t));
+	memset(callList, 0, sizeof(gsm_call_list_t));
 
 	get_prev_state_machine( &prev );
 
