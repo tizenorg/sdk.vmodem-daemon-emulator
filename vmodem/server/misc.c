@@ -64,6 +64,33 @@ void PacketDataFree(void *p)
     }
 }
 
+int ReadPacketBytes4(int fd, void *data)
+{
+    int rc;
+    int size = 4;
+    LXT_MESSAGE tmp_buf;
+
+    if ( (data == 0) || (fd < 0) )
+    {
+        return -1;
+    }
+
+    rc = read(fd, &tmp_buf, size);
+
+    ((LXT_MESSAGE*)data)->length = (unsigned short)tmp_buf.length;
+    ((LXT_MESSAGE*)data)->group = (unsigned char)tmp_buf.group;
+    ((LXT_MESSAGE*)data)->action = (unsigned char)tmp_buf.action;
+
+
+    if (rc <= 0)
+    {
+        return -1;
+    }
+
+    return rc;
+
+}
+
 int ReadBytes(int fd, void *data, int size)
 {
     int rc;
