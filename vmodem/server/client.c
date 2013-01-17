@@ -1450,7 +1450,7 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 
 	TAPIMessageInit(&packet);
 
-	rc = ReadBytes(clientfd, &packet, 4);
+	rc = ReadPacketBytes4(clientfd, &packet);
 
 	if  (rc <= 0)
 	{
