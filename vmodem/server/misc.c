@@ -159,7 +159,14 @@ int packed_S32(unsigned char* bytearray)
 
     if (!p) return 0;
 
-    for(i = sizeof(int); i >= 0; i--) rc = rc | p[i] << i*8;
+    for(i = sizeof(int); i >= 0; i--) {
+	    if(p[i] < 0 || p[i] > 255){
+		    return 0;
+	    }
+	    else{
+		    rc = rc | p[i] << i*8;
+	    }
+    }
 
     return rc;
 }

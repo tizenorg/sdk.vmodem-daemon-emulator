@@ -350,7 +350,7 @@ static void cast_call_incomming(unsigned char call_id)
 
 int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //∏¡¿‘¿Âø°º± outgoing call.
 {
-	int num_len = 0, ret = 0;
+	int num_len = 0, ret = 0, tmp = 0;
 	char number[MAX_GSM_DIALED_DIGITS_NUMBER];
 	char *p, data[8 + MAX_GSM_DIALED_DIGITS_NUMBER];
 	unsigned char ss_present_indi ;
@@ -411,7 +411,12 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //∏¡¿‘¿Âø°º± outgoing c
 	}
 	else
 	{
-		num_len = p[3];
+		tmp = (int)p[3];
+		if(tmp < 0 || tmp > 254){
+			TRACE(MSGL_VGSM_INFO, "ERROR!! Invalid value of packet.data.\n");
+			return -1;
+		}
+		num_len = tmp;
 		memcpy(number, &p[7], num_len);
 		log_msg(MSGL_VGSM_INFO,"  call num len %d  \n", num_len);
 		ss_present_indi = 0;

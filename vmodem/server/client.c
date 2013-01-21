@@ -423,6 +423,10 @@ static void preprocess_do_gprs(LXT_MESSAGE * packet)
 	}
 
 	num = *((int *)p);
+	if(num < 0 || num > (254 * sizeof(int)) ) {
+		TRACE(MSGL_VGSM_INFO, "ERROR!! Invalid value of packet.data.\n");
+		return;
+	}
 
 	pos = p + sizeof(int);
 
@@ -1164,6 +1168,8 @@ static void do_internal(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet
 			int clientid;
 
 			clientid = (int)packed_S32((unsigned char *)p);
+			if(clientid == 0)
+				TRACE(MSGL_VGSM_INFO, "ERROR!! Invalid value of clientid.\n");
 			ci->klass = clientid;
 			TRACE(MSGL_VGSM_INFO, "LXT_PDA_INTERNAL_ID_REQUEST [0x%x]: %s\n", clientid, clientName[clientid]);
 
@@ -1446,7 +1452,7 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	//int klass = ci->klass;
 	int clientfd = ci->fd;
 
-	unsigned char * p = 0;
+	//unsigned char * p = 0;
 
 	TAPIMessageInit(&packet);
 
@@ -1467,7 +1473,7 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	{
 		packet.data = (unsigned char *) PacketDataMalloc(packet.length + 1);
 		rc = ReadBytes(clientfd, packet.data, packet.length);
-		p = (unsigned char *)packet.data;
+		//p = (unsigned char *)packet.data;
 	}
 
 	group = packet.group;
@@ -1520,7 +1526,7 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	    do_emulator(ps, ci, &packet);
 	    break;
 	case GSM_GPRS :
-        do_gprs(ps, ci, &packet);
+	do_gprs(ps, ci, &packet);
         break;
 	case GSM_POWER :
         do_power(ps, ci, &packet);
