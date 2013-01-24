@@ -61,6 +61,8 @@ int server_tx_net_plmn_list_noti(LXT_MESSAGE const* packet)
 
 	len = 1 + (tmp * 8);
 	data = malloc(sizeof(unsigned char)*len);
+	if(data == NULL)
+		return -1;
 
 	for(i=0; i<len; ++i)
 	    data[i] = ptr[i];

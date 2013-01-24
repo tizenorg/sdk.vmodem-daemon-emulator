@@ -148,6 +148,7 @@ void init_plmn_list(void)
 void set_plmn_list( unsigned char *data, int len )
 {
 	int i = 0, j = 1;
+	char tmp = 0x00;
 	NetworkEntry entry = {0};
 	VGSM_DEBUG("\n");
 
@@ -165,7 +166,12 @@ void set_plmn_list( unsigned char *data, int len )
 		g_plmn_list.precord = 0;
 	}
 
-	g_plmn_list.num_record = data[0];
+	tmp = (char)data[0];
+	if(tmp < 0x00 || tmp > 0x7f){
+		VGSM_DEBUG("ERROR!! Invalid length value.\n");
+		return;
+	}
+	g_plmn_list.num_record = tmp;
 
 	g_plmn_list.precord = (gsm_network_plmn_record_t *)malloc(sizeof(gsm_network_plmn_record_t)*g_plmn_list.num_record);
 
