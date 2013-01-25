@@ -412,7 +412,7 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 	else
 	{
 		tmp = (int)p[3];
-		if(tmp < 0 || tmp > 254){
+		if(tmp < 0 || tmp > MAX_GSM_DIALED_DIGITS_NUMBER){
 			TRACE(MSGL_VGSM_INFO, "ERROR!! Invalid value of packet.data.\n");
 			return -1;
 		}

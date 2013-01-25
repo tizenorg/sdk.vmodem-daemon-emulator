@@ -53,7 +53,8 @@ static void get_domain_socket_name(char* result)
 {
     strcpy(result, DEF_DOMAIN_SOCKET_NAME);
     strcat(result, (const char*)"-");
-    strcat(result, getenv("USER"));
+    if((strlen(result) + strlen(getenv("USER"))) < 64)
+	strcat(result, getenv("USER"));
 
 #ifndef _NO_ESPRESSO_DEBUG_
     LIBVGSM_DEBUG("[VGSM] SOCKET NAME [%s]\n", result);
