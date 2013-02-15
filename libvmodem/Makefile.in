@@ -1,0 +1,39 @@
+CC=@CC@
+AR=@AR@
+INCLUDES =	\
+	-I. \
+	-I../lib/libsms
+
+CFLAGS  = @CFLAGS@
+CFLAGS  += -Wall $(INCLUDES)  -DEMTRACE_I878 -D_LIBVGSM_DEBUG
+
+LIBS    = -lpthread
+
+OBJ =			\
+	lxtutil.o \
+	libvgsm_edb.o \
+	libvgsm_emul.o \
+	libvgsm_init.o \
+	libvgsm_call.o \
+	libvgsm_ss.o \
+	libvgsm_sms.o \
+	libvgsm_network.o \
+	libvgsm_data.o \
+	libvgsm_gprs.o \
+	libvgsm_display.o \
+	libvgsm_power.o \
+	libvgsm_hdlc.o \
+	libvgsm_sim.o \
+	libvgsm_sat.o
+
+.SUFFIXES: .c
+
+all: libvmodem.a
+
+libvmodem.a: $(OBJ)
+	$(AR) r $@ $(OBJ)
+
+clean:
+	rm -f $(OBJ) libvmodem.a
+
+install:

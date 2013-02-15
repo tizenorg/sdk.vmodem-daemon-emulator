@@ -1,0 +1,52 @@
+/*
+ *  telephony-emulator
+ *
+ * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ *
+ * Contact: 
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ * 
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * Contributors:
+ * - S-Core Co., Ltd
+ * 
+ */
+
+#ifndef _SERVER_TX_SECURITY_H_
+#define _SERVER_TX_SECURITY_H_
+
+#include "vgsm_sim.h"
+
+int server_tx_sim_init_start(void);
+
+int server_tx_sim_sec_disable_facility(void);
+
+int server_tx_sim_sec_enable_facility(int status);
+
+int server_tx_sim_sec_get_db(SimSecurity *sim_sec);
+
+int server_tx_sim_sec_card_type_noti(void);
+
+int server_tx_sim_sec_pin_status_noti(STATE_TYPE before_state, STATE_TYPE current_state);
+
+int server_tx_sim_data_get_db(unsigned char *sim_data, int len);
+
+int server_tx_sim_info_get_db(unsigned char *sim_info, int len);
+
+#endif
+
