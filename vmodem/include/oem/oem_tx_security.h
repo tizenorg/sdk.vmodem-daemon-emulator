@@ -1,0 +1,55 @@
+/*
+ *  telephony-emulator
+ *
+ * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ *
+ * Contact: 
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ * 
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * Contributors:
+ * - S-Core Co., Ltd
+ * 
+ */
+
+#ifndef	_OEM_TX_SECURITY_H_
+#define	_OEM_TX_SECURITY_H_
+
+
+int oem_tx_sim_sec_get_imsi_res(void* ptr_data, int data_len);
+
+int oem_tx_sim_sec_set_pin_status_res(int error);
+
+int oem_tx_sim_sec_get_pin_status_res(void* ptr_data, int data_len);
+
+int oem_tx_sim_sec_get_lock_info_res(void* ptr_data, int data_len);
+
+int oem_tx_sim_sec_change_password_res(void* ptr_data);
+
+int oem_tx_sim_sec_set_phone_lock_res(int error);
+
+int oem_tx_sim_sec_get_phone_lock_res(void* ptr_data, int data_len);
+
+int oem_tx_sim_sec_set_rsim_access_res(int error);
+
+int oem_tx_sim_sec_card_type_noti(void* ptr_data, int data_len);
+
+int oem_tx_sim_sec_pin_status_noti(void* ptr_data, int data_len);
+
+#endif
+

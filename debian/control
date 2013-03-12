@@ -1,0 +1,11 @@
+Source: vmodemd-emul
+Section: devel
+Priority: extra
+Maintainer: SungMin Ha <sungmin82.ha@samsung.com>,Jihye Kim <jihye1128.kim@samsung.com>,Yeongkyoon Lee <yeongkyoon.lee@samsung.com>
+Build-Depends: bison, flex, autoconf, gcc, debhelper, libglib2.0-dev, libxml2-dev, libvconf-dev
+Standards-Version: 0.2.23
+
+Package: vmodemd-emul
+Architecture: i386
+Depends: 
+Description: Modem Emulator

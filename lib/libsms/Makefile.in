@@ -1,0 +1,43 @@
+GLIB_CFLAGS = @GLIB_CFLAGS@
+GLIB_LIBS   = @GLIB_LIBS@
+
+DEFINES += __arm__
+DEFINES += _VGSM_DEBUG
+DEFINES += IPC_DEBUG
+DEFINES += IPC_VERSION=4
+
+CFLAGS  = @CFLAGS@
+CFLAGS += $(INCDIRS:%=-I%) $(DEFINES:%=-D%) $(GLIB_CFLAGS)
+CFLAGS += -Wstrict-prototypes
+CFLAGS += -Wmissing-prototypes
+CFLAGS += -Wuninitialized
+CFLAGS += -Wpointer-arith
+CFLAGS += -Wp,-MD,$(dir $@).$(notdir $@).d -Wp,-MT,$@
+# for bypass __stack_chk_fail
+CFLAGS +=-fno-stack-protector
+CC = @CC@
+AR = @AR@
+
+SOURCES = \
+	sms_util.c \
+	sms_tool.c
+
+LIBS = $(GLIB_LIBS)
+
+OBJECTS += $(SOURCES:%.c=%.o)
+
+DEPFILES += $(foreach object,$(OBJECTS),$(dir $(object)).$(notdir $(object)).d)
+
+TARGET = libsms.a
+
+all: $(TARGET)
+
+-include $(DEPFILES)
+
+$(TARGET): $(OBJECTS)
+	$(AR) r $@ $(OBJECTS)
+
+clean:
+	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(DEPFILES)
+

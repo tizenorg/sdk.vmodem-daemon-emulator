@@ -1,0 +1,59 @@
+#!/usr/bin/make -f
+
+package=vmodemd-emul 
+
+SRCDIR = .
+CC     = gcc
+
+export DH_VERBOSE=1
+
+build:
+	cd $(SRCDIR) && autoconf && ./configure && $(MAKE)
+	touch build
+
+binary:
+
+clean:
+	dh_testdir
+	dh_clean
+	rm -rf debian/tmp debian/files* debian/substvars
+	rm -f build
+
+install: build
+	dh_clean
+	dh_installdirs
+	cd $(SRCDIR) && $(MAKE) prefix=$(CURDIR)/debian/tmp install
+
+binary-arch: install
+	dh_testdir
+	dh_testroot
+#	dh_installchangelogs 
+#	dh_installdocs
+#	dh_installexamples
+	dh_install --sourcedir=debian/tmp
+#	dh_installmenu
+#	dh_installdebconf	
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_python
+#	dh_installinit
+#	dh_installcron
+#	dh_installinfo
+#	dh_installman
+#	dh_link
+#	dh_strip
+#	dh_compress
+#	dh_fixperms
+#	dh_perl
+#	dh_makeshlibs
+#	dh_installdeb
+#	dh_shlibdeps
+	dh_gencontrol
+#	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+
+.PHONY: binary binary-arch binary-indep clean checkroot
