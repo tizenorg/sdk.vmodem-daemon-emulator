@@ -28,6 +28,12 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/bin
 make install prefix=%{buildroot}
 
+if [ ! -d %{buildroot}/usr/lib/systemd/system/multi-user.target.wants ]; then
+    mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants
+fi
+cp vmodem-x86.service %{buildroot}/usr/lib/systemd/system/.
+ln -s ../vmodem-x86.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/vmodem-x86.service
+
 %clean
 make clean
 rm -f build
@@ -39,6 +45,8 @@ rm -f build
 %files
 %defattr(-,root,root,-)
 %attr(755,-,-) %{_bindir}/vmodem_x86
+/usr/lib/systemd/system/multi-user.target.wants/vmodem-x86.service
+/usr/lib/systemd/system/vmodem-x86.service
 
 %changelog
 
