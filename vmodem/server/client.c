@@ -1045,6 +1045,7 @@ static void do_sms(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 {
 	unsigned char *p;
     int action = packet->action;
+    char vconf_cmd[99];
 
     TRACE(MSGL_VGSM_INFO, "do_sms %x\n", action);
     switch (action)
@@ -1055,6 +1056,11 @@ static void do_sms(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 	case GSM_SMS_SEND_ACK_REQ:
 		p = (unsigned char *)packet->data;
 		smsSentStatus = (int)p[0];
+		if(smsSentStatus == 10 || smsSentStatus == 11){
+		    sprintf(vconf_cmd, "vconftool set -t int memory/telephony/mms_sent_status %d -i -f", (smsSentStatus - 10));
+		    TRACE(MSGL_VGSM_INFO, "system : %s\n", vconf_cmd);
+		    system(vconf_cmd);
+		}
 
 		server_tx_sms_ReceiveAckMsg(packet);
 		break;
