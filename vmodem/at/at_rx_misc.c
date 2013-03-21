@@ -77,7 +77,8 @@ int at_rx_misc_me_serial(char* atmsg)
 	TRACE(MSGL_VGSM_INFO, "\n");
 
 	// IMEI
-	serial_num_data = "3520990017614823\r\n";
+	//serial_num_data = "3520990017614823\r\n"; // IMEISV
+	serial_num_data = "990007429826041\r\n";
 	serial_num_len = strlen(serial_num_data);
 
 	return at_tx_misc_me_serial( serial_num_index, serial_num_data, serial_num_len );
