@@ -79,6 +79,8 @@
 #include "at_msg.h"
 #include "vgsm_phone.h"
 /* end */
+#include <vconf/vconf.h>
+#include <vconf/vconf-keys.h>
 
 #define MAX_RESULT_LENGTH 1024
 
@@ -1457,6 +1459,7 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	int length;
 	//int klass = ci->klass;
 	int clientfd = ci->fd;
+	int rssi = 5;
 
 	//unsigned char * p = 0;
 
@@ -1487,6 +1490,11 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	length = packet.length;
 
 	TRACE(MSGL_VGSM_INFO, "in client_callback, group : %x\n", group);
+
+	if(vconf_get_int(VCONFKEY_TELEPHONY_RSSI, &rssi)) {
+		TRACE(MSGL_WARN, "vconf_get_int(%s) fail\n", VCONFKEY_TELEPHONY_RSSI);
+	}
+
 	switch (group)
 	{
 	case GSM_CALL:
@@ -1494,9 +1502,11 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 		if( is_flight_mode() ){
 			TRACE(MSGL_VGSM_INFO, "Flight mode on \n");
 			callback_callist();
-			/* not call */
-		}else{
-			TRACE(MSGL_VGSM_INFO, "Flight mode off \n");
+		} else if(rssi == 0) {
+			TRACE(MSGL_VGSM_INFO, "RSSI is zero \n");
+			callback_callist();
+		} else {
+			TRACE(MSGL_VGSM_INFO, "Call ok \n");
 			do_call(ps, ci, &packet);
 		}
 		break;
@@ -1510,9 +1520,11 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 		if( is_flight_mode() ){
 			TRACE(MSGL_VGSM_INFO, "Flight mode on \n");
 			sms_response_for_eventinjector();
-			/* not sms */
-		}else{
-			TRACE(MSGL_VGSM_INFO, "Flight mode off \n");
+		} else if(rssi == 0) {
+			TRACE(MSGL_VGSM_INFO, "RSSI is zero \n");
+			sms_response_for_eventinjector();
+		} else {
+			TRACE(MSGL_VGSM_INFO, "SMS ok \n");
 			do_sms(ps, ci, &packet);
 		}
 		break;
