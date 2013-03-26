@@ -34,16 +34,52 @@
 #include "at_tx_call.h"
 #include "at_func.h"
 #include "server_tx_call.h"
+#include "db_ss.h"
+#include "flight.h"
+#include <vconf/vconf.h>
+#include <vconf/vconf-keys.h>
 
 int at_tx_call_incoming_noti(void *data, int len)
 {
 	TRACE(MSGL_VGSM_INFO, "RING noti\n");
-	char sndbuf[SEND_BUF_SIZE];
-	memset(sndbuf, '\0', sizeof(sndbuf));
 
-	sprintf(sndbuf, "%s%s", RING, CRLF);	
-	at_msg_send(ACK_SEQ_NOTIFICATION, sndbuf, strlen(sndbuf));
-	return at_tx_call_status_noti(data, strlen((char*)data));
+	/* add block 130321 : flight mode on, rssi zero, call barring set */
+	bool flightMode = false;
+	bool icb = false; // incomming call barring
+	int i = 0;
+	int rssi = 5;
+        call_barring_entry_t * resp_entry  = get_call_barring_entry();
+	
+	flightMode = is_flight_mode();
+
+        if(!resp_entry)
+		TRACE(MSGL_VGSM_INFO, "entry is NULL!!!\n");
+        else {
+                for(i=0; i<resp_entry[0].count; i++) {
+                        TRACE(MSGL_VGSM_INFO,"i : %d,  type : %d\n", i, resp_entry[i].type);
+			if(resp_entry[i].type == 4 && resp_entry[i].ss_mode == 3) { // 'All incoming calls' has set
+				icb = true;
+			}
+                }
+        }
+
+	if(vconf_get_int(VCONFKEY_TELEPHONY_RSSI, &rssi)) {
+		TRACE(MSGL_WARN, "vconf_get_int(%s) fail\n", VCONFKEY_TELEPHONY_RSSI);
+	}
+
+	if(rssi != 0 && icb == false && flightMode == false) {
+		TRACE(MSGL_VGSM_INFO, "call OK, %d, %d, %d \n", rssi, icb, flightMode);
+		char sndbuf[SEND_BUF_SIZE];
+		memset(sndbuf, '\0', sizeof(sndbuf));
+
+		sprintf(sndbuf, "%s%s", RING, CRLF);	
+		at_msg_send(ACK_SEQ_NOTIFICATION, sndbuf, strlen(sndbuf));
+		return at_tx_call_status_noti(data, strlen((char*)data));
+	} else {
+		TRACE(MSGL_VGSM_INFO, "cannot RING a call, %d, %d, %d \n", rssi, icb, flightMode); 
+		return -1;
+	}
+
 }
 
 int at_tx_call_connect_noti(void *data, int len)
