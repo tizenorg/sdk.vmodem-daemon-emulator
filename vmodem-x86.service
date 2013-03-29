@@ -1,5 +1,5 @@
 [Unit]
-Description=VModem (x86)
+Description=Virtual modem daemon for emulator
 
 [Service]
 Type=simple

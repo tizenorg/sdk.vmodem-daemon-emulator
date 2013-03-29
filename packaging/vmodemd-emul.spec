@@ -28,11 +28,14 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/bin
 make install prefix=%{buildroot}
 
-if [ ! -d %{buildroot}/usr/lib/systemd/system/multi-user.target.wants ]; then
-    mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants
-fi
+mkdir -p %{buildroot}/usr/lib/systemd/system/emulator.target.wants
 cp vmodem-x86.service %{buildroot}/usr/lib/systemd/system/.
-ln -s ../vmodem-x86.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/vmodem-x86.service
+ln -s ../vmodem-x86.service %{buildroot}/usr/lib/systemd/system/emulator.target.wants/vmodem-x86.service
+
+mkdir -p %{buildroot}/etc/init.d
+cp vmodemd %{buildroot}/etc/init.d/.
+mkdir -p %{buildroot}/etc/rc.d/rc3.d
+ln -s ../../init.d/vmodemd %{buildroot}/etc/rc.d/rc3.d/S03vmodemd
 
 %clean
 make clean
@@ -45,7 +48,9 @@ rm -f build
 %files
 %defattr(-,root,root,-)
 %attr(755,-,-) %{_bindir}/vmodem_x86
-/usr/lib/systemd/system/multi-user.target.wants/vmodem-x86.service
+/etc/init.d/vmodemd
+/etc/rc.d/rc3.d/S03vmodemd
+/usr/lib/systemd/system/emulator.target.wants/vmodem-x86.service
 /usr/lib/systemd/system/vmodem-x86.service
 
 %changelog
