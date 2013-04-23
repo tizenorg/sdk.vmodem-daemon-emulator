@@ -364,6 +364,9 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 	int call_exist = 0;  //  현재 call list에, call이 없다면 incoming noti 전송한다.
 	unsigned short call_type;
 
+	int i;
+	call_barring_entry_t * resp_entry = get_call_barring_entry() ;
+
 	TRACE(MSGL_VGSM_INFO, "\n");
 
 	get_current_state_machine( &state );
@@ -427,6 +430,18 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 
 	//090314
 	callback_callist();
+
+	if(!resp_entry)
+		TRACE(MSGL_VGSM_INFO, "CB entry is NULL!!!\n");
+	else {
+		for(i=0; i<resp_entry[0].count; i++) {
+			TRACE(MSGL_VGSM_INFO,"i : %d,  type : %d\n", i, resp_entry[i].type);
+			if(resp_entry[i].type == 4 && resp_entry[i].ss_mode == 3) { // 'All incoming calls' has set
+				TRACE(MSGL_VGSM_INFO, "no call. Incoming Call Barring is set \n");
+				return -1;
+			}
+		}
+	}
 
 	char* number_type;
 	if(number[0] == '+')

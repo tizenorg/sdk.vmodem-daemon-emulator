@@ -4,3 +4,4 @@ Description=VModem (x86)
 [Service]
 Type=simple
 ExecStart=/usr/bin/vmodem_x86
+Environment=VGSM_VERBOSE=12
