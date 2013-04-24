@@ -100,7 +100,7 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 	unsigned char call_id;
 	STATE next;
 
-	number = malloc(MAX_GSM_DIALED_DIGITS_NUM);
+	number = malloc(MAX_GSM_DIALED_DIGITS_NUM+1);
 	if(!number)
 		return -1;
 	TRACE(MSGL_VGSM_INFO, "\n");
