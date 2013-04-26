@@ -149,8 +149,8 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 	
 	unsigned char data[MAX_GSM_DIALED_DIGITS_NUMBER+4];
 
-	if (num_len > MAX_GSM_DIALED_DIGITS_NUMBER)
-		num_len = MAX_GSM_DIALED_DIGITS_NUMBER;
+	if (num_len >= MAX_GSM_DIALED_DIGITS_NUMBER)
+		num_len = MAX_GSM_DIALED_DIGITS_NUMBER - 1;
 
 	data[0] = call_id;
 	data[1] = call_type;
@@ -165,6 +165,7 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 
 	memset(&data[4], 0, MAX_GSM_DIALED_DIGITS_NUMBER);
 	memcpy(&data[4], number, num_len);
+	data[4+num_len] = '\0';
 
 	LXT_MESSAGE packet;
 	TAPIMessageInit(&packet);
