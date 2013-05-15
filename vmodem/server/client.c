@@ -92,6 +92,10 @@ extern GSM_StateMachine           GlobalS;
 #define MMI_SC_LENGTH2          14
 #define MMI_SC_LENGTH3          10
 
+#define MMS_SEND_OK		10
+#define MMS_SEND_FAIL		11
+#define MMS_MODIFIER		10
+
 #if 0
 static char * mmi_sc2[] =
 {
@@ -1057,11 +1061,12 @@ static void do_sms(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 		break;
 	case GSM_SMS_SEND_ACK_REQ:
 		p = (unsigned char *)packet->data;
-		smsSentStatus = (int)p[0];
-		if(smsSentStatus == 10 || smsSentStatus == 11){
-		    sprintf(vconf_cmd, "vconftool set -t int memory/telephony/mms_sent_status %d -i -f", (smsSentStatus - 10));
+		if((int)p[0] == MMS_SEND_OK || (int)p[0] == MMS_SEND_FAIL){
+		    sprintf(vconf_cmd, "vconftool set -t int memory/telephony/mms_sent_status %d -i -f", ((int)p[0] - MMS_MODIFIER));
 		    TRACE(MSGL_VGSM_INFO, "system : %s\n", vconf_cmd);
 		    system(vconf_cmd);
+		} else {
+		    smsSentStatus = (int)p[0];
 		}
 
 		server_tx_sms_ReceiveAckMsg(packet);
