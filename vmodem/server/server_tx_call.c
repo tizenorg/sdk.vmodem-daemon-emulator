@@ -352,7 +352,7 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 {
 	int num_len = 0, ret = 0, tmp = 0;
 	char number[MAX_GSM_DIALED_DIGITS_NUMBER];
-	char *p, data[8 + MAX_GSM_DIALED_DIGITS_NUMBER];
+	char *p, data[MAX_GSM_DIALED_DIGITS_NUMBER*2];
 	unsigned char ss_present_indi ;
 	unsigned char ss_call_type ;
 	unsigned char ss_no_cli_cause ;
@@ -363,6 +363,9 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 	char clir = GSM_CALL_CLIR_STATUS_NOT_CHANGED;		//gsm_clir_status_e_type
 	int call_exist = 0;  //  현재 call list에, call이 없다면 incoming noti 전송한다.
 	unsigned short call_type;
+
+	int i;
+	call_barring_entry_t * resp_entry = get_call_barring_entry() ;
 
 	TRACE(MSGL_VGSM_INFO, "\n");
 
@@ -412,12 +415,18 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 	else
 	{
 		tmp = (int)p[3];
-		if(tmp < 0 || tmp > MAX_GSM_DIALED_DIGITS_NUMBER){
+		if(tmp < 0){
 			TRACE(MSGL_VGSM_INFO, "ERROR!! Invalid value of packet.data.\n");
+			callback_callist();
 			return -1;
+		} else if ( tmp >= MAX_GSM_DIALED_DIGITS_NUMBER){
+			TRACE(MSGL_VGSM_INFO, "The number is too long. It will be cut.\n");
+			num_len = MAX_GSM_DIALED_DIGITS_NUMBER - 1;
+		} else {
+			num_len = tmp;
 		}
-		num_len = tmp;
 		memcpy(number, &p[7], num_len);
+		number[num_len] = '\0';
 		log_msg(MSGL_VGSM_INFO,"  call num len %d  \n", num_len);
 		ss_present_indi = 0;
 		ss_no_cli_cause = 0;
@@ -427,6 +436,18 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 
 	//090314
 	callback_callist();
+
+	if(!resp_entry)
+		TRACE(MSGL_VGSM_INFO, "CB entry is NULL!!!\n");
+	else {
+		for(i=0; i<resp_entry[0].count; i++) {
+			TRACE(MSGL_VGSM_INFO,"i : %d,  type : %d\n", i, resp_entry[i].type);
+			if(resp_entry[i].type == 4 && resp_entry[i].ss_mode == 3) { // 'All incoming calls' has set
+				TRACE(MSGL_VGSM_INFO, "Incoming Call Barring is set \n");
+				return -1;
+			}
+		}
+	}
 
 	char* number_type;
 	if(number[0] == '+')
