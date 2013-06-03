@@ -50,6 +50,8 @@
 #include "server_tx_network.h"
 #include "server_tx_display.h"
 
+#define INITIAL_RSSI 0x04
+
 extern unsigned char g_battery_level;
 
 void* change_level(void *data);
@@ -88,7 +90,7 @@ int server_tx_online_noti(unsigned char status)
 	int pon_len = 0;
 	unsigned char pon_data[10];	/* power online noti */
 	unsigned char nrn_data[11];	/* net reg noti */
-	unsigned char rssi = 0x05;
+	unsigned char rssi = INITIAL_RSSI;
 
 	TRACE(MSGL_VGSM_INFO, "status = %d\n", status);
 
@@ -120,7 +122,7 @@ int server_tx_online_noti(unsigned char status)
 		nrn_data[0] = GSM_NET_ACT_UTRAN;			/* ACT */
 		nrn_data[2] = GSM_NET_REG_STAT_REG_HOME;	/* reg_status */
 		pon_data[pon_len++] = AT_GSM_PWR_PHONE_RSN_ONLINE_ON;
-		rssi = 0x05; /* initial value */
+		rssi = INITIAL_RSSI; /* initial value */
 
 	}else if(status == AT_GSM_PWR_PHONE_ONLINE_MAX){
 		pon_data[pon_len++] = AT_GSM_PWR_PHONE_RSN_ONLINE_MAX;
