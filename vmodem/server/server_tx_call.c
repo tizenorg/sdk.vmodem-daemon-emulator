@@ -372,6 +372,19 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 
 	TRACE(MSGL_VGSM_INFO, "\n");
 
+	if(!resp_entry)
+		TRACE(MSGL_VGSM_INFO, "CB entry is NULL!!!\n");
+	else {
+		for(i=0; i<resp_entry[0].count; i++) {
+			TRACE(MSGL_VGSM_INFO,"i : %d,  type : %d\n", i, resp_entry[i].type);
+			if(resp_entry[i].type == 4 && resp_entry[i].ss_mode == 3) { // 'All incoming calls' has set
+				TRACE(MSGL_VGSM_ERR, "Incoming Call Barring is set \n");
+				callback_callist();
+				return -1;
+			}
+		}
+	}
+
 	get_current_state_machine( &state );
 	if( ( state.state_type == STATE_CALL_WAITING_OUTGOING ) ||
 			( state.state_type == STATE_CALL_WAITING_INCOMING ) )
@@ -439,18 +452,6 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 
 	//090314
 	callback_callist();
-
-	if(!resp_entry)
-		TRACE(MSGL_VGSM_INFO, "CB entry is NULL!!!\n");
-	else {
-		for(i=0; i<resp_entry[0].count; i++) {
-			TRACE(MSGL_VGSM_INFO,"i : %d,  type : %d\n", i, resp_entry[i].type);
-			if(resp_entry[i].type == 4 && resp_entry[i].ss_mode == 3) { // 'All incoming calls' has set
-				TRACE(MSGL_VGSM_INFO, "Incoming Call Barring is set \n");
-				return -1;
-			}
-		}
-	}
 
 	char* number_type;
 	if(number[0] == '+')
