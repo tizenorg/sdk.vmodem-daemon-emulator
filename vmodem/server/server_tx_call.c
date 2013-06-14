@@ -596,6 +596,33 @@ int server_tx_call_alert_ind(void *ptr_data, int data_len )
 
 	//send noti ( alert  )to Phone
 	unsigned short call_type = get_call_type();
+	int i = 0;
+	int dialing_id = -1;
+
+	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+
+	if(!callList) {
+		return -1;
+	}
+
+	get_call_list(callList);
+
+	if(callList->CallCount < 1) {
+		TRACE(MSGL_VGSM_ERR, "The call-count is %d!!\n", callList->CallCount);
+		return -1;
+	}
+
+	for (i=0; i < MAX_CALL_COUNT; i++) {
+		if( callList->CallInfo[i].stat == GSM_CALL_STATUS_DIALING ) {
+			dialing_id = callList->CallInfo[i].idx;
+			break;
+		}
+	}
+
+	if(dialing_id != get_call_id()) {
+		TRACE(MSGL_VGSM_INFO, "Current g_call_id(%d) is not the dialing_id(%d)\n", get_call_id(), dialing_id);
+		set_call_id(dialing_id);
+	}
 
 	char sndbuf[SEND_BUF_SIZE];
 	memset(sndbuf, '\0', sizeof(sndbuf));
@@ -607,6 +634,7 @@ int server_tx_call_alert_ind(void *ptr_data, int data_len )
 
 	callback_callist();		// renewal call_list in the EI
 
+	free(callList);
 	return oem_tx_call_status_noti(sndbuf, strlen(sndbuf));
 }
 
