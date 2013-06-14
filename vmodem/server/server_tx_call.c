@@ -564,6 +564,35 @@ int server_tx_call_answer_exec(void)
 	   ( list.CallInfo[get_call_id()].stat == GSM_Call_Held ) )
 	   return 0;
 	 */
+	int i = 0;
+	int alerted_id = -1;
+
+	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+
+	if(!callList) {
+		return -1;
+	}
+
+	get_call_list(callList);
+
+	if(callList->CallCount < 1) {
+		TRACE(MSGL_VGSM_ERR, "The call-count is %d!!\n", callList->CallCount);
+		free(callList);
+		return -1;
+	}
+
+	for (i=0; i < MAX_CALL_COUNT; i++) {
+		if( callList->CallInfo[i].stat == GSM_CALL_STATUS_ALERT ) {
+			alerted_id = callList->CallInfo[i].idx;
+			break;
+		}
+	}
+
+	if(alerted_id != get_call_id()) {
+		TRACE(MSGL_VGSM_INFO, "Current g_call_id(%d) is not the alerted_id(%d)\n", get_call_id(), alerted_id);
+		set_call_id(alerted_id);
+	}
+
 
 	set_current_state( STATE_CALL_WAITING_OUTGOING, GSM_CALL_CMD, GSM_CALL_ANSWER);
 
@@ -571,6 +600,8 @@ int server_tx_call_answer_exec(void)
 		set_state_machine( next );
 		send_msg();
 	}
+
+	free(callList);
 
 	_LEAVE();
 	return 1;
@@ -612,6 +643,7 @@ int server_tx_call_alert_ind(void *ptr_data, int data_len )
 
 	if(callList->CallCount < 1) {
 		TRACE(MSGL_VGSM_ERR, "The call-count is %d!!\n", callList->CallCount);
+		free(callList);
 		return -1;
 	}
 
