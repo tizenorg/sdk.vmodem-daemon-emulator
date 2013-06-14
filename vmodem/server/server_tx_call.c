@@ -132,6 +132,9 @@ int server_tx_call_status(void) // it means call state.
 		packet.length = sizeof(gsm_call_list_t);
 
 		FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
+		if(get_call_id() >= callList->CallCount) {
+			callback_callist();
+		}
 	}
 	else if( STATE_TYPE(prev) == STATE_CALL_RELEASED )
 	{
