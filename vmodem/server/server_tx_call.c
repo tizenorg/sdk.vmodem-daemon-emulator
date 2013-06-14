@@ -132,6 +132,9 @@ int server_tx_call_status(void) // it means call state.
 		packet.length = sizeof(gsm_call_list_t);
 
 		FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
+		if(get_call_id() >= callList->CallCount) {
+			callback_callist();
+		}
 	}
 	else if( STATE_TYPE(prev) == STATE_CALL_RELEASED )
 	{
@@ -369,6 +372,19 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //∏¡¿‘¿Âø°º± outgoing c
 
 	TRACE(MSGL_VGSM_INFO, "\n");
 
+	if(!resp_entry)
+		TRACE(MSGL_VGSM_INFO, "CB entry is NULL!!!\n");
+	else {
+		for(i=0; i<resp_entry[0].count; i++) {
+			TRACE(MSGL_VGSM_INFO,"i : %d,  type : %d\n", i, resp_entry[i].type);
+			if(resp_entry[i].type == 4 && resp_entry[i].ss_mode == 3) { // 'All incoming calls' has set
+				TRACE(MSGL_VGSM_ERR, "Incoming Call Barring is set \n");
+				callback_callist();
+				return -1;
+			}
+		}
+	}
+
 	get_current_state_machine( &state );
 	if( ( state.state_type == STATE_CALL_WAITING_OUTGOING ) ||
 			( state.state_type == STATE_CALL_WAITING_INCOMING ) )
@@ -436,18 +452,6 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //∏¡¿‘¿Âø°º± outgoing c
 
 	//090314
 	callback_callist();
-
-	if(!resp_entry)
-		TRACE(MSGL_VGSM_INFO, "CB entry is NULL!!!\n");
-	else {
-		for(i=0; i<resp_entry[0].count; i++) {
-			TRACE(MSGL_VGSM_INFO,"i : %d,  type : %d\n", i, resp_entry[i].type);
-			if(resp_entry[i].type == 4 && resp_entry[i].ss_mode == 3) { // 'All incoming calls' has set
-				TRACE(MSGL_VGSM_INFO, "Incoming Call Barring is set \n");
-				return -1;
-			}
-		}
-	}
 
 	char* number_type;
 	if(number[0] == '+')
@@ -561,6 +565,35 @@ int server_tx_call_answer_exec(void)
 	   ( list.CallInfo[get_call_id()].stat == GSM_Call_Held ) )
 	   return 0;
 	 */
+	int i = 0;
+	int alerted_id = -1;
+
+	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+
+	if(!callList) {
+		return -1;
+	}
+
+	get_call_list(callList);
+
+	if(callList->CallCount < 1) {
+		TRACE(MSGL_VGSM_ERR, "The call-count is %d!!\n", callList->CallCount);
+		free(callList);
+		return -1;
+	}
+
+	for (i=0; i < MAX_CALL_COUNT; i++) {
+		if( callList->CallInfo[i].stat == GSM_CALL_STATUS_ALERT ) {
+			alerted_id = callList->CallInfo[i].idx;
+			break;
+		}
+	}
+
+	if(alerted_id != get_call_id()) {
+		TRACE(MSGL_VGSM_INFO, "Current g_call_id(%d) is not the alerted_id(%d)\n", get_call_id(), alerted_id);
+		set_call_id(alerted_id);
+	}
+
 
 	set_current_state( STATE_CALL_WAITING_OUTGOING, GSM_CALL_CMD, GSM_CALL_ANSWER);
 
@@ -568,6 +601,8 @@ int server_tx_call_answer_exec(void)
 		set_state_machine( next );
 		send_msg();
 	}
+
+	free(callList);
 
 	_LEAVE();
 	return 1;
@@ -596,6 +631,34 @@ int server_tx_call_alert_ind(void *ptr_data, int data_len )
 
 	//send noti ( alert  )to Phone
 	unsigned short call_type = get_call_type();
+	int i = 0;
+	int dialing_id = -1;
+
+	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+
+	if(!callList) {
+		return -1;
+	}
+
+	get_call_list(callList);
+
+	if(callList->CallCount < 1) {
+		TRACE(MSGL_VGSM_ERR, "The call-count is %d!!\n", callList->CallCount);
+		free(callList);
+		return -1;
+	}
+
+	for (i=0; i < MAX_CALL_COUNT; i++) {
+		if( callList->CallInfo[i].stat == GSM_CALL_STATUS_DIALING ) {
+			dialing_id = callList->CallInfo[i].idx;
+			break;
+		}
+	}
+
+	if(dialing_id != get_call_id()) {
+		TRACE(MSGL_VGSM_INFO, "Current g_call_id(%d) is not the dialing_id(%d)\n", get_call_id(), dialing_id);
+		set_call_id(dialing_id);
+	}
 
 	char sndbuf[SEND_BUF_SIZE];
 	memset(sndbuf, '\0', sizeof(sndbuf));
@@ -607,6 +670,7 @@ int server_tx_call_alert_ind(void *ptr_data, int data_len )
 
 	callback_callist();		// renewal call_list in the EI
 
+	free(callList);
 	return oem_tx_call_status_noti(sndbuf, strlen(sndbuf));
 }
 
