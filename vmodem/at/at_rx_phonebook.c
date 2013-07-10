@@ -45,8 +45,8 @@ int at_rx_sim_pb_default(char* atmsg)
 
 
 /*
-여러개의 entry를 get 하게는 안하고 하나의 entry만 get 하게.. 지금 현재 모뎀 코드가 그래서..
-Phonebook도 2G feature 로 구현.. 지금 현재 모뎀 코드가 그래서..
+The only one entry could get on one time, in these times vmodem code, 
+so Phonebook is implemented to 2G feature.
 */
 int at_rx_sim_pb_access(char* atmsg)
 {

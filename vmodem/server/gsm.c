@@ -150,8 +150,6 @@ GSM_Error GSM_Start(void)
 //    error = SSFunc->SetSSNotification(&GlobalS, true, true);
 //    error = CallFunc->SetCallExtendedFormat(&GlobalS, false);
 //    /*
-//	 * 아래의 초기 명령어는 이미 Phone power on시에 반영이 되어 있으므로
-//	 * 생략한다.
 //    error = SendInitCommand();
 //    if  (error != ERR_NONE)
 //        return error;

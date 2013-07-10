@@ -301,10 +301,10 @@ int server_tx_sim_sec_pin_status_noti(STATE_TYPE before_state, STATE_TYPE curren
 			{
 				case STATE_SIM_READY :
 				{
-					/*	lock disable일 경우 modem(vgsm)이 simulator로 보내줘야 할 NOTI
+					/*	 The noti that modem(vgsm) should send to emulator when the lock disabled.
 						1) GSM_SEC_LOCK_TYPE_READY
 						2) GSM_SEC_SIM_INIT_COMPLETED
-						3) GSM_SEC_PB_INIT_COMPLETED	- 현재 phonebook이 미구현 상태라 보내지 않음.
+						3) GSM_SEC_PB_INIT_COMPLETED - doesn't send this because the phonebook isn't implemented.
 					*/
 					pdata[0]	=	GSM_SEC_LOCK_TYPE_READY;
 					pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;

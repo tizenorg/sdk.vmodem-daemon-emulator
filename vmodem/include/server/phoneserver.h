@@ -121,7 +121,7 @@ typedef struct
 #endif
 
 /* ---------------------------------------------------------------------------
-     PPP Gateway : Dial up Networking을 위한 ppp gateway와의 통신을 위함
+     PPP Gateway : comunicate with ppp gateway for Dial up Networking
    ---------------------------------------------------------------------------*/
 typedef struct
 {
@@ -143,7 +143,7 @@ typedef struct
 } PPP_GATEWAY;
 
 /* ---------------------------------------------------------------------------
-     dpram : dpram handle GSM InitConnection에서 생성된 fd를 그대로 사용
+     dpram : use the 'fd' which is generate by dpram handle GSM InitConnection
    ---------------------------------------------------------------------------*/
 typedef struct
 {
@@ -160,7 +160,7 @@ typedef struct
 } DPRAM;
 
 /* ---------------------------------------------------------------------------
-     dpram event : ppp, SIM cover상태등의 phone event를 전달하는 fd
+     dpram event : 'fd' for phone event like ppp, SIM cover.
    ---------------------------------------------------------------------------*/
 typedef struct
 {
@@ -178,7 +178,7 @@ typedef struct
 } DPRAM_EVENT;
 
 /* ---------------------------------------------------------------------------
-     dpram error : phone binary critical message 처리
+     dpram error : for the phone binary critical message
    ---------------------------------------------------------------------------*/
 typedef struct
 {
@@ -196,8 +196,8 @@ typedef struct
 } DPRAM_ERROR;
 
 /* ---------------------------------------------------------------------------
-     socket server : client 연결을 위한 socket server
-     대부분의 코드는 TClientInfo의 CallBack에 들어있다.
+     socket server : socket server for client connecting
+      almost codes are in CallBack of TClientInfo.
    ---------------------------------------------------------------------------*/
 typedef struct
 {
@@ -273,7 +273,7 @@ typedef struct
 	int				GSMDataRequest;
 } PhoneServerData;
 /* ---------------------------------------------------------------------------
-     main 구조체
+     main structure
    ---------------------------------------------------------------------------*/
 typedef struct {
     void (*SetInternalState) (PhoneServer * ps, LXT_PHONE_STATE state);

@@ -279,7 +279,7 @@ int server_rx_ss_cf_set(int ss_mode, int type, int tel_class, int replyTime, int
 	if(entry)
 		free(entry);
 
-	//eventinjector에게 data send -> ui update
+	// send data to eventinjector -> ui update
 	call_forwarding_entry_t * resp_entry = get_call_forwarding_entry();
 
 	//for debug
@@ -501,7 +501,7 @@ int server_rx_ss_cb_passwd_set(char* curr_passwd, char* new_passwd)
 	VGSM_DEBUG("CallBarring Passwd changed\n");
 
 	FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
-	/* EI에서는 이러한 event를 수신하면,
+	/* EI receives this event then,
 	 * popup(callbarring password changed!!) --> callbarring password : new_passwd
 	 */
 

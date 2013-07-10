@@ -30,8 +30,8 @@
 #ifndef _vgsm_call_h
 #define _vgsm_call_h
 
-#define MAX_GSM_CALL_LIST_NUMBER 6 // 기존에는 6.
-#define MAX_GSM_DIALED_DIGITS_NUMBER 32 //기존에는 32.
+#define MAX_GSM_CALL_LIST_NUMBER 6
+#define MAX_GSM_DIALED_DIGITS_NUMBER 32
 #define MAX_BUF_LEN 256
 
 /* DIRECTION field */

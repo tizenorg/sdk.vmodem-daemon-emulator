@@ -163,7 +163,7 @@ int server_rx_sim_sec_set_pin_status_req(void* ptr_data, int data_len)
 
 				p[19]	=	server_sec_get_sec_status();
 
-				//해당 lock_type 의 remain count 를 감소시킴.
+				// decrease the remain count of relevant lock_type
 				server_sec_status_mgr(lock_type);
 
 				p[20]	=	server_sec_get_remain_cnt(p[19]);
@@ -263,8 +263,7 @@ int server_rx_sim_sec_set_pin_status_req(void* ptr_data, int data_len)
 			password[length_p] = '\0';
 		}
 
-		// 왜 필요?? -> 처음 부팅할 시점에서 current_status값을 기준으로 pda로 pin_status_noti를 보내므로
-		// pda에서 set pin status를 보낼 시점은 항상 current status에 해당하는 값을 보낸다.
+		// On first booting period, this sends the pin_status_noti(this is based on current_status) to pda.
 		current_status	=	server_sec_get_sec2_status();
 
 		/* PIN check enable case from here */

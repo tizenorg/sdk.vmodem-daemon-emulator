@@ -261,8 +261,7 @@ int write_pidfile(const char *filename)
 		return -1;
 	}
 
-	/* 기존 내용 삭제 */
-	
+	/* clear old contents */
 	ftruncate(fd, 0);
 	memset(buf, 0, sizeof(buf));
 	sprintf(buf, "%d", (int)getpid());

@@ -391,27 +391,23 @@ void  SmsUtilDecodeAddrField_sca(char *diallingNum, unsigned char* pAddrField, i
 
 	if ( ton != SIM_TON_ALPHA_NUMERIC )
 	{
-		// Origination/Destination address 필드에서의 length는 실제 address length
-		// origination/destination address 필드인 경우 length가 0 일 때라도 number type/plan 필드는 0xFF 값을 갖는다.
+		// Origination/Destination address field's length is the real address length.
+		// The number type/plan field is '0xFF' even the origination/destination address field's length is zero.
 		//dialnumLen = pAddrField[index++];
 		length = pAddrField[index];
-		// 보내지 않은 메시지의 경우에는 service center address가 없을 수도 있다.
-		// 이 경우에 length 가 0 이면 number type, plan 도 없는 경우
-		// length 가 1 이면 type, plan 만 있는 경우
+		// the service center address could be null when the message doesn't be sent.
+		// In this case,
+		// when the length is 0, there is no number type and plan,
+		// when the length is 1, there are the only type and plan.
 		if ( length > 1 )
 		{
-			dialnumLen = ( pAddrField[index++] - 1 ) * 2; // -1은 TON/API 필드
+			dialnumLen = ( pAddrField[index++] - 1 ) * 2; // -1 is for TON/API field.
 		}
 	}
 	else
 	{
 		dialnumLen = ( ( ( pAddrField[index++] + 1 ) / 2 ) * 8 ) / 7;
 	}
-
-
-
-
-	// SIM_SMSP_ADDRESS_LEN 보다 address length 가 크면 SIM_SMSP_ADDRESS_LEN 만큼만 변환을 한다.
 
 	if ( dialnumLen > SIM_SMSP_ADDRESS_LEN )
 	{
@@ -451,20 +447,12 @@ void  SmsUtilDecodeAddrField_dst(char *diallingNum, unsigned char* pAddrField, i
 
 	if ( ton != SIM_TON_ALPHA_NUMERIC )
 	{
-		// Origination/Destination address 필드에서의 length는 실제 address length
-		// origination/destination address 필드인 경우 length가 0 일 때라도 number type/plan 필드는 0xFF 값을 갖는다.
 		dialnumLen = pAddrField[index++];
-		
 	}
 	else
 	{
 		dialnumLen = ( ( ( pAddrField[index++] + 1 ) / 2 ) * 8 ) / 7;
 	}
-
-
-
-
-	// SIM_SMSP_ADDRESS_LEN 보다 address length 가 크면 SIM_SMSP_ADDRESS_LEN 만큼만 변환을 한다.
 
 	if ( dialnumLen > SIM_SMSP_ADDRESS_LEN )
 	{
@@ -562,7 +550,6 @@ int  SmsUtilEncodeAddrField_dst(unsigned char* pAddrField, unsigned char* dialli
 
 	if ( ton != SIM_TON_ALPHA_NUMERIC )
 	{
-		// Origination/Destination address 필드에서의 length는 실제 address length
 		pAddrField[index++] = (unsigned char)dialnumLen;
 		//printf(" addr len packet: %d\n", pAddrField[index]);
 	}
@@ -570,7 +557,7 @@ int  SmsUtilEncodeAddrField_dst(unsigned char* pAddrField, unsigned char* dialli
 	{
 		pAddrField[index] = (unsigned char) ( ( ( dialnumLen * 7 + 7 ) / 8 ) * 2 );
 
-		// 마지막 바이트에서 상위 4비트가 사용되지 않으면 length 필드값을 -1을 한다.
+		// On last byte, if the high 4 bit doesn't be used, then do -1 to the length field.
 		if ( ( ( dialnumLen * 7 ) % 8 ) <= 4 )
 			pAddrField[index]--;
 
@@ -583,8 +570,7 @@ int  SmsUtilEncodeAddrField_dst(unsigned char* pAddrField, unsigned char* dialli
 	}
 
 	SET_TON_NPI( pAddrField[index], ton, npi );
-
-	index++; // SET_TON_NPI 가 MACRO 이므로 내부에서 증가시키면 버그
+	index++; // SET_TON_NPI is a MACRO, so we couldn't use like 'pAddrField[index++]'.
 
 	if ( ton != SIM_TON_ALPHA_NUMERIC )
 	{
@@ -612,7 +598,6 @@ int  SmsUtilEncodeAddrField(unsigned char* pAddrField, unsigned char* diallingNu
 
 	if ( ton != SIM_TON_ALPHA_NUMERIC )
 	{
-		// Origination/Destination address 필드에서의 length는 실제 address length
 		pAddrField[index++] = (unsigned char)dialnumLen;
 		//printf(" addr len packet: %d\n", pAddrField[index]);
 	}
@@ -620,7 +605,6 @@ int  SmsUtilEncodeAddrField(unsigned char* pAddrField, unsigned char* diallingNu
 	{
 		pAddrField[index] = (unsigned char) ( ( ( dialnumLen * 7 + 7 ) / 8 ) * 2 );
 
-		// 마지막 바이트에서 상위 4비트가 사용되지 않으면 length 필드값을 -1을 한다.
 		if ( ( ( dialnumLen * 7 ) % 8 ) <= 4 )
 			pAddrField[index]--;
 
@@ -633,8 +617,7 @@ int  SmsUtilEncodeAddrField(unsigned char* pAddrField, unsigned char* diallingNu
 	}
 
 	SET_TON_NPI( pAddrField[index], ton, npi );
-
-	index++; // SET_TON_NPI 가 MACRO 이므로 내부에서 증가시키면 버그
+	index++;
 
 	if ( ton != SIM_TON_ALPHA_NUMERIC )
 	{
@@ -667,17 +650,12 @@ int SmsUtilDecodeScAddrField( SmsAddressInfo* pSmsAddrField, BYTE* pAddrField )
 		return 0;
 	}
 
-	// Service Center address 필드에서의 length는 뒤에 나오는 byte의 수
-	// -> 실제 address 길이는 TON/API 바이트를 제외하고 나머지 바이트의 2배 or 2배 - 1(실제 길이가 홀수인경우)
 	length = pAddrField[index];
-	// 보내지 않은 메시지의 경우에는 service center address가 없을 수도 있다.
-	// 이 경우에 length 가 0 이면 number type, plan 도 없는 경우
-	// length 가 1 이면 type, plan 만 있는 경우
+
 	if ( length > 1 )
 	{
-		pSmsAddrField->dialnumLen = ( pAddrField[index++] - 1 ) * 2; // -1은 TON/API 필드
+		pSmsAddrField->dialnumLen = ( pAddrField[index++] - 1 ) * 2; // -1픦s for TON/API field
 
-		// SIM_SMSP_ADDRESS_LEN 보다 address length 가 크면 SIM_SMSP_ADDRESS_LEN 만큼만 변환을 한다.
 		if ( pSmsAddrField->dialnumLen > SIM_SMSP_ADDRESS_LEN )
 		{
 			pSmsAddrField->dialnumLen = SIM_SMSP_ADDRESS_LEN;
@@ -705,20 +683,17 @@ int SmsUtilDecodeScAddrField( SmsAddressInfo* pSmsAddrField, BYTE* pAddrField )
 	if ( pSmsAddrField == NULL || pAddrField == NULL )
 		return -1;
 
-	// Service Center address 필드에서의 length는 뒤에 나오는 byte의 수
-	// -> 실제 address 길이는 TON/API 바이트를 제외하고 나머지 바이트의 2배 or 2배 - 1(실제 길이가 홀수인경우)
 	if ( pSmsAddrField->dialnumLen % 2 )
 	{
-		pAddrField[index++] = pSmsAddrField->dialnumLen / 2 + 1 + 1; // +1 은 TON/NPI 필드, 홀수개인 경우는 개수를 맞추기 위해 한번 더 +1
+		pAddrField[index++] = pSmsAddrField->dialnumLen / 2 + 1 + 1; // +1 is for TON/NPI field, and if it's odd then +1 again.
 	}
 	else
 	{
-		pAddrField[index++] = pSmsAddrField->dialnumLen / 2 + 1; // +1 은 TON/NPI 필드
+		pAddrField[index++] = pSmsAddrField->dialnumLen / 2 + 1; // +1 is for TON/NPI field
 	}
 
 	SET_TON_NPI( pAddrField[index], pSmsAddrField->ton, pSmsAddrField->npi );
-
-	index++; // SET_TON_NPI 가 MACRO 이므로 내부에서 증가시키면 버그발생
+	index++;
 
 	SmsUtilConvertDigit2BCD( (char*) &pAddrField[index], (char*) pSmsAddrField->diallingNum, pSmsAddrField->dialnumLen );
 

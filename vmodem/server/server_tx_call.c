@@ -351,7 +351,7 @@ static void cast_call_incomming(unsigned char call_id)
 }
 
 
-int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing call.
+int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) // on network side, this is outgoing call.
 {
 	int num_len = 0, ret = 0, tmp = 0;
 	char number[MAX_GSM_DIALED_DIGITS_NUMBER];
@@ -364,7 +364,7 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 	gsm_call_list_t list;
 	gsm_call_status_e_type call_status = GSM_CALL_STATUS_INCOMING;
 	char clir = GSM_CALL_CLIR_STATUS_NOT_CHANGED;		//gsm_clir_status_e_type
-	int call_exist = 0;  //  현재 call list에, call이 없다면 incoming noti 전송한다.
+	int call_exist = 0;  // If there is no call in call list then send the incoming noti.
 	unsigned short call_type;
 
 	int i;
@@ -404,7 +404,7 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 		call_status = GSM_CALL_STATUS_WAITING;
 
 		// sub_cmd = GSM_CALL_WAITING;
-		call_exist = 1; // call list에 call 이 존재하면, incoming noti 대신에 waiting noti를 전송한다.
+		call_exist = 1; // If there are any call in call list, then send the waiting noti instead the incoming noti.
 	}
 
 	assert(packet->length >= 8);
@@ -422,7 +422,7 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 	if(clir == GSM_CALL_CLIR_STATUS_INVOCATION)
 	{
 		log_msg(MSGL_VGSM_INFO,"  GSM_CALL_CLIR_STATUS_INVOCATION -> no num  \n");
-		num_len = 0; // 확인하자. num_len 가 MAX_GSM_DIALED_DIGITS_NUMBER 되어야하는지 check...
+		num_len = 0; // check that 'num_len' should be MAX_GSM_DIALED_DIGITS_NUMBER or not.
 		memset(number, 0, MAX_GSM_DIALED_DIGITS_NUMBER);
 		ss_present_indi = p[5];
 		ss_no_cli_cause = p[6];
@@ -687,7 +687,7 @@ int server_tx_call_release_internal(int call_id)
 
 	TRACE(MSGL_VGSM_INFO, "\n");
 
-	set_call_id( call_id ); // 나중에  server_tx_call_status() 보내는 경우에, g_call_id를 가져오므로 여기서 set 해야한다.
+	set_call_id( call_id ); // We should set here because the server_tx_call_status() may need the g_call_id.
 
 	TAPIMessageInit(&packet);
 

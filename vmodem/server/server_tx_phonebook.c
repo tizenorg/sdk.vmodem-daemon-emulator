@@ -43,8 +43,7 @@
 #include "phoneserver.h"
 
 /*
-*	phonebook access에 대한 결과를 EI와 simulator 양방향으로 보낸다.	=> EI로만 보낸!!!!
-*	flag : 0 -> EI UI + simulator
+*	flag : 0 -> EI UI + emulator
 *		1,2 -> EI UI
 */
 

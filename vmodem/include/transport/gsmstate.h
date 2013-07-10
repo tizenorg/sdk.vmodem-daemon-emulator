@@ -37,11 +37,11 @@
 *********************************************************************/
 
 /* ------------------------------------------------------------------------
-   라이브러리의 구조를 이해하는데 가장 중요한 헤더파일.
-   구조체 _GSM_StateMachine의 인스턴스 하나로 움직이는 형태임
-   따라서 이 구조체의 멤버들을 검토하면 전체적인 구조를 파악할수 있슴.
+   This is the most important header file for understanding the library architecture. 
+   This goes like an instance of the structure, _GSM_StateMachine.
+   So, you can figure out the whole architecture by analyzing this structure members.
 
-   흐름은 아래와 같다.
+   The flow is as below.
    +----------------------------------------------------------------+
    | Phone Layer (AT command generate)  | (AT command reply)        |
    +----------------------------------------------------------------+
@@ -83,12 +83,12 @@ typedef struct _GSM_StateMachine           GSM_StateMachine;
 
 /* --------------------------------------------------------------------------
    Device layer
-   dpram read, write, setting의 function을 포함
-   device fd같은 데이타가 있슴. 특별히 신경쓸 부분은 없슴.
+   include the dpram read, write, setting functions
+   nothing special.
    --------------------------------------------------------------------------*/
 /**
- * 코드 내용은 I519/I819의 코드를 그대로 사용하였으며 형태는 라이브러리
- * 의 구조에 맞게 function pointer로 선언하였다.
+ *  I used the I519/I819 original codes as it is,
+ * 픞nd this is defined as function pointer.
  */
 typedef struct {
     GSM_Error (*OpenDevice)    (GSM_StateMachine *s);
@@ -123,11 +123,9 @@ typedef struct {
 #define GSM_MAX_NUMBER_LENGTH       50
 /*
  * Phone Data :
- * PhoneServer에서 참조해야 할 모든 데이타를 여기에 모아두면 된다.
+ * gather all datas in here that the PhoneServer would refer to.
  *
- * 아래의 구조체 멤버에 포함된 변수는 전역 변수 사용하듯이 사용하는 것이
- * 목적이다. I519/I819에서 PhoneServer가 가지고 있던 데이타를 아래의 구조체에
- * 몰아서 사용하면 용이하다.
+ * These structure members are used as global variables.
  */
 typedef struct {
     double VerNum;
@@ -188,7 +186,7 @@ typedef struct {
 // phone function
 
 /*
-// 사용자 예약 영역
+// user reserved area
 typedef struct {
     GSM_Error (*SetIncomingCall)    (GSM_StateMachine *s, bool enable);
 } GSM_AT_Functions_User;
@@ -213,10 +211,10 @@ typedef struct {
 
 
 
-// 가장 상위의 구조체
+// The hightest structure
 struct _GSM_StateMachine {
     bool opened;    //
-    int  ReplyNum;  // AT command를 호출할때의 횟수. 통상 1회이다. 삭제 검토
+    int  ReplyNum;  // The count of calling the AT command. normally this is 1.
     GSM_Device             Device;
     GSM_Phone              Phone;
 };

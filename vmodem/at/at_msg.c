@@ -118,12 +118,6 @@ void ATFreeAllMultiNodeList(void)
 	g_ATpHead = g_ATpTail = NULL;
 }
 
-/*	++ 2008-09-29.
-	++ Name : PushHDLCMultiFrameInfo
-	++ Args : HDLCFrame_t const* pframe
-	++ Multi frame 일 때, ID를 check 하는 부분이 없다.
-	++ ID 비교해서 이것이 single message인지 multiple message인지 판단하는 부분이 필요하다.
-*/
 void ATPushHDLCMultiFrameInfo(HDLCFrame_t const* pframe)
 {
 	TRACE(MSGL_VGSM_INFO, "\n");

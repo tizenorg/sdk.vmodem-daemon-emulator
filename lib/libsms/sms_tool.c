@@ -1153,7 +1153,7 @@ BOOL EncodeSmsSubmitTpdu(char* diallingNum, int dialNumLen, char* msg, int msg_l
 
 	BYTE  packet[TAPI_NETTEXT_MSG_SIZE_MAX];
 
-	BYTE  SCA[TAPI_NETTEXT_SCADDRESS_LEN_MAX]; //send SMS 할때 사용하는 실제 SCA값
+	BYTE  SCA[TAPI_NETTEXT_SCADDRESS_LEN_MAX]; // real SCA value for sending SMS
 	//BYTE  ScaAddr[TAPI_NETTEXT_SCADDRESS_LEN_MAX];  // in
 	SmsAddressInfo  szSCAddr;
 	BYTE  decodeScaAddr[TAPI_NETTEXT_SCADDRESS_LEN_MAX];
@@ -1179,7 +1179,7 @@ BOOL EncodeSmsSubmitTpdu(char* diallingNum, int dialNumLen, char* msg, int msg_l
 
 	/************SCA ADDRESS GET START**************/
 	//TO DO
-	//SCA값 채우기
+	//fill the SCA value
 	//TapiGetServiceCenterAddress(&szSCAddr);
 	strcpy( SCA, "820199111" );
 	/*

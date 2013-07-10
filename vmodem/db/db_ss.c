@@ -244,7 +244,7 @@ static int vgsm_ss_sqlite_init(void)
 			log_msg(MSGL_VGSM_INFO,"vgsm_ss_sqlite_init: sqlite3_exec: %s\n",mesg);
 			sqlite3_free(mesg);
 		}
-		//goto Done; //존재 한다면, 그 이후 table은 못만든다. 이 부분 삭제검토.
+		//goto Done; // if it exist, next tables could be generated. so comment out.
 	}
 
 	// create the call barring  table
@@ -1114,7 +1114,7 @@ call_barring_entry_t * get_call_barring_entry()
 	return (call_barring_entry_t *)&g_cb_entry;
 }
 
-//class와 type값은 다시 리턴해줄 필요가 없다. -> status만 알려주면 됨
+//We don't have to return class and type again. notify 'status' only.
 
 call_barring_entry_t g_cb_entry_tmp;
 
@@ -1253,7 +1253,6 @@ call_barring_entry_t *  find_call_barring_entry(int tel_class, int type)
                                 status = SS_MODE_DEACT;
                 }
 	}
-	// 이부분 확인하자. db에 없는것을 데이타를 어덯게 줄지 생각....
 	entry = &g_cb_entry_tmp ;
 
 	memset(entry, 0, sizeof(call_barring_entry_t));
@@ -1339,7 +1338,6 @@ call_forwarding_entry_t * find_call_forwarding_entry(int tel_class, int type)
 	}
 	log_msg(MSGL_VGSM_INFO,"entry is not found !!! \n");
 
-	// 이부분 확인하자. db에 없는것을 데이타를 어덯게 줄지 생각....
 	//entry = (call_forwarding_entry_t *)malloc(sizeof(call_forwarding_entry_t));
 	entry = &g_cf_entry_tmp;
 

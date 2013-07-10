@@ -31,26 +31,21 @@
 #define _vgsm_phone_h_
 
 /* 
- * I858 TAPI 부가 설명
+ * additional explanation of I858 TAPI
  *
- * I858 TAPI API는 I519/I819와 크게 다르지 않다. 또한 
- * 1. 프로젝트의 동시 진행으로 인한 구분 필요.
- * 2. GSM Only Mode만에서만 필요한 내용들을 위한 신규 내용
- * 을 위해서 디렉토리는 분리하였슴.
+ * I858 TAPI API is not much different from I519/I819. Also
+ * Also we devide the directory for
+ * 1. separation for parallel project going
+ * 2. the only new feature of GSM Only Mode
  *
- * - TAPI 
- * Dialer, PhoneBook등의 phone client와 phone server와의 데이타 교화에
- * 필요한 패킷의 기본 구조는 동일하며 각각에 대한 내용은 아래의 주석을
- * 참고 바람.
  *
- * - TAPI packet 기본 구조. TAPI packet의 RX, TX는 아래와 같이 동일한 형태
+ * - the basic structure of TAPI packet. RX, TX is same as below.
  * +--------+--------+-------------+---------------------------------------+
  * |MAIN CMD|SUB CMD | Data Length |  DATA                                 |
  * | 1byte  | 1byte  |  2bytes     |   Data Length's Byte(s)               |
  * +--------+--------+-------------+---------------------------------------+
  *
-  * Data Length는 DATA의 길이만을 의미한다. 즉 데이타가 없는 경우에는 Length는
- * 0이 된다.
+ * Data Length is only for DATA, that is, the Length will be 0 when the DATA is null.
  *
  */
 
@@ -88,7 +83,7 @@
    --------------------------------------------------------------------------*/
 
 /*
- * Length : Caller ID 길이(VAR) 
+ * Length : Caller ID length (VAR)
  * Data   : 
  * - Caller ID 
  */
@@ -122,7 +117,7 @@
 /*
  * Length : VAR
  * Data   :
- * - GSM_MPTY_OPERATION : 1byte (mzgsmcall.h 참조)
+ * - GSM_MPTY_OPERATION : 1byte (see mzgsmcall.h)
  * - GSM_MPTY_PARAM_ID  : 1byte
  * - parameter length   : 1byte
  * - param              : VAR
@@ -156,7 +151,7 @@
 #define GSM_CALL_LIST_CFRM                    0x2B
 
 /*
- * Length : Caller ID 길이 (VAR) 
+ * Length : Caller ID length (VAR)
  * Data   : 
  * - Caller ID 
  */
@@ -177,7 +172,7 @@
  * - Call ID Length(1byte)
  * - Call ID       (VAR)
  *
- * 주의 : CLIR_CAUSE는 삭제
+ * CAUTION : CLIR_CAUSE is deleted.
  */
 
 #define GSM_CALL_INCOMING_NOTI                0x21
@@ -186,8 +181,9 @@
  * Data   :
  * - Call ID      (1byte)
  * - Forwared     (1byte)
- * - Status       (1byte)  mzgsmcall.h 에 있는 값과 설명을 참조
- * 주의 : CAUSE, NUM_CALLS_IN_USE는 삭제
+ * - Status       (1byte)  // see the value and comment on mzgsmcall.h
+ *
+ * CAUTION : CAUSE, NUM_CALLS_IN_USE are deleted
  */
 #define GSM_CALL_STATUS_NOTI                  0x22
 /*
@@ -199,11 +195,11 @@
  *
  * - Call Count     (1byte)
  *
- *   이하 5바이트는 Call Count 만큼 반복.
+ * the 5 byte below is repeated as Call Counts.
  * - Call ID        (1byte)
- * - GSM_Call_Dir   (1byte) mzgsmcall.h 참조
- * - GSM_Call_Stat  (1byte) mzgsmcall.h 참조
- * - GSM_Call_Mode  (1byte) mzgsmcall.h 참조(Voice만 취급할것)
+ * - GSM_Call_Dir   (1byte) see mzgsmcall.h
+ * - GSM_Call_Stat  (1byte) see mzgsmcall.h
+ * - GSM_Call_Mode  (1byte) see mzgsmcall.h (only about Voice..)
  * - MPTY           (1byte) 0x01 mpty, 0x00 single
  */
 #define GSM_CALL_LIST_RES                     0x23
@@ -213,8 +209,8 @@
  * (Call Count) + VAR(Call Count * 1)
  * DATA   :
  * - result (1byte) 
- * - GSM_MPTY_OPERATION (1byte) mzgsmcall.h 참조
- * - GSM_MPTY_PARAM_ID  (1byte) mzgsmcall.h 참조
+ * - GSM_MPTY_OPERATION (1byte) see mzgsmcall.h
+ * - GSM_MPTY_PARAM_ID  (1byte) see mzgsmcall.h
  * - active call count  (1byte)
  * - active call list   (VAR)
  */
@@ -398,7 +394,7 @@
 
 /*
  * Length : 1 + 1 + VAR(Network Name)
- * - State        (1byte) mzgsmnet.h 에 있는 값과 설명을 참조
+ * - State        (1byte) see mzgsmnet.h
  * - Length       (1byte) Network Name Length
  * - Network Name (VAR)
  */
@@ -410,7 +406,7 @@
  * - String        VAR
  *
  */
-// CAUTION : 향후 문자열이 아닌 인덱스값만 전달되는 것으로 수정
+// CAUTION : This will be fixed to send the only index, not string.
 #define GSM_NETWORK_SMNT_NOTI                 0x32
 
 /*
@@ -480,7 +476,7 @@
    GSM_SUPS : Sups Service TX function
    --------------------------------------------------------------------------*/
 /*
- * Length : MMI String 길이(VAR) 
+ * Length : MMI String length
  * Data   : 
  * - MMI String
  */
@@ -489,17 +485,17 @@
 /*
  * Length : 1(fac value) + 1(class)
  * Data   :
- * - fac value (1byte) mzgsmsups.h 참조
- * - class     (1byte) mzgsmmisc.h 참조
+ * - fac value (1byte) see mzgsmsups.h
+ * - class     (1byte) see mzgsmmisc.h
  */
 #define GSM_SUPS_GET_FAC_LOCK_STATUS_REQ      0x42
 
 /*
  * Length : 1(fac value) + 1(class) + 1(mode) + 1(pw length) + VAR(passwd)
  * Data   :
- * - fac value (1byte) mzgsmsups.h 참조
- * - class     (1byte) mzgsmmisc.h 참조
- * - mode      (1byte) mzgsmsups.h 참조
+ * - fac value (1byte) see mzgsmsups.h
+ * - class     (1byte) see mzgsmmisc.h
+ * - mode      (1byte) see mzgsmsups.h
  * - pw length (1byte)
  * - passwd    (pw length bytes)
  */
@@ -508,14 +504,14 @@
 /*
  * Length : 1(the reason)
  * Data   :
- * - GSM_CF_Reason    (1byte) mzgsmsups.h 참조
+ * - GSM_CF_Reason    (1byte) see mzgsmsups.h
  */
 #define GSM_SUPS_GET_CCFC_REQ                 0x44
 
 /*
  * Length : sizeof (struct GSM_CF_Data)
  * Data   :
- * - GSM_CF_Data    (1byte) mzgsmsups.h 참조
+ * - GSM_CF_Data    (1byte) see mzgsmsups.h
  */
 #define GSM_SUPS_SET_CCFC_REQ                 0x45
 
@@ -582,7 +578,7 @@
 #define GSM_SUPS_AOC_SET_PPU_REQ              0x4D
 
 /*
- * Length : USSD String 길이(VAR) 
+ * Length : USSD String length
  * Data   : 
  * - USSD String
  */
@@ -628,8 +624,8 @@
  * Length : 1(status) + 1(fac value) + 1(class)
  * Data   :
  * - status      (1byte) 0x00 : not active, 0x01 : active  
- * - fac   value (1byte) mzgsmsups.h 참조
- * - class value (1byte) mzgsmsups.h 참조
+ * - fac   value (1byte) see mzgsmsups.h
+ * - class value (1byte) see mzgsmsups.h
  */
 #define GSM_SUPS_GET_FAC_LOCK_STATUS_RES      0x41
 
@@ -637,7 +633,7 @@
  * Length : 1(fac value) + 1(class) + 1(mode)
  * Data   :
  * - result (1byte) 
- * - fac    (1byte) mzgsmsups.h 참조
+ * - fac    (1byte) see mzgsmsups.h
  * - remain (1byte)
  */
 #define GSM_SUPS_SET_FAC_LOCK_STATUS_RES      0x42
@@ -646,7 +642,7 @@
  * Length : 1(status) + 1(class) + 1(number_length) + VAR(number) +
  *          1(time)
  * Data   :
- * - GSM_CF_Status   (1byte) mzgsmsups.h 참조
+ * - GSM_CF_Status   (1byte) see mzgsmsups.h
  * - GSM_ClassX      (1byte)
  * - length          (1byte)
  * - DN              (VAR)
@@ -657,8 +653,8 @@
 /*
  * Length : 1(Activation Status) + 1(Network Provisioning Status)
  * Data   :
- * - CLIR_Activation_Status (1byte) mzgsmsups.h 참조
- * - CLIR_Provision_Status  (1byte) mzgsmsups.h 참조
+ * - CLIR_Activation_Status (1byte) see mzgsmsups.h
+ * - CLIR_Provision_Status  (1byte) see mzgsmsups.h
  */
 #define GSM_SUPS_GET_CLIR_RES                 0x44
 
@@ -802,38 +798,38 @@
 /*
  * Length : 4
  * - CMD ID       (2bytes) Debug command ID
- * - param1       (1byte)  H/W 설정을 위한 parameter1
- * - param2       (1byte)  H/W 설정을 위한 parameter2
+ * - param1       (1byte)  parameter1 for H/W setting
+ * - param2       (1byte)  parameter2 for H/W setting
  */
 #define GSM_MISC_DEBUG_HW_REQ                 0x62
 
 /*
  * Length : 1
- * - RAMDUMP Trace (1byte) RAMDUMP를 accept할것인지의 여부
+ * - RAMDUMP Trace (1byte)  The flag of RAMDUMP acceptance.
  */
 #define GSM_MISC_RAMDUMP_REQ                  0x63
 
 /*
  * Length : 0
- * - IMEI 조회
+ * - request IMEI
  */
 #define GSM_MISC_IMEI_REQ                     0x64
 
 /*
  * Length : 0
- * - IMSI 조회
+ * - request IMSI
  */
 #define GSM_MISC_IMSI_REQ                     0x65
 
 /*
  * Length : 0
- * - Phone Version 조회
+ * - request the Phone Version
  */
 #define GSM_MISC_VERSION_INFO_REQ             0x66
 
 /*
  * Length : 0
- * - SIM의 상태와 망상태를 조회한다.
+ * - request SIM and network status.
  */
 #define GSM_MISC_INTERNAL_MODE_REQ            0x67
 
@@ -857,8 +853,8 @@
 
 /*
  * Length : (1) + (2)
- * - Error type : (1byte) mzgsmerror.h 참조
- * - CME or CMS : (2bytes)CME 혹은 CMS 에러코드
+ * - Error type : (1byte) see mzgsmerror.h
+ * - CME or CMS : (2bytes) error code for CME or CMS
  */
 #define GSM_MISC_ERROR_RESPONSE               0x63
 
@@ -910,7 +906,7 @@
 /*
  * Length : 2bytes
  * Data   :
- * - Indicator (1byte) mzgsmmisc.h에 있는 값과 설명을 참조
+ * - Indicator (1byte) see mzgsmmisc.h
  * - Value     (1byte) 
  */
 #define GSM_DISPLAY_INDICATOR_NOTI            0x71
@@ -1124,8 +1120,8 @@
    --------------------------------------------------------------------------*/
 /*
  * Length : 1
- * - State        (1byte) mzgsmnet.h에 있는 값과 설명을 참조
- * GPRS state와 Network Registration state는 유사하므로 같이 사용한다.
+ * - State        (1byte) see mzgsmnet.h
+ * GPRS state and Network Registration state are similar.
  */
 #define GSM_DATA_GPRS_REG_NOTI                0xA1
 
@@ -1141,7 +1137,7 @@
 
 /*
  * Length : 1
- * dummy 1 byte (사용하지 않음)
+ * dummy 1 byte (doesn't be used)
  */
 #define GSM_DATA_CSD_CONNECT_NOTI             0xA4
 
@@ -1200,17 +1196,17 @@
 #define GSM_DATA_GPRS_INIT_REQ	0xAF
 
 /* --------------------------------------------------------------------------
-   GSM_EXT : 공정 모드 
+   GSM_EXT : Gong Jung mode
    --------------------------------------------------------------------------*/
 /*
- * Length : IMEI 길이 (VAR) 
+ * Length : IMEI length
  * Data   : 
  * - IMEI Value
  */
 #define GSM_EXT_SET_IMEI_REQ                  0xB1
 
 /*
- * Length : BTMAC 길이 (VAR) 
+ * Length : BTMAC length
  * Data   : 
  * - BTMAC Value
  */
@@ -1439,7 +1435,7 @@
    --------------------------------------------------------------------------*/
 
 /*
- * Length : HDLC 길이
+ * Length : HDLC length
  * Data   : HDLC
  * - Caller ID
  */
