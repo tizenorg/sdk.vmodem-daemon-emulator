@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -108,7 +110,7 @@ int UART_PSI_load (void)
 	unsigned char ch;
 	int length = 0;
 	unsigned int data_len = 0;
-	unsigned char *data_buffer;
+	unsigned char *data_buffer = NULL;
 	int i;
 	int nCRC = 0;
 	int at_num = 0;
@@ -237,6 +239,8 @@ int UART_PSI_load (void)
 	
 	/* Read PSI from AP */
 	data_buffer = (unsigned char *)malloc(data_len);
+	if(!data_buffer)
+		goto error;
 	bzero((char *)data_buffer, data_len);
 
 	nCRC = 0;
@@ -279,12 +283,16 @@ int UART_PSI_load (void)
 	}
 
 	/* Finish the downloading of PSI*/
-	close(AT_socket);	
+	close(AT_socket);
+	if(data_buffer)
+		free(data_buffer);
 	return 1;
 	
 error:
-	if(AT_socket > 0)
+	if(AT_socket >= 0)
 		close(AT_socket);
+	if(data_buffer)
+		free(data_buffer);
 	return 0;
 }
 

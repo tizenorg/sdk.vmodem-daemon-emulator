@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -112,7 +114,9 @@ int server_sim_db_init()
 //080226 -for mem free in mem alloc func. void -> int.
 int server_sec_set_sec_db_info(SimSecurity *sim_sec,int  ncol)
 {
-	SIM_DEBUG("\n");
+	SIM_DEBUG("server_sec_set_sec_db_info\n");
+	if(sim_sec == NULL)
+		return -1;
 //init
 	memset(g_pin_value,0,9);
 	memset(g_puk_value,0,9);

@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -60,6 +62,8 @@ int server_rx_net_plmn_list_get(void)
 
 	len = 1+(plmn_list->num_record*10);
 	data = malloc(len);
+	if(!data)
+		return 0;
 
 	data[n++] = plmn_list->num_record; /* NUM_RECORD */
 	sprintf(sndbuf, "%s", COPS);

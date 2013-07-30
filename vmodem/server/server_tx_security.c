@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -79,6 +81,8 @@ int server_tx_sim_sec_disable_facility(void)
 	TAPIMessageInit(&packet);
 
 	packet.data	=	malloc(2);
+	if(!packet.data)
+		return -1;
 	p			=	(unsigned char *)(packet.data);
 
 	packet.group	=	GSM_SIM;
@@ -250,6 +254,8 @@ int server_tx_sim_sec_card_type_noti(void)
 	SIM_DEBUG("\n");
 
 	pdata = malloc(sizeof(unsigned char)*data_size);
+	if(!pdata)
+		return -1;
 
 	pdata[0] = GSM_SEC_SIM_3G;
 
@@ -277,6 +283,8 @@ int server_tx_sim_sec_pin_status_noti(STATE_TYPE before_state, STATE_TYPE curren
 	SIM_DEBUG("\n");
 
 	pdata = malloc(sizeof(unsigned char)*data_size);
+	if(!pdata)
+		return -1;
 
 //	get_current_state_machine( &current );
 //	get_prev_state_machine( &prev );

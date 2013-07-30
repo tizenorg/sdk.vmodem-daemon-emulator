@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -85,6 +87,9 @@ int server_tx_call_status(void) // it means call state.
 
 	LXT_MESSAGE packet;
 	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+	if(!callList)
+		return -1;
+	memset(callList, 0, sizeof(gsm_call_list_t));
 
 	get_prev_state_machine( &prev );
 
@@ -127,6 +132,9 @@ int server_tx_call_status(void) // it means call state.
 		packet.length = sizeof(gsm_call_list_t);
 
 		FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
+		if(get_call_id() >= callList->CallCount) {
+			callback_callist();
+		}
 	}
 	else if( STATE_TYPE(prev) == STATE_CALL_RELEASED )
 	{
@@ -156,7 +164,7 @@ int server_tx_call_status(void) // it means call state.
 	int at_stat = change_stat_for_at(callList->CallInfo[get_call_id()].stat);
 	TRACE(MSGL_VGSM_INFO, "call id:%d, orignal stat: %d, send stat: %d\n", get_call_id(), callList->CallInfo[get_call_id()].stat, at_stat);
 	
-	if(callList->CallInfo[get_call_id()].number)
+	if(strcmp(callList->CallInfo[get_call_id()].number, ""))
 	{
 		sprintf((char*)pdata, "%d,%d,%d,%d,%d,%s,%d", get_call_id() + 1, change_dir_for_at(callList->CallInfo[get_call_id()].dir), 
 								at_stat, AT_CALL_MODE_VOICE, AT_CALL_MPTY_FALSE, 
@@ -345,9 +353,9 @@ static void cast_call_incomming(unsigned char call_id)
 
 int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing call.
 {
-	int num_len = 0, ret = 0;
+	int num_len = 0, ret = 0, tmp = 0;
 	char number[MAX_GSM_DIALED_DIGITS_NUMBER];
-	char *p, data[8 + MAX_GSM_DIALED_DIGITS_NUMBER];
+	char *p, data[MAX_GSM_DIALED_DIGITS_NUMBER*2];
 	unsigned char ss_present_indi ;
 	unsigned char ss_call_type ;
 	unsigned char ss_no_cli_cause ;
@@ -359,7 +367,23 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 	int call_exist = 0;  //  현재 call list에, call이 없다면 incoming noti 전송한다.
 	unsigned short call_type;
 
+	int i;
+	call_barring_entry_t * resp_entry = get_call_barring_entry() ;
+
 	TRACE(MSGL_VGSM_INFO, "\n");
+
+	if(!resp_entry)
+		TRACE(MSGL_VGSM_INFO, "CB entry is NULL!!!\n");
+	else {
+		for(i=0; i<resp_entry[0].count; i++) {
+			TRACE(MSGL_VGSM_INFO,"i : %d,  type : %d\n", i, resp_entry[i].type);
+			if(resp_entry[i].type == 4 && resp_entry[i].ss_mode == 3) { // 'All incoming calls' has set
+				TRACE(MSGL_VGSM_ERR, "Incoming Call Barring is set \n");
+				callback_callist();
+				return -1;
+			}
+		}
+	}
 
 	get_current_state_machine( &state );
 	if( ( state.state_type == STATE_CALL_WAITING_OUTGOING ) ||
@@ -406,8 +430,19 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) //망입장에선 outgoing c
 	}
 	else
 	{
-		num_len = p[3];
+		tmp = (int)p[3];
+		if(tmp < 0){
+			TRACE(MSGL_VGSM_INFO, "ERROR!! Invalid value of packet.data.\n");
+			callback_callist();
+			return -1;
+		} else if ( tmp >= MAX_GSM_DIALED_DIGITS_NUMBER){
+			TRACE(MSGL_VGSM_INFO, "The number is too long. It will be cut.\n");
+			num_len = MAX_GSM_DIALED_DIGITS_NUMBER - 1;
+		} else {
+			num_len = tmp;
+		}
 		memcpy(number, &p[7], num_len);
+		number[num_len] = '\0';
 		log_msg(MSGL_VGSM_INFO,"  call num len %d  \n", num_len);
 		ss_present_indi = 0;
 		ss_no_cli_cause = 0;
@@ -486,6 +521,8 @@ int server_tx_call_release_exec(LXT_MESSAGE * packet )
 	// STATE_CALL_WAITING_INCOMING
 
 	gsm_call_list_t *callList = malloc(sizeof(gsm_call_list_t));
+	if(!callList)
+		return -1;
 
 	p = (unsigned char *)packet->data; // call id
 
@@ -506,6 +543,7 @@ int server_tx_call_release_exec(LXT_MESSAGE * packet )
 	}
 
 	_LEAVE();
+	free(callList);
 	return ret;
 }
 
@@ -527,6 +565,35 @@ int server_tx_call_answer_exec(void)
 	   ( list.CallInfo[get_call_id()].stat == GSM_Call_Held ) )
 	   return 0;
 	 */
+	int i = 0;
+	int alerted_id = -1;
+
+	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+
+	if(!callList) {
+		return -1;
+	}
+
+	get_call_list(callList);
+
+	if(callList->CallCount < 1) {
+		TRACE(MSGL_VGSM_ERR, "The call-count is %d!!\n", callList->CallCount);
+		free(callList);
+		return -1;
+	}
+
+	for (i=0; i < MAX_CALL_COUNT; i++) {
+		if( callList->CallInfo[i].stat == GSM_CALL_STATUS_ALERT ) {
+			alerted_id = callList->CallInfo[i].idx;
+			break;
+		}
+	}
+
+	if(alerted_id != get_call_id()) {
+		TRACE(MSGL_VGSM_INFO, "Current g_call_id(%d) is not the alerted_id(%d)\n", get_call_id(), alerted_id);
+		set_call_id(alerted_id);
+	}
+
 
 	set_current_state( STATE_CALL_WAITING_OUTGOING, GSM_CALL_CMD, GSM_CALL_ANSWER);
 
@@ -534,6 +601,8 @@ int server_tx_call_answer_exec(void)
 		set_state_machine( next );
 		send_msg();
 	}
+
+	free(callList);
 
 	_LEAVE();
 	return 1;
@@ -562,6 +631,34 @@ int server_tx_call_alert_ind(void *ptr_data, int data_len )
 
 	//send noti ( alert  )to Phone
 	unsigned short call_type = get_call_type();
+	int i = 0;
+	int dialing_id = -1;
+
+	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+
+	if(!callList) {
+		return -1;
+	}
+
+	get_call_list(callList);
+
+	if(callList->CallCount < 1) {
+		TRACE(MSGL_VGSM_ERR, "The call-count is %d!!\n", callList->CallCount);
+		free(callList);
+		return -1;
+	}
+
+	for (i=0; i < MAX_CALL_COUNT; i++) {
+		if( callList->CallInfo[i].stat == GSM_CALL_STATUS_DIALING ) {
+			dialing_id = callList->CallInfo[i].idx;
+			break;
+		}
+	}
+
+	if(dialing_id != get_call_id()) {
+		TRACE(MSGL_VGSM_INFO, "Current g_call_id(%d) is not the dialing_id(%d)\n", get_call_id(), dialing_id);
+		set_call_id(dialing_id);
+	}
 
 	char sndbuf[SEND_BUF_SIZE];
 	memset(sndbuf, '\0', sizeof(sndbuf));
@@ -573,6 +670,7 @@ int server_tx_call_alert_ind(void *ptr_data, int data_len )
 
 	callback_callist();		// renewal call_list in the EI
 
+	free(callList);
 	return oem_tx_call_status_noti(sndbuf, strlen(sndbuf));
 }
 
@@ -584,6 +682,8 @@ int server_tx_call_release_internal(int call_id)
 	LXT_MESSAGE packet;
 	STATE next;
 	gsm_call_list_t * list = malloc(sizeof(gsm_call_list_t));
+	if(!list)
+		return -1;
 
 	TRACE(MSGL_VGSM_INFO, "\n");
 
@@ -616,11 +716,11 @@ int server_tx_call_release_internal(int call_id)
 	if(list){
 		packet.data = list;
 		packet.length = sizeof(gsm_call_list_t);
-	}
+	}/* Execution cannot reach this statement
 	else{
 		packet.data = NULL;
 		packet.length = 0;
-	}
+	}*/
 
 	packet.group  = GSM_CALL;
 	packet.action = GSM_CALL_STATUS_NOTI;

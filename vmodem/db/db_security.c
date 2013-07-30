@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -1011,8 +1013,10 @@ int db_sim_sec_add(void)
 	SIM_DEBUG("\n");
 
 	sim_sec = malloc(sizeof(SimSecurity));
+	if(!sim_sec)
+		return -1;
 
-	memset(sim_sec,0,sizeof(sim_sec));
+	memset(sim_sec,0,sizeof(SimSecurity));
 
 	memcpy(sim_sec->pin_value,pin,strlen(pin)+1);
 	memcpy(sim_sec->pin2_value,pin2,strlen(pin2)+1);
@@ -1063,9 +1067,6 @@ int db_sim_sec_add(void)
 
 	SIM_DEBUG("SQL statement : %s\n", str);
 
-	if(sim_sec)
-		free(sim_sec);
-
 	// add a row
 	err = sqlite3_exec(db,str,0,0,&mesg);
 
@@ -1084,6 +1085,7 @@ Done:
 	// close the database
 	if (db) sqlite3_close(db);
 
+	if(sim_sec) free(sim_sec);
 	// return status
 	return err == SQLITE_OK ? SIM_SUCCESS : err;
 }

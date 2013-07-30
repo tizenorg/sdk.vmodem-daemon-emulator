@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -32,10 +34,10 @@ int vgsm_data_status(LXT_HANDLE* handle, GSM_DataCallStatus status)
 	int nretn = 0;
 	int	length = 4;
 
-	unsigned char * pdata = (unsigned char *) malloc(length);
-
 	if( handle == NULL )
 		return -1;
+
+	unsigned char * pdata = (unsigned char *) malloc(length);
 
 	if (!pdata)
 		return (-1);

@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -38,6 +40,7 @@
 #include "at_recv.h"
 #include "at_gen_resp.h"
 #include "sms_util.h"
+#include "flight.h"
 #include <vconf/vconf.h>
 #include <vconf/vconf-keys.h>
 
@@ -84,6 +87,7 @@ int server_rx_sms_SendMsg(void *ptr_data, int data_len)
 {
 	unsigned char rawdata[0x100];
 	int rawdata_len = 0, rssi = 5;
+	bool flightMode = false;
 	unsigned char data[data_len];
 
 	LXT_MESSAGE	packet;
@@ -102,13 +106,14 @@ int server_rx_sms_SendMsg(void *ptr_data, int data_len)
 	
 	sms_msg_hook_modify(packet.data, packet.length);
 
-	// check RSSI level	
+	// check RSSI level and flight mode
+	flightMode = is_flight_mode();	
 	if(vconf_get_int(VCONFKEY_TELEPHONY_RSSI, &rssi))
 	{
 		TRACE(MSGL_WARN, "vconf_get_int(%s) fail\n", VCONFKEY_TELEPHONY_RSSI);
 	}
 
-	if(smsSentStatus == 0 && rssi != 0)
+	if(smsSentStatus == 0 && rssi != 0 && flightMode == false)
 	{
 		FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
 

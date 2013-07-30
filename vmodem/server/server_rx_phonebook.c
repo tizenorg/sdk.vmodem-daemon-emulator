@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -118,6 +120,8 @@ int server_rx_sim_pb_set_access_req(void* ptr_data, int data_len)
 			{
 				cnt++;//mode
 				pb= malloc(sizeof(PB));
+				if(!pb)
+					return -1;
 				memset(pb,0,(sizeof(PB)));
 				add_len=p[cnt];
 
@@ -156,6 +160,8 @@ int server_rx_sim_pb_set_access_req(void* ptr_data, int data_len)
 			case 0x02://DELETE
 			{
 				pb= malloc(sizeof(PB));
+				if(pb == NULL)
+					return -1;
 				memset(pb,0,(sizeof(PB)));
 
 				add_len=p[cnt];

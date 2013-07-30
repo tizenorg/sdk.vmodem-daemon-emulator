@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -98,7 +100,9 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 	unsigned char call_id;
 	STATE next;
 
-	number = malloc(MAX_GSM_DIALED_DIGITS_NUM);
+	number = malloc(MAX_GSM_DIALED_DIGITS_NUM+1);
+	if(!number)
+		return -1;
 	TRACE(MSGL_VGSM_INFO, "\n");
 	char* call_data = strchr((char*)p, 'D');
         char token[] = ";";
@@ -134,6 +138,8 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 
 		oem_tx_call_gen_resp(AT_CME_ERR_OPER_NOT_ALLOWED);
 	
+		if(number)
+			free(number);
 		return 1;
 	}
 	oem_tx_call_gen_resp(AT_GEN_ERR_NO_ERROR);
@@ -143,20 +149,23 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 	
 	unsigned char data[MAX_GSM_DIALED_DIGITS_NUMBER+4];
 
-	if (num_len > MAX_GSM_DIALED_DIGITS_NUMBER)
-		num_len = MAX_GSM_DIALED_DIGITS_NUMBER;
+	if (num_len >= MAX_GSM_DIALED_DIGITS_NUMBER)
+		num_len = MAX_GSM_DIALED_DIGITS_NUMBER - 1;
 
 	data[0] = call_id;
 	data[1] = call_type;
 
-	if(clir_status == GSM_CALL_CLIR_STATUS_INVOCATION)
-		num_len = 0;
+	// On this path, the condition "clir_status == GSM_CALL_CLIR_STATUS_INVOCATION" cannot be true.
+	// Because clir_status = GSM_CALL_STATUS_DIALING;
+	//if(clir_status == GSM_CALL_CLIR_STATUS_INVOCATION)
+	//	num_len = 0;
 
 	data[2] = num_len;
 	data[3] = clir_status;
 
 	memset(&data[4], 0, MAX_GSM_DIALED_DIGITS_NUMBER);
 	memcpy(&data[4], number, num_len);
+	data[4+num_len] = '\0';
 
 	LXT_MESSAGE packet;
 	TAPIMessageInit(&packet);
@@ -187,6 +196,8 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 		set_state_machine( next );
 		send_msg();
 	}
+	if(number)
+		free(number);
 	return 1;
 }
 

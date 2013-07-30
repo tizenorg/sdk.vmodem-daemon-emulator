@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -77,6 +79,8 @@
 #include "at_msg.h"
 #include "vgsm_phone.h"
 /* end */
+#include <vconf/vconf.h>
+#include <vconf/vconf-keys.h>
 
 #define MAX_RESULT_LENGTH 1024
 
@@ -87,6 +91,10 @@ extern GSM_StateMachine           GlobalS;
 
 #define MMI_SC_LENGTH2          14
 #define MMI_SC_LENGTH3          10
+
+#define MMS_SEND_OK		10
+#define MMS_SEND_FAIL		11
+#define MMS_MODIFIER		10
 
 #if 0
 static char * mmi_sc2[] =
@@ -204,11 +212,42 @@ void do_ext(PhoneServer* ps, TClientInfo * ci, LXT_MESSAGE * packet)
 // 090326 		// restore data in EI
 static void do_restore_ei(PhoneServer* ps, TClientInfo * ci, LXT_MESSAGE * packet)
 {
+	unsigned char data[MAX_GSM_DIALED_DIGITS_NUMBER+4];
+
 	log_msg(MSGL_VGSM_INFO,"do_restore_EI\n");
 
 	init_ss_info_re();
 	init_plmn_list();
 	server_sim_db_init();
+	
+	gsm_call_list_t * callList = malloc(sizeof(gsm_call_list_t));
+	LXT_MESSAGE MOpacket;
+        TAPIMessageInit(&MOpacket);
+	int i = 0;
+
+	get_call_list(callList);
+
+	for( i=0; i<MAX_CALL_COUNT; ++i )
+	{
+        	if(callList->CallInfo[i].stat == GSM_CALL_STATUS_DIALING || callList->CallInfo[i].stat == GSM_CALL_STATUS_ALERT)
+		{
+			data[0] = callList->CallInfo[i].idx;
+		        data[1] = callList->CallInfo[i].call_type;
+		        data[2] = callList->CallInfo[i].num_len;
+		        data[3] = callList->CallInfo[i].stat;
+        
+		        memset(&data[4], 0, MAX_GSM_DIALED_DIGITS_NUMBER);
+		        memcpy(&data[4], callList->CallInfo[i].number, callList->CallInfo[i].num_len);  
+   			MOpacket.data = data;
+		        MOpacket.group  = GSM_CALL;
+		        MOpacket.action = GSM_CALL_MAKE_REQ;
+		        MOpacket.length = callList->CallInfo[i].num_len + 4;
+        
+		        FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &MOpacket);
+		}
+	}
+
+        free(callList);
 	callback_callist();
 
 	log_msg(MSGL_VGSM_INFO,"do_restore_EI\n");
@@ -390,6 +429,10 @@ static void preprocess_do_gprs(LXT_MESSAGE * packet)
 	}
 
 	num = *((int *)p);
+	if(num < 0 || num > (254 * sizeof(int)) ) {
+		TRACE(MSGL_VGSM_INFO, "ERROR!! Invalid value of packet.data.\n");
+		return;
+	}
 
 	pos = p + sizeof(int);
 
@@ -539,7 +582,7 @@ static void do_sim(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 	gsm_sec_status_type status;
 	gsm_sec_lock_mode_e_type flag;
 
-	char *password;
+	char *password = NULL;
 	PB * pb;
 
 	STATE current;
@@ -639,6 +682,8 @@ static void do_sim(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 		{
 			type = p[0];
 			password = malloc(length-1);
+			if(!password)
+				return;
 			memcpy(password,&p[1],length-1);
 
 			switch(type)
@@ -860,6 +905,8 @@ static void do_sim(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 			log_msg(MSGL_VGSM_ERR,"ERROR - Not handled action =[%x] \n", action);
 		break;
 	}
+	if(password)
+		free(password);
 }
 
 
@@ -1004,6 +1051,7 @@ static void do_sms(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 {
 	unsigned char *p;
     int action = packet->action;
+    char vconf_cmd[99];
 
     TRACE(MSGL_VGSM_INFO, "do_sms %x\n", action);
     switch (action)
@@ -1013,7 +1061,13 @@ static void do_sms(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet)
 		break;
 	case GSM_SMS_SEND_ACK_REQ:
 		p = (unsigned char *)packet->data;
-		smsSentStatus = (int)p[0];
+		if((int)p[0] == MMS_SEND_OK || (int)p[0] == MMS_SEND_FAIL){
+		    sprintf(vconf_cmd, "vconftool set -t int memory/telephony/mms_sent_status %d -i -f", ((int)p[0] - MMS_MODIFIER));
+		    TRACE(MSGL_VGSM_INFO, "system : %s\n", vconf_cmd);
+		    system(vconf_cmd);
+		} else {
+		    smsSentStatus = (int)p[0];
+		}
 
 		server_tx_sms_ReceiveAckMsg(packet);
 		break;
@@ -1127,6 +1181,8 @@ static void do_internal(PhoneServer * ps, TClientInfo * ci, LXT_MESSAGE * packet
 			int clientid;
 
 			clientid = (int)packed_S32((unsigned char *)p);
+			if(clientid == 0)
+				TRACE(MSGL_VGSM_INFO, "ERROR!! Invalid value of clientid.\n");
 			ci->klass = clientid;
 			TRACE(MSGL_VGSM_INFO, "LXT_PDA_INTERNAL_ID_REQUEST [0x%x]: %s\n", clientid, clientName[clientid]);
 
@@ -1218,7 +1274,7 @@ void do_power(PhoneServer* ps, TClientInfo * ci, LXT_MESSAGE * packet)
     {
         case LXT_PDA_POWER_ON_REQUEST :
             /*
-			 * Interanl state는 실제 dpram event에서 active를 확인한 후에 처리
+			 * Interanl state\B4\C2 \BD\C7\C1\A6 dpram event\BF\A1\BC\AD active\B8\A6 확\C0\CE\C7\D1 \C8커\A1 처\B8\AE
 			 */
 			Device->PowerOnDevice(&GlobalS, 0);
             break;
@@ -1408,12 +1464,13 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	int length;
 	//int klass = ci->klass;
 	int clientfd = ci->fd;
+	int rssi = 5;
 
-	unsigned char * p = 0;
+	//unsigned char * p = 0;
 
 	TAPIMessageInit(&packet);
 
-	rc = ReadBytes(clientfd, &packet, 4);
+	rc = ReadPacketBytes4(clientfd, &packet);
 
 	if  (rc <= 0)
 	{
@@ -1430,7 +1487,7 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	{
 		packet.data = (unsigned char *) PacketDataMalloc(packet.length + 1);
 		rc = ReadBytes(clientfd, packet.data, packet.length);
-		p = (unsigned char *)packet.data;
+		//p = (unsigned char *)packet.data;
 	}
 
 	group = packet.group;
@@ -1438,6 +1495,11 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	length = packet.length;
 
 	TRACE(MSGL_VGSM_INFO, "in client_callback, group : %x\n", group);
+
+	if(vconf_get_int(VCONFKEY_TELEPHONY_RSSI, &rssi)) {
+		TRACE(MSGL_WARN, "vconf_get_int(%s) fail\n", VCONFKEY_TELEPHONY_RSSI);
+	}
+
 	switch (group)
 	{
 	case GSM_CALL:
@@ -1445,9 +1507,11 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 		if( is_flight_mode() ){
 			TRACE(MSGL_VGSM_INFO, "Flight mode on \n");
 			callback_callist();
-			/* not call */
-		}else{
-			TRACE(MSGL_VGSM_INFO, "Flight mode off \n");
+		} else if(rssi == 0) {
+			TRACE(MSGL_VGSM_INFO, "RSSI is zero \n");
+			callback_callist();
+		} else {
+			TRACE(MSGL_VGSM_INFO, "Call ok \n");
 			do_call(ps, ci, &packet);
 		}
 		break;
@@ -1461,9 +1525,11 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 		if( is_flight_mode() ){
 			TRACE(MSGL_VGSM_INFO, "Flight mode on \n");
 			sms_response_for_eventinjector();
-			/* not sms */
-		}else{
-			TRACE(MSGL_VGSM_INFO, "Flight mode off \n");
+		} else if(rssi == 0) {
+			TRACE(MSGL_VGSM_INFO, "RSSI is zero \n");
+			sms_response_for_eventinjector();
+		} else {
+			TRACE(MSGL_VGSM_INFO, "SMS ok \n");
 			do_sms(ps, ci, &packet);
 		}
 		break;
@@ -1483,7 +1549,7 @@ static int client_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 	    do_emulator(ps, ci, &packet);
 	    break;
 	case GSM_GPRS :
-        do_gprs(ps, ci, &packet);
+	do_gprs(ps, ci, &packet);
         break;
 	case GSM_POWER :
         do_power(ps, ci, &packet);

@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -51,7 +53,8 @@ static void get_domain_socket_name(char* result)
 {
     strcpy(result, DEF_DOMAIN_SOCKET_NAME);
     strcat(result, (const char*)"-");
-    strcat(result, getenv("USER"));
+    if((strlen(result) + strlen(getenv("USER"))) < 64)
+	strcat(result, getenv("USER"));
 
 #ifndef _NO_ESPRESSO_DEBUG_
     LIBVGSM_DEBUG("[VGSM] SOCKET NAME [%s]\n", result);
@@ -80,6 +83,11 @@ static int connect_af_unix()
     // create socket
     sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
 
+    if (sockfd < 0) {
+        perror("socket");
+        return -1;
+    }
+
     // set address type
     address.sun_family = AF_UNIX;
 
@@ -96,6 +104,7 @@ static int connect_af_unix()
     if (rc == -1)
     {
         perror("connect");
+	close(sockfd);
         return -1;
     }
 
@@ -153,7 +162,7 @@ static int connect_af_inet(const char* hostname)
 static int connect_af_inet(const char* hostname)
 {
 	int sockfd;
-	struct sockaddr_in server; // = {AF_INET, 3578, {INADDR_ANY}};
+	struct sockaddr_in server = {0}; // = {AF_INET, 3578, {INADDR_ANY}};
 
 	server.sin_family = AF_INET;
 	server.sin_port = htons(3578);
@@ -167,6 +176,7 @@ static int connect_af_inet(const char* hostname)
 	if(connect(sockfd, (struct sockaddr*)&server, SIZE) == -1)
 	{
 		perror("connect() failed");
+		close(sockfd);
 		return -1;
 	}
 
@@ -244,8 +254,10 @@ LXT_HANDLE* lxt_initialize(LXT_ID_CLIENT clientclass, LXT_CALLBACK cb)
 
 	// allocate memory
 	handle = malloc(sizeof(LXT_HANDLE));
-	if (!handle)
+	if (!handle) {
+		close(sockfd);
 		return NULL;
+	}
 
 	// save client class
 	handle->clientclass = clientclass;
@@ -372,7 +384,7 @@ static int lxt_callback(LXT_HANDLE* handle)
 	}
 
 	// check length
-	if (packet.length > 0)
+	if (packet.length != 0)
 	{
 		// allocated memory
 		packet.data = malloc(packet.length);
@@ -448,11 +460,11 @@ LXT_HANDLE* vgsm_manager_initialize(LXT_CALLBACK cb)
 
 int vgsm_injector_release(LXT_HANDLE* handle)
 {
-	LIBVGSM_DEBUG("handle->fd = %d \n", handle->fd);
-
 	// check handle
 	if (handle == NULL)
 		return -1;
+
+	LIBVGSM_DEBUG("handle->fd = %d \n", handle->fd);
 
 	vgsm_client_release_notify(handle);
 

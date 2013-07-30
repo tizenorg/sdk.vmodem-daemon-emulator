@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -80,10 +82,16 @@ int server_rx_sim_sec_set_pin_status_req(void* ptr_data, int data_len)
 	if (ptr_data && data_len > 0)
 	{
 		packet.data = malloc(data_len+3 /*p[19~21]*/);
+		if(!packet.data)
+			return -1;
 		memcpy(packet.data, ptr_data, data_len);
+		p = (unsigned char *)(packet.data);
+	}
+	else {
+		SIM_DEBUG("server_rx_sim_sec_set_pin_status_req: invalid parameter, ptr_data\n");
+		return -1;
 	}
 
-	p = (unsigned char *)(packet.data);
 
 	packet.group	=	GSM_SIM;
 	/*pin->pin_len + pin->puk_len + status + remain count;*/
@@ -103,11 +111,20 @@ int server_rx_sim_sec_set_pin_status_req(void* ptr_data, int data_len)
 
 			length_p			=	p[2];	//puk
 			password			=	malloc(length_p+1);
+			if(password == NULL){
+				free(packet.data);
+				return -1;
+			}
 			memcpy(password,&p[11],length_p);
 			password[length_p]	=	'\0';
 
 			new_length_p		= p[1];	//new pin
       			new_password	= malloc(new_length_p+1);
+			if(new_password == NULL){
+				free(packet.data);
+				free(password);
+				return -1;
+			}
 			memcpy(new_password,&p[3],new_length_p);
 			new_password[new_length_p]	=	'\0';
 		}
@@ -117,6 +134,10 @@ int server_rx_sim_sec_set_pin_status_req(void* ptr_data, int data_len)
 			lock_type		=	GSM_SIM_PIN_REQ_STATE;
 			length_p		=	p[1];   //pin
 			password		=	malloc(length_p+1);
+			if(password == NULL){
+				free(packet.data);
+				return -1;
+			}
 			memcpy(password,&p[3],length_p);
 			password[length_p]	=	'\0';
 		}
@@ -212,11 +233,20 @@ int server_rx_sim_sec_set_pin_status_req(void* ptr_data, int data_len)
          		lock_type		=	GSM_SIM_PUK2_REQ;
 			length_p		=	p[2];	//puk2
 			password		=	malloc(length_p+1);
+			if(password == NULL){
+				free(packet.data);
+				return -1;
+			}
          		memcpy(password,&p[11],length_p);
 			password[length_p] = '\0';
 
 			new_length_p		= p[1];	//new pin2
 			new_password	= malloc(new_length_p+1);
+			if(new_password == NULL){
+				free(packet.data);
+				free(password);
+				return -1;
+			}
 			memcpy(new_password,&p[3],new_length_p);
 			new_password[new_length_p] = '\0';
 		}
@@ -225,6 +255,10 @@ int server_rx_sim_sec_set_pin_status_req(void* ptr_data, int data_len)
 			lock_type		=	GSM_SIM_PIN2_REQ;
 			length_p		=	p[1];   //pin2
 			password		=	malloc(length_p+1);
+			if(password == NULL){
+				free(packet.data);
+				return -1;
+			}
 			memcpy(password,&p[3],length_p);
 			password[length_p] = '\0';
 		}
@@ -554,9 +588,15 @@ int server_rx_sim_sec_check_password_req(void* ptr_data, int data_len)
         {
                 length_p = strlen(ret);
                 password = malloc(length_p+1);
+		if(!password)
+			return -1;
                 strcpy(password, ret);
                 strcat(password, "\0");
         }
+	else {
+		SIM_DEBUG("server_rx_sim_sec_check_password_req: invalid password error\n");
+		return -1;
+	}
 
 	recv_type = GSM_SEC_LOCK_TYPE_SC;
 	lock_type = GSM_SIM_PIN2_REQ;
@@ -584,8 +624,8 @@ int server_rx_sim_sec_check_password_req(void* ptr_data, int data_len)
 int server_rx_sim_sec_change_password_req(void* ptr_data, int data_len)
 {
 	int result = -1;
-        int length_p;
-        int new_length_p;
+        int length_p = 0;
+        int new_length_p = 0;
         int lock_type;
         char *password=0;
         char *new_password=0;
@@ -604,8 +644,14 @@ int server_rx_sim_sec_change_password_req(void* ptr_data, int data_len)
         {
 	        length_p = strlen(ret);
 		password = malloc(length_p+1);
+		if(!password)
+			return -1;
 		strcpy(password, ret);
 		strcat(password, "\0");
+	}
+	else {
+		SIM_DEBUG("server_rx_sim_sec_change_password_req: invalid password error\n");
+		return -1;
 	}
 	
 	ret = strtok(NULL, token);
@@ -614,8 +660,17 @@ int server_rx_sim_sec_change_password_req(void* ptr_data, int data_len)
 	{
 		new_length_p = strlen(ret);
 		new_password = malloc(new_length_p+1);
+		if(!new_password){
+			free(password);
+			return -1;
+		}
 		strcpy(new_password, ret);
 		strcat(new_password, "\0");
+	}
+	else {
+		SIM_DEBUG("server_rx_sim_sec_change_password_req: invalid new_password error\n");
+		free(password);
+		return -1;
 	}
 	
 	ret = strtok(NULL, TOKEN);
@@ -668,7 +723,7 @@ int server_rx_sim_sec_change_password_req(void* ptr_data, int data_len)
 	/* success case	*/
 	else if(result	==	SIM_SUCCESS)
 	{
-		server_sec_change_password(new_password,lock_type,length_p);
+		server_sec_change_password(new_password,lock_type,new_length_p);
 		oem_tx_sim_sec_change_password_res(AT_GEN_ERR_NO_ERROR);
 	}
 
@@ -700,6 +755,8 @@ int server_rx_sim_sec_set_phone_lock_req(void* ptr_data, int data_len)
 	if (ptr_data && data_len > 0)
 	{
           	packet.data = (unsigned char *) malloc(data_len);
+		if(!packet.data)
+			return -1;
           	memcpy(packet.data, ptr_data, data_len);
 	}
 
@@ -711,6 +768,10 @@ int server_rx_sim_sec_set_phone_lock_req(void* ptr_data, int data_len)
 
 	length_p = p[2]; //current len
 	password = malloc(length_p+1);
+	if(!password){
+		free(packet.data);
+		return -1;
+	}
 	memcpy(password,&p[3],length_p);
 	password[length_p] = '\0';
 

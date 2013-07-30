@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -43,8 +45,8 @@ bool is_flight_mode(void)
 	bool ret = false;
 	int status;
 
-	if(vconf_get_bool(VCONFKEY_SETAPPL_FLIGHT_MODE_BOOL, &status)) {
-		TRACE(MSGL_WARN, "vconf_get_bool(%s) fail\n", VCONFKEY_SETAPPL_FLIGHT_MODE_BOOL);
+	if(vconf_get_bool(VCONFKEY_TELEPHONY_FLIGHT_MODE, &status)) {
+		TRACE(MSGL_WARN, "vconf_get_bool(%s) fail\n", VCONFKEY_TELEPHONY_FLIGHT_MODE);
 		return ret; 
 	}    
 

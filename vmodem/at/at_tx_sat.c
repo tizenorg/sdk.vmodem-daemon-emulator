@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -44,10 +46,14 @@ int TxSAT_ATGetProactiveCommand(GSM_SatProactiveCmd const* pProactiveCmd)
 
 	TRACE(MSGL_VGSM_INFO, "\n");
 
-	assert(!(pProactiveCmd->length&0xff00));
+	// this is always passed because (pProactiveCmd->length&0xff00) is always 0, so comment out
+	//assert(!(pProactiveCmd->length&0xff00));
 
 	data[n++] = (pProactiveCmd->length)&0xff;
-	data[n++] = (pProactiveCmd->length >> 8)&0xff;
+	// this is always 0 because (pProactiveCmd->length >> 8) is 0, so fix like below
+	//data[n++] = (pProactiveCmd->length >> 8)&0xff;
+	data[n++] = 0;
+
 	memcpy(&data[n], pProactiveCmd->cmd, pProactiveCmd->length);
 	n += pProactiveCmd->length;
 

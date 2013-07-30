@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -50,15 +52,17 @@
 
 int vgsm_get_pb_edb(LXT_HANDLE * handle)
 {
+	if( handle == NULL )
+		return -1;
+	
 	printf("[LIBVGSM-SIM] vgsm_get_pb_edb\n");
 
 	_Pb_edb *pb_edb;
 	pb_edb = malloc(sizeof(_Pb_edb));
+	if(!pb_edb)
+		return -1;
 	memset(pb_edb,0,sizeof(_Pb_edb));
 	int ret;
-	
-	if( handle == NULL )
-		return -1;
 	
 	ret =  lxt_msg_send_message
 		(

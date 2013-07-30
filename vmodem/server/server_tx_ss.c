@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -50,6 +52,8 @@ void server_tx_ss_cw_set_req ( LXT_MESSAGE *packet)
 	int *a;
 
 	call_waiting_entry_t * entry = malloc(sizeof(call_waiting_entry_t));
+	if(!entry)
+		return;
 	memset(entry, 0, sizeof(call_waiting_entry_t));
 
 	TRACE(MSGL_VGSM_SS,"\n");
@@ -121,6 +125,9 @@ void server_tx_ss_cw_set_req ( LXT_MESSAGE *packet)
 	vgsm_ss_database_add(SS_CMD_CW, entry);
 
 	init_ss_info_re();						// restore data list in EI
+	
+	if(entry)
+		free(entry);
 }
 
 void server_tx_ss_cf_set_req ( LXT_MESSAGE *packet)
@@ -129,6 +136,8 @@ void server_tx_ss_cf_set_req ( LXT_MESSAGE *packet)
 	int *a;
 
 	call_forwarding_entry_t * entry = malloc(sizeof(call_forwarding_entry_t));
+	if(!entry)
+		return;
 	memset(entry, 0, sizeof(call_forwarding_entry_t));
 
 	TRACE(MSGL_VGSM_SS,"\n");
@@ -359,6 +368,9 @@ void server_tx_ss_cf_set_req ( LXT_MESSAGE *packet)
 	vgsm_ss_database_add(SS_CMD_CF, entry);
 
 	init_ss_info_re();						// restore data list in EI
+	
+	if(entry)
+		free(entry);
 }
 
 void server_tx_ss_cb_set_req ( LXT_MESSAGE *packet)
@@ -367,6 +379,8 @@ void server_tx_ss_cb_set_req ( LXT_MESSAGE *packet)
 	int *a;
 
 	call_barring_entry_t * entry = malloc(sizeof(call_barring_entry_t));
+	if(!entry)
+		return;
 	memset(entry, 0, sizeof(call_barring_entry_t));
 
 	TRACE(MSGL_VGSM_SS,"\n");
@@ -431,6 +445,9 @@ void server_tx_ss_cb_set_req ( LXT_MESSAGE *packet)
 	vgsm_ss_database_add(SS_CMD_CB, entry);
 
 	init_ss_info_re();						// restore data list in EI
+
+	if(entry)
+		free(entry);
 }
 
 
@@ -511,9 +528,7 @@ int server_tx_ss_state( ss_state_e_type type )
 	get_call_list( &list );
 	call_id = get_call_id();
 	length = 8 + list.CallInfo[call_id].num_len;
-	data = malloc(sizeof(unsigned char)*length);
-	memset( data, 0, sizeof(unsigned char)*length );
-
+	
 	if( list.CallCount <= 0 )
 		return 0;
 
@@ -536,6 +551,11 @@ int server_tx_ss_state( ss_state_e_type type )
 		VGSM_DEBUG("prev ss state is SS_RX_HOLD\n");
 		return 0;
 	}
+
+	data = malloc(sizeof(unsigned char)*length);
+	if(!data)
+		return -1;
+	memset( data, 0, sizeof(unsigned char)*length );
 
 	switch( type ) {
 	    case SS_STATE_HOLD:
@@ -574,6 +594,7 @@ int server_tx_ss_state( ss_state_e_type type )
 		break;
 
 	    default:
+		free(data);
 		return 0;
 	}
 

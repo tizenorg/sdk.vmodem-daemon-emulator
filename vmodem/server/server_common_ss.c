@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -53,6 +55,8 @@ static call_waiting_entry_t * setinitDB(call_waiting_entry_t *entry, int class, 
 int init_ss_info_re(void)
 {
 	call_waiting_entry_t * entry = malloc(sizeof(call_waiting_entry_t));
+	if(!entry)
+		return -1;
 	memset(entry, 0, sizeof(call_waiting_entry_t));
 
 
@@ -110,6 +114,8 @@ int init_ss_info_re(void)
 	if(cb_pwd_packet.length)
 		FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &cb_pwd_packet);	// &ServerHandle->server_cast
 
+	if(entry)
+		free(entry);
 	return 1;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,6 +123,8 @@ int init_ss_info_re(void)
 int init_ss_info(void)
 {
 	call_waiting_entry_t * entry = (call_waiting_entry_t *)malloc(sizeof(call_waiting_entry_t));
+	if(!entry)
+		return -1;
 	memset(entry, 0, sizeof(call_waiting_entry_t));
 
 
@@ -187,6 +195,8 @@ int init_ss_info(void)
 	if(cb_pwd_packet.length)
 		FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &cb_pwd_packet);	// &ServerHandle->server_cast
 
+	if(entry)
+		free(entry);
 	return 1;
 }
 

@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -46,13 +48,21 @@ int server_tx_net_plmn_list_noti(LXT_MESSAGE const* packet)
 	VGSM_DEBUG("\n");
 
 	unsigned char *data = 0;
-	int ret = 0, len = 0;
+	int ret = 0, len = 0, tmp;
 
 	unsigned char *ptr = (unsigned char *)packet->data;
 	int i = 0;
 
-	len = 1+(ptr[0]*8);
+	tmp = (int)ptr[0];
+	if(tmp < 0 || tmp > 254){
+		TRACE(MSGL_VGSM_INFO, "ERROR!! Invalid value of packet.data.\n");
+		return -1;
+	}
+
+	len = 1 + (tmp * 8);
 	data = malloc(sizeof(unsigned char)*len);
+	if(data == NULL)
+		return -1;
 
 	for(i=0; i<len; ++i)
 	    data[i] = ptr[i];

@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -60,6 +62,33 @@ void PacketDataFree(void *p)
         p = NULL;
         return;
     }
+}
+
+int ReadPacketBytes4(int fd, void *data)
+{
+    int rc;
+    int size = 4;
+    LXT_MESSAGE tmp_buf;
+
+    if ( (data == 0) || (fd < 0) )
+    {
+        return -1;
+    }
+
+    rc = read(fd, &tmp_buf, size);
+
+    ((LXT_MESSAGE*)data)->length = (unsigned short)tmp_buf.length;
+    ((LXT_MESSAGE*)data)->group = (unsigned char)tmp_buf.group;
+    ((LXT_MESSAGE*)data)->action = (unsigned char)tmp_buf.action;
+
+
+    if (rc <= 0)
+    {
+        return -1;
+    }
+
+    return rc;
+
 }
 
 int ReadBytes(int fd, void *data, int size)
@@ -130,7 +159,14 @@ int packed_S32(unsigned char* bytearray)
 
     if (!p) return 0;
 
-    for(i = sizeof(int); i >= 0; i--) rc = rc | p[i] << i*8;
+    for(i = sizeof(int); i >= 0; i--) {
+	    if(p[i] > 255){
+		    return 0;
+	    }
+	    else{
+		    rc = rc | p[i] << i*8;
+	    }
+    }
 
     return rc;
 }

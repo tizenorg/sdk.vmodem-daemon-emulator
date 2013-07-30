@@ -4,7 +4,9 @@
  * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
  *
  * Contact: 
- * SungMin Ha <sungmin82.ha@samsung.com>
+ * Sooyoung Ha <yoosah.ha@samsung.com>
+ * Sungmin Ha <sungmin82.ha@samsung.com>
+ * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
@@ -34,6 +36,9 @@ gchar *get_simulator_path(void)
 	
 #ifndef _WIN32
 	simulator_path = (char *)malloc( 512);
+	if(simulator_path == NULL){
+	    return NULL;
+	}
 	memset(simulator_path, 0, 512);
 
 	length = readlink("/proc/self/exe", simulator_path, 512);
@@ -90,16 +95,21 @@ gchar *get_skin_path(void)
 {
 	gchar *path = NULL;
 	path = get_path();
+	if(path == NULL){
+	    return NULL;
+	}
 
 	gchar *skin_path = NULL;
 	skin_path = (char *)malloc( 512);
+	if(skin_path == NULL){
+	    return NULL;
+	}
 	memset(skin_path, 0, 512);
 	strncpy(skin_path, path, 512);
 
 	sprintf(skin_path, "%s%s", path, "/skins");
 
-	if (path)
-		g_free(path);
+	g_free(path);
 
 	return skin_path;
 }
@@ -108,16 +118,21 @@ gchar *get_data_path(void)
 {
 	gchar *path = NULL;
 	path = get_path();
+	if(path == NULL){
+	    return NULL;
+	}
 
 	gchar *data_path = NULL;
 	data_path = (char *)malloc( 512);
+	if(data_path == NULL){
+	    return NULL;
+	}
 	memset(data_path, 0, 512);
 	strncpy(data_path, path, 512);
 
 	sprintf(data_path, "%s%s", path, "/data");
 
-	if (path)
-		g_free(path);
+	g_free(path);
 	
 	return data_path;
 }
@@ -126,16 +141,22 @@ gchar *get_kernel_path(void)
 {
 	gchar *path = NULL;
 	path = get_data_path();
+	if(path == NULL){
+	    return NULL;
+	}
 
 	gchar *kernel_path = NULL;
 	kernel_path = (char *)malloc( 512);
+	if(kernel_path == NULL){
+	    g_free(path);
+	    return NULL;
+	}
 	memset(kernel_path, 0, 512);
 	strncpy(kernel_path, path, 512);
 
 	sprintf(kernel_path, "%s%s", path, "/kernel-img");
 
-	if (path)
-		g_free(path);
+	g_free(path);
 
 	return kernel_path;
 }
@@ -176,17 +197,23 @@ gchar *get_conf_path(void)
 
 #ifndef _WIN32	
 	conf_path = (char *)malloc( 512);
+	if(conf_path == NULL){
+	    return NULL;
+	}
 	memset(conf_path, 0, 512);
 
 	gchar *path = NULL;
 	path = get_path();
+	if(path == NULL){
+	    g_free(conf_path);
+	    return NULL;
+	}
 
 	strncpy(conf_path, path, 512);
 
 	sprintf(conf_path, "%s%s", path, "/conf");
 
-	if (path)
-		g_free(path);
+	g_free(path);
 #else
 	TCHAR APP_PATH[MAX_PATH];
 	gchar org_conf_path[128] = {0, };
