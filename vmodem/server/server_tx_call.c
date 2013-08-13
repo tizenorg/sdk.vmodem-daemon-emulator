@@ -405,6 +405,13 @@ int server_tx_call_incoming_noti( LXT_MESSAGE * packet ) // on network side, thi
 
 		// sub_cmd = GSM_CALL_WAITING;
 		call_exist = 1; // If there are any call in call list, then send the waiting noti instead the incoming noti.
+
+		call_waiting_entry_t * cw_entry = find_call_waiting_entry(1);
+		if(cw_entry->ss_mode == SS_MODE_DEACT) {
+			TRACE(MSGL_VGSM_ERR, "Call waiting is blocked \n");
+			callback_callist();
+			return -1;
+		}
 	}
 
 	assert(packet->length >= 8);
