@@ -137,7 +137,7 @@ typedef enum{
 }gsm_net_identity_data_coding_scheme;
 typedef struct {
     gsm_net_plmn_status_e_type status;
-    char plmn[6]; /* PLMN: MCC(3byte)+MNC(3byte) MNC가 2자리인 경우 마지막 빈자리에 '#'을 채워 6자리로 만들어 줌 */
+    char plmn[6]; /* PLMN: MCC(3byte)+MNC(3byte). if the MNC is 2 digit, make it 6 digit by filling '#' in last blank.*/
     gsm_net_act_e_type act;
 } gsm_network_plmn_record_t;// GSM_NetPLMNRecord;
 

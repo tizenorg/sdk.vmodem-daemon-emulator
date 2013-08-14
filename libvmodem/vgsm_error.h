@@ -31,22 +31,22 @@
 #define _vgsm_error_h_
 
 /*
- * 아래의 에러코드중 어플리케이션(폰어플리케이션)에서 체크하는 것은 
- * AT command result가 OK가 아닌 다음의 경우 
- * ERR_CME
- * ERR_CMS
- * ERR_UNKNOWN
- * ERR_UNKNOWNRESPONSE
- * 이렇게 네 개의 경우만 확인한다.
+ * The phone app checks,
+ * when the AT command result is not OK,
+ *  ERR_CME
+ *  ERR_CMS
+ *  ERR_UNKNOWN
+ *  ERR_UNKNOWNRESPONSE
+ * only this four cases.
  */
 typedef enum {
     ERR_NONE=1,
     ERR_CME,
     ERR_CMS,
     ERR_UNKNOWN,
-    ERR_UNKNOWNRESPONSE,    // 정의되지 않은 response
-    ERR_DEVICEOPENERROR,    // device open 에러
-    ERR_DEVICELOCKED,       // device lock 에러
+    ERR_UNKNOWNRESPONSE,
+    ERR_DEVICEOPENERROR,
+    ERR_DEVICELOCKED,
     ERR_DEVICENOTEXIST,
     ERR_DEVICEBUSY,
     ERR_DEVICENOPERMISSION,
@@ -57,9 +57,9 @@ typedef enum {
     ERR_DEVICEWRITEERROR,
     ERR_DEVICEREADERROR,
     ERR_DEVICEPARITYERROR,
-    ERR_TIMEOUT,            // at command timeout 에러
+    ERR_TIMEOUT,
     ERR_FRAMENOTREQUESTED,
-    ERR_UNKNOWNFRAME,       // 위의 경우와 유사
+    ERR_UNKNOWNFRAME,
     ERR_UNKNOWNCONNECTIONTYPESTRING,
     ERR_UNKNOWNMODELSTRING,
     ERR_SOURCENOTAVAILABLE,

@@ -201,7 +201,7 @@ int server_rx_call_originate_exec(void *ptr_data, int data_len )
 	return 1;
 }
 
-int server_rx_call_release_exec(void) // 이것은 all call releae 인 경우이다. 하나 release 는 SS MANAGE CALL msg로 수신된다.
+int server_rx_call_release_exec(void) // for all call release case. one call release would be received by SS MANAGE CALL msg.
 {
 	int call_gen_resp_err;
 

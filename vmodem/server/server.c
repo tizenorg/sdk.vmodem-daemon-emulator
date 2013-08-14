@@ -107,7 +107,7 @@ static int server_send_to_client(int handle, LXT_MESSAGE * packet)
 	if( rc != 4 )
 		TRACE(MSGL_VGSM_ERR, "server_send_to_client1 : write error : rc = %d\n", rc);
 
-	// FIXME : Broken PIPE 오류 수정할것.
+	// FIXME : Broken PIPE error
 	if  (datasize > 0)
 	{
 		rc = WriteBytes(handle, packet->data, datasize);
@@ -156,7 +156,7 @@ static void server_initialize(PhoneServer * ps)
     server->inet_fd = -1;
     server->current_ci = NULL;
 
-    // 클라이언트 접속전의 메세지를 담아두기 위해 필요함.
+    // This is needed for save the message which arrive before the client connecting.
     for (ii = 0; ii < MAX_MISSED_MESSAGE; ii ++)
     {
         server->mmsg.mmsg_info[ii].klass = LXT_ID_CLIENT_RESERVED;
