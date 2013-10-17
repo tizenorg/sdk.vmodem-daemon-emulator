@@ -275,7 +275,9 @@ static void main_iter(void)
 
     if (n == 0)
     {
-        invoke_timeout(timeout_head);
+	if(timeout_head) {
+	    invoke_timeout(timeout_head);
+	}
     }
     else if (n > 0)
     {

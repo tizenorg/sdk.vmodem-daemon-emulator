@@ -230,7 +230,7 @@ static int server_callback(PhoneServer * ps, int fd, EloopCondition cond, void *
 
 	TRACE(MSGL_VGSM_INFO, "Client fd %d server fd %d\n", client_fd, server->fd);
 
-	if  (client_fd > 0)
+	if  (client_fd >= 0)
 	{
 		server->ci = malloc(sizeof (TClientInfo));
 		server->ci->Functions = NULL;
@@ -338,7 +338,7 @@ static int server_inet_callback(PhoneServer * ps, int fd, EloopCondition cond, v
 	return 1;
 	*/
 
-	if  (client_fd > 0)
+	if  (client_fd >= 0)
 	{
 		server->ci = malloc(sizeof (TClientInfo));
 		server->ci->Functions = NULL;

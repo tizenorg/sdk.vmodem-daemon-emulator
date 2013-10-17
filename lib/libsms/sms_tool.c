@@ -991,18 +991,19 @@ BOOL EncodeSmsSubmitReportTpdu(unsigned char *packet, int *rawdata_len)
 			packet[index++] = tp_dcs;
 		}
 		/* TP-UDL */
+		/* This if statement couldn't be true because mask var is fixed to 0x69 on declaration.
 		if ( mask & 0x04)
 		{
 			submit_report.udl =0x00;
 			packet[index++] = submit_report.udl;
 
-			/* TP-UD */
+			// TP-UD
 
 			if (submit_report.dcs.alphabetType == TAPI_NETTEXT_ALPHABET_DEFAULT )
 			{
 				//SmsUtilPackGSMCode( packet + index, msg, msg_len);
 			}
-		}
+		} */
 	}
 
 	*rawdata_len = index;
