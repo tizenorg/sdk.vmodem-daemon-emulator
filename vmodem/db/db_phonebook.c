@@ -749,7 +749,7 @@ int db_sim_pb_cnt_mgr(sqlite3 * db, int pb_type, int action)
 	char str[1000];
 	char str2[1000];
 	char * mesg;
-	char tb_name[6];
+	char tb_name[7];
 	int flag=0;
 
 	SIM_DEBUG("\n");

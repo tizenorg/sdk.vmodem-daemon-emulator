@@ -401,12 +401,12 @@ void  SmsUtilDecodeAddrField_sca(char *diallingNum, unsigned char* pAddrField, i
 		// when the length is 1, there are the only type and plan.
 		if ( length > 1 )
 		{
-			dialnumLen = ( pAddrField[index++] - 1 ) * 2; // -1 is for TON/API field.
+			dialnumLen = (int)( ( pAddrField[index++] - 1 ) * 2); // -1 is for TON/API field.
 		}
 	}
 	else
 	{
-		dialnumLen = ( ( ( pAddrField[index++] + 1 ) / 2 ) * 8 ) / 7;
+		dialnumLen = (int)( ( ( ( pAddrField[index++] + 1 ) / 2 ) * 8 ) / 7);
 	}
 
 	if ( dialnumLen > SIM_SMSP_ADDRESS_LEN )
