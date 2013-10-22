@@ -412,6 +412,8 @@ void  SmsUtilDecodeAddrField_sca(char *diallingNum, unsigned char* pAddrField, i
 	if ( dialnumLen > SIM_SMSP_ADDRESS_LEN )
 	{
 		dialnumLen = SIM_SMSP_ADDRESS_LEN;
+	} else if ( dialnumLen < 0 ) {
+		dialnumLen = 0;
 	}
 
 	//printf(" dialnumLen = %d\n", dialnumLen  );
