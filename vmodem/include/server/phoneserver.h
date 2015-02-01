@@ -33,20 +33,13 @@
 #ifndef __phoneserver_h
 #define __phoneserver_h
 
-#ifdef __arm__
-#include "dpram.h"
-//#include "mesgbox_set.h"
-#else
 #include <sys/ioctl.h>
-#endif
 
 #include <linuxtapi.h>
 #include <vgsm_sim.h>
 #include <vgsm_network.h>
 #include <vgsm_call.h>
 #include <vgsm_ss.h>
-
-//#include <mzgsmpb.h>
 
 #include "gsmstate.h"
 
@@ -61,60 +54,6 @@ typedef enum {
 } EloopCondition;
 
 typedef struct _Phone_Server PhoneServer;
-
-/* ---------------------------------------------------------------------------
-   IOManager
-   ---------------------------------------------------------------------------*/
-#ifdef __arm__
-typedef struct
-{
-    int  (*Open)     (PhoneServer *);
-    int  (*Close)    (PhoneServer *);
-    void (*SendQuery)(PhoneServer * s, const char * query);
-    void (*SendCast) (PhoneServer * s, const LXT_MESSAGE * packet);
-    int  (*CallBack) (PhoneServer * s,int fd,EloopCondition cond,void * data);
-    int  (*Init)     (PhoneServer *);
-} FunctionsIOM;
-
-extern FunctionsIOM IOMHandle;
-
-typedef enum
-{
-    TFactoryCableStatus_off                 =0x00,
-    TFactoryCableStatus_on                  =0x01
-}
-TFactoryCableStatus;
-
-typedef enum
-{
-    TFactoryCardStatus_off                  =0x00,
-    TFactoryCardStatus_on                   =0x01
-}
-TFactoryCardStatus;
-
-typedef enum
-{
-    TFactoryMode_exit                       =0x00,
-    TFactoryMode_enter                      =0x01,
-    TFactoryMode_unknown                    =0x0f
-}
-TFactoryMode;
-
-typedef struct
-{
-    int fd;
-    //MBSET mbs;
-
-    signed int          _battery_level;
-    TFactoryCableStatus _factory_cable_status;
-    TFactoryCardStatus  _factory_card_status;
-    TFactoryMode        _factory_mode;
-    char                _calibration_status;
-    char                _earjack_status;
-
-    FunctionsIOM * Functions;
-} IOManager;
-#endif
 
 /* ---------------------------------------------------------------------------
    PPP Gateway : comunicate with ppp gateway for Dial up Networking
@@ -252,21 +191,17 @@ typedef struct
 
 extern int vgsm_server_port;
 
-//
 typedef struct
 {
-    //GSM_WaitingCall WaitingCall; // unused
     LXT_PHONE_STATE CurrentPhoneState;
-    // char prevCallList[MAX_CALL_COUNT];
-    // unsigned short prevCallList[MAX_CALL_COUNT];
     gsm_call_list_t   prevCallList;
     bool m_waitingmode;
     bool m_deviceCall;
-    int 			UIMLockType;
-    int				UIMLockKey;
-    int				LastNetState;
-    int				StatePhoneOn;
-    int				GSMDataRequest;
+    int                         UIMLockType;
+    int                         UIMLockKey;
+    int                         LastNetState;
+    int                         StatePhoneOn;
+    int                         GSMDataRequest;
 } PhoneServerData;
 /* ---------------------------------------------------------------------------
    main structure
@@ -284,14 +219,12 @@ extern PhoneServerFunc PhoneServerHandle;
 
 struct _Phone_Server
 {
-#ifdef __arm__
-    //IOManager       Iom;
-#endif
     PPP_GATEWAY     PPPGW;
     DPRAM           Dpram;
     DPRAM_EVENT     DpramEvent;
     DPRAM_ERROR     DpramError;
     Server          ServerSocket;
+
     // phone server's data collection
     PhoneServerData Data;
     PhoneServerFunc * Functions1;
@@ -299,8 +232,6 @@ struct _Phone_Server
 
 extern const char * clientName[];
 
-
-//////////////////////////////////////////////////////////////////////
 // by nsclass : remove implicit warning sign.
 int PhoneServer_Init(PhoneServer * server, GSM_StateMachine * s);
 int PhoneServer_Connect(void);
@@ -309,6 +240,5 @@ extern PhoneServer       GlobalPS;
 extern PhoneServerFunc * FuncPhoneServer;
 extern FunctionsServer * FuncServer;
 extern PhoneServerFunc * FuncPhoneServer;
-
 
 #endif

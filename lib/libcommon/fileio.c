@@ -166,7 +166,7 @@ gchar *get_kernel_path(void)
  * @param	org path to change (C:\\test\\test\\test)
  * @return	changed path (C:/test/test/test)
  * @date    Nov 19. 2009
- * */ 
+ * */
 gchar *change_path_to_slash(gchar *org_path)
 {	
     if (!org_path || strlen(org_path) < 1)

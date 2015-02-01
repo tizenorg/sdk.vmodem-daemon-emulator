@@ -47,7 +47,7 @@ void	server_tx_sms_deviceReady(LXT_MESSAGE const* packet)
 }
 
 static int sms_msg_hook_modify(void * data, int len)
-{    
+{
     int position;
     unsigned char *rawdata = (unsigned char *)data;
     TPDU_SMS_SUBMIT tpdu_submit;

@@ -76,7 +76,7 @@ int at_tx_sim_sec_get_lock_info_res(void* ptr_data, int data_len)
 }
 
 int at_tx_sim_sec_check_password_res(void* ptr_data)
-{       
+{
     TRACE(MSGL_VGSM_SIM, "res\n");
 
     return at_gen_resp_send((char*)ptr_data);
@@ -151,7 +151,7 @@ int at_tx_sim_sec_get_rsim_access_res(void* ptr_data, int data_len)
 	snd_len = strlen(sndbuf);
 
     strcpy(&sndbuf[snd_len], CRLF);
-    snd_len += strlen(CRLF); 
+    snd_len += strlen(CRLF);
 
     TRACE(MSGL_VGSM_SIM, "%s , len:%d", sndbuf, snd_len);
     at_msg_send(ACK_SEQ_RESPONSE, sndbuf, snd_len);

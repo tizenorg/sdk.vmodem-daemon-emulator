@@ -39,7 +39,7 @@ GSM_Error GSM_InitConnection(GSM_StateMachine *s, int ReplyNum)
 {
     GSM_Error   error;
 
-    s->ReplyNum           = ReplyNum;          
+    s->ReplyNum           = ReplyNum;
     s->Phone.Data.CMECode		= 0;
     s->Phone.Data.CMSCode		= 0;
     s->Phone.Data.PhonePower	= false;

@@ -65,7 +65,7 @@ int at_rx_sim_sec_check_password(char* atmsg)
     TRACE(MSGL_VGSM_SIM, "\n");
 
     return oem_rx_sim_sec_check_password_req(atmsg, strlen(atmsg));
-} 
+}
 
 int at_rx_sim_sec_change_password(char* atmsg)
 {
@@ -132,7 +132,7 @@ int at_rx_sim_sec_phone_lock_get(char* atmsg)
     {
 	if( !strcmp(ret, origPwd) )
 	    return at_gen_resp_send(AT_GEN_ERR_NO_ERROR);
-	else 
+	else
 	    return at_gen_resp_send(AT_CME_ERR_INCORRECT_PWD);
     }
     else
@@ -177,8 +177,8 @@ const unsigned char at_g_gsm_efile_spn_info[] = {
     0x62, 0x25, 0x82, 0x02, 0x41, 0x21, 0x83, 0x02,
     0x6f, 0x46, 0xa5, 0x06, 0x80, 0x01, 0x31, 0xc0,
     0x01, 0x00, 0x8a, 0x01, 0x05, 0x8b, 0x06, 0x6f,
-    0x06, 0x01, 0x06, 0x00, 0x06, 0x80, 0x02, 0x00, 
-    0x11, 0x81, 0x02, 0x00, 0x25, 0x88, 0x00 
+    0x06, 0x01, 0x06, 0x00, 0x06, 0x80, 0x02, 0x00,
+    0x11, 0x81, 0x02, 0x00, 0x25, 0x88, 0x00
 };
 
 const unsigned char at_g_gsm_efile_imsi_info[] = {
@@ -534,10 +534,10 @@ static int at_rx_sim_sec_get_rsim_access_req(char* atmsg)
 	else if(p1 == 2)
 	{
 	    ptr = at_g_gsm_efile_smsp2_data;
-	    len = sizeof at_g_gsm_efile_smsp2_data; 
+	    len = sizeof at_g_gsm_efile_smsp2_data;
 	}
     }
-    else 
+    else
     {
 	TRACE(MSGL_VGSM_INFO, "access type [%02x] file id [%x] (%s)\n", access_cmd, file_id, get_sim_filename(file_id));
 

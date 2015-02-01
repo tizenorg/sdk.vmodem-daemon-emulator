@@ -128,7 +128,7 @@ void sms_response_for_eventinjector()
 {
     LXT_MESSAGE smsres_packet;
 
-    // for sms receive check        
+    // for sms receive check
     TAPIMessageInit(&smsres_packet);
     smsres_packet.group  = GSM_SMS;                 // 0x04
     smsres_packet.action = GSM_SMS_RECEIVE_RES;     // 0x0C

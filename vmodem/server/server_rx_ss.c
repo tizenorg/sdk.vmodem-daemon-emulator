@@ -601,11 +601,11 @@ int server_rx_ss_manage_call_set(char* ptr_data, int data_len)
     }
     else if(signal == AT_GSM_SS_CM_1_SEND)    // release all active call and the other (held or waiting) call
     {
-	rtn = server_rx_call_release_all_active(); 
+	rtn = server_rx_call_release_all_active();
     }
     else if(signal == AT_GSM_SS_CM_2_SEND)    // active call on hold and held or waiting call on active
     {
-	VGSM_DEBUG("g_ss_hold_response_error: err =%x \n", g_ss_hold_response_error);   
+	VGSM_DEBUG("g_ss_hold_response_error: err =%x \n", g_ss_hold_response_error);
 	//at_gen_resp_send( g_ss_hold_response_error);
 	if ( g_ss_hold_response_error == 0x8000 )
 	    rtn = server_rx_call_swap();

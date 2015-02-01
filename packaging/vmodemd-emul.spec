@@ -1,10 +1,11 @@
 #git:sdk/vmodem-daemon-emulator
 Name: vmodemd-emul
-Version: 0.2.53
+Version: 0.2.56
 Release: 1
 Summary: Virtual Modem
 Group: System/ModemEmulator
 License: GNU
+ExclusiveArch: %{ix86}
 Source0: %{name}-%{version}.tar.gz
 Source1001: packaging/vmodemd-emul.manifest
 BuildRequires: pkgconfig(glib-2.0)

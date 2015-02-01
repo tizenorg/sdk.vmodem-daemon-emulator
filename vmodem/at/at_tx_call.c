@@ -75,7 +75,7 @@ int at_tx_call_incoming_noti(void *data, int len)
 	at_msg_send(ACK_SEQ_NOTIFICATION, sndbuf, strlen(sndbuf));
 	return at_tx_call_status_noti(data, strlen((char*)data));
     } else {
-	TRACE(MSGL_VGSM_INFO, "cannot RING a call, %d, %d, %d \n", rssi, icb, flightMode); 
+	TRACE(MSGL_VGSM_INFO, "cannot RING a call, %d, %d, %d \n", rssi, icb, flightMode);
 	return -1;
     }
 

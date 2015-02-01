@@ -115,7 +115,7 @@ vmodemd-emul (0.2.8) unstable; urgency=low
 
   * unlimited check sim bug is fixed.
   * add CRSM param get command for mo sms.
-  * modified ss.db for support query of video call 
+  * modified ss.db for support query of video call
   * Git: slp/pkgs/v/vmodem-daemon-emulator
   * Tag: vmodemd-emul_0.2.8
 

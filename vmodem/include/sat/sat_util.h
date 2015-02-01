@@ -43,7 +43,7 @@
 #define	SIM_TON_RESERVED_FOR_EXT		 	7 //reserved for extension
 
 
-#define MAX_UDH_LEN		137 
+#define MAX_UDH_LEN		137
 #define UDH_MAX				7
 #define SMDATA_SIZE_MAX 	160
 
@@ -57,7 +57,7 @@
 
 //////////////////////////////////TPDU type////////////////////////////////
 #if 0
-typedef enum 
+typedef enum
 {
     SMS_TPDU_DELIVER				= 0x00, // sc -> ms
     SMS_TPDU_DELIVER_REPORT		= 0x00, // ms -> sc
@@ -180,7 +180,7 @@ typedef struct
     // protocol identifier [M]
     BYTE pId;
 
-    // data coding scheme 
+    // data coding scheme
     TapiNetTextCodingScheme dcs;
 
     // user data length [M]
@@ -197,9 +197,9 @@ typedef struct
     /************HEADER************/
     SmsTPDUType msgType;   //bit 0 ,1
 
-    BOOL mms; // bit 2 
+    BOOL mms; // bit 2
 
-    BOOL rp; // bit 7 
+    BOOL rp; // bit 7
 
     BOOL udhi;  //bit 6
 

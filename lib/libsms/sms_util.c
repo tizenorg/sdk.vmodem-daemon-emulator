@@ -69,9 +69,9 @@ char* SmsUtilUnpackGSM8Code( char* szData, const BYTE* pIn, int in_len )
 {
     int i;
 
-    for (i = 0; i < in_len; i ++) {  
+    for (i = 0; i < in_len; i ++) {
 	szData [i] = pIn [i];
-    }  
+    }
 
     return szData;	
 }
@@ -130,10 +130,10 @@ int SmsUtilpackGSM8Code( BYTE* pOut, const char* szData, int in_len )
     int i;
     int pos = 0;
 
-    for (i = 0; i < in_len; i ++) {  
+    for (i = 0; i < in_len; i ++) {
 	pOut[i] = szData [i];
 	pos++;
-    }  
+    }
 
     return pos;	
 }
@@ -502,11 +502,11 @@ int  SmsUtilEncodeAddrField_sca(unsigned char* pAddrField, unsigned char* dialli
     {
 	if ( dialnumLen % 2 )
 	{
-	    pAddrField[index++] = dialnumLen / 2 + 1 + 1; 
+	    pAddrField[index++] = dialnumLen / 2 + 1 + 1;
 	}
 	else
 	{
-	    pAddrField[index++] = dialnumLen / 2 + 1; 
+	    pAddrField[index++] = dialnumLen / 2 + 1;
 	}
     }
     else
@@ -523,7 +523,7 @@ int  SmsUtilEncodeAddrField_sca(unsigned char* pAddrField, unsigned char* dialli
 
     SET_TON_NPI( pAddrField[index], ton, npi );
 
-    index++; 
+    index++;
 
     if ( ton != SIM_TON_ALPHA_NUMERIC )
     {

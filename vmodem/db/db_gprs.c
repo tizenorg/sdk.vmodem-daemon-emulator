@@ -44,7 +44,7 @@
 #include "logmsg.h"
 #include "fileio.h"
 
-#ifndef ALP_NOTIFY_DATABASE_DIR 
+#ifndef ALP_NOTIFY_DATABASE_DIR
 #define ALP_NOTIFY_DATABASE_DIR  "./db"
 #endif // P_NOTIFY_DATABASE_DIR
 
@@ -192,7 +192,7 @@ static int vgsm_gprs_sqlite_add(char *apn, char *intf, char cid, short fieldflag
 
     log_msg(MSGL_VGSM_ERR," SQL statement : %s\n", str);
 
-    // add a row 
+    // add a row
     err = sqlite3_exec(db, str, 0, 0, &mesg);
     if (err != SQLITE_OK) {
 

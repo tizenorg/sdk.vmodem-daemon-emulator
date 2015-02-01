@@ -117,6 +117,6 @@ const char * clientName[] =
     "LXT_ID_CLIENT_EVENT_INJECTOR",		//= 0x16, // ID of event injector
     "LXT_ID_CLIENT_EVENT_MANAGER_RX",	//= 0x17, // ID of event injector
     "LXT_ID_CLIENT_EVENT_MANAGER_TX",	//= 0x18, // ID of event injector
-    "LXT_ID_CLIENT_EVENT_MANAGER",		//= 0x19, // ID of event manager 
+    "LXT_ID_CLIENT_EVENT_MANAGER",		//= 0x19, // ID of event manager
 };
 

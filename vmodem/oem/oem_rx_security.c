@@ -55,7 +55,7 @@ int oem_rx_sim_sec_get_lock_info_req(void* ptr_data, int data_len)
 }
 
 int oem_rx_sim_sec_check_password_req(void* ptr_data, int data_len)
-{   
+{
     SIM_DEBUG("\n");
     return server_rx_sim_sec_check_password_req(ptr_data, data_len);
 }

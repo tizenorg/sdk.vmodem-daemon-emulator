@@ -48,7 +48,7 @@
 #include "server_rx_ss.h"
 #include "server_common_ss.h"
 
-#define AO 
+#define AO
 
 int at_rx_ss_default(char* atmsg)
 {
@@ -147,7 +147,7 @@ int at_rx_ss_cf_set(char* atmsg)
 	{
 	    case AT_CALL_FW_MODE_DISABLE:
 		ss_mode = SS_MODE_DEACT;
-		break; 
+		break;
 	    case AT_CALL_FW_MODE_ENABLE:
 		ss_mode = SS_MODE_ACT;
 		break;
@@ -254,7 +254,7 @@ int at_rx_ss_cb_get(char* atmsg)
 
 	if(found)
 	    cb_type = sDefaultFac[nn].cb_e_type;
-	else 
+	else
 	    cb_type = SS_CB_TYPE_NONE;
     }
 

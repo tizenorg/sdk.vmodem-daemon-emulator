@@ -200,7 +200,7 @@ static int vgsm_network_sqlite_add(int  id, int  PLMN_status, char *number_PLMN,
 
     log_msg(MSGL_VGSM_INFO," SQL statement : %s\n", str);
 
-    // add a row 
+    // add a row
     err = sqlite3_exec(db, str, 0, 0, &mesg);
     if(err != SQLITE_OK) {
 	log_msg(MSGL_VGSM_ERR,"vgsm_network_sqlite_add: sqlite3_exec err=%d\n",err);

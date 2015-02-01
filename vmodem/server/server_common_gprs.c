@@ -43,7 +43,7 @@ void init_gprs_info(void)
 {
     /* apn: "Tizen", interface: "lo", ip: 1.2.3.4, primary dns: 10.10.10.10
        , second dns: 11.11.11.11, gateway: 1.2.3.1, subnet: 255.255.255.0 */
-    GprsDbEntry entry = {"Tizen", "lo", {1, 0x001F, 
+    GprsDbEntry entry = {"Tizen", "lo", {1, 0x001F,
 	{0x01, 0x02, 0x03, 0x04}, {0x0A, 0x0A, 0x0A, 0x0A},
 	{0x0B, 0x0B, 0x0B, 0x0B}, {0x01, 0x02, 0x03, 0x01},
 	{0xFF, 0xFF, 0xFF, 0x00}}};
@@ -64,7 +64,7 @@ void init_gprs_info(void)
     }
 
     // load database
-    vgsm_gprs_database_restore(); 
+    vgsm_gprs_database_restore();
 
     len = sizeof(int) + (g_gprs_conflist.num * (255 + 10 + 23));
 

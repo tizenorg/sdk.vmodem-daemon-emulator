@@ -36,7 +36,7 @@
 #include "at_func.h"
 
 /* temporarily vconf setup */
-//#define SMS_PARAM_SET_VCONF 
+//#define SMS_PARAM_SET_VCONF
 #ifdef SMS_PARAM_SET_VCONF
 #include <vconf/vconf.h>
 #include <vconf/vconf-keys.h>
@@ -76,7 +76,7 @@ int at_rx_sms_SendMsg(char* atmsg)
     int pdu_len = 0;	
     ret = strtok(tdata+1, token);
     if(ret)
-	pdu_len = atoi(ret); 
+	pdu_len = atoi(ret);
     else
 	return 0;
 
@@ -177,26 +177,26 @@ static void at_rx_sms_param_init()
     //Alpha-Id
     g_record[n++] = '1';
     g_record[n++] = '2';
-    g_record[n++] = '3';        
+    g_record[n++] = '3';
     g_record[n++] = '4';
     g_record[n++] = '5';
-    for(i=0; i<(24-5);i++){   
-	g_record[n++] = 0x00;   
-    }   
+    for(i=0; i<(24-5);i++){
+	g_record[n++] = 0x00;
+    }
 
     // parameter indicator
-    g_record[n++] = 0xe9;  
+    g_record[n++] = 0xe9;
 
     // TP-Destination Addr.
-    for(i=0; i<12;i++){   
-	g_record[n++] = 0xff;   
-    }   
+    for(i=0; i<12;i++){
+	g_record[n++] = 0xff;
+    }
 
     //TP-SC addr. // this is raw g_record. +8210911111
-    g_record[n++] = 0x06;   
-    g_record[n++] = 0x91;   
-    g_record[n++] = 0x28;    
-    g_record[n++] = 0x01;    
+    g_record[n++] = 0x06;
+    g_record[n++] = 0x91;
+    g_record[n++] = 0x28;
+    g_record[n++] = 0x01;
     g_record[n++] = 0x19;
     g_record[n++] = 0x11;
     g_record[n++] = 0x11;
@@ -283,7 +283,7 @@ int at_rx_sms_svc_option_set(char* atmsg)
 #define nVPOffset               			27
 
 #define TAPI_SIM_SMSP_ADDRESS_LEN 			20
-#define MAX_GSM_SMS_PARAM_RECORD_SIZE       156 
+#define MAX_GSM_SMS_PARAM_RECORD_SIZE       156
 
 
 /* msg-service/include/common/MsgSettingTypes.h */
@@ -297,11 +297,11 @@ enum  _MSG_SMS_PID_E
     MSG_PID_ERMES,      /**< Ermes */
     MSG_PID_EMAIL,      /**< Email */
     MSG_PID_MAX     /**< Default */
-};          
+};
 
 /* msg-service/plugin/sms_plugin/include/SmsPluginTypes.h */
 enum _SMS_TON_E
-{ 
+{
     SMS_TON_UNKNOWN = 0,        /* unknown */
     SMS_TON_INTERNATIONAL,  /* international */
     SMS_TON_NATIONAL,           /* national */
@@ -317,13 +317,13 @@ enum _SMS_PID_E
 {
     SMS_PID_NORMAL = 0x00,
 
-    SMS_PID_TELEX = 0x21,       
+    SMS_PID_TELEX = 0x21,
     SMS_PID_GROUP3_TELEX = 0x22,
     SMS_PID_GROUP4_TELEX = 0x23,
     SMS_PID_VOICE = 0x24,
     SMS_PID_ERMES = 0x25,
     SMS_PID_NPS = 0x26,
-    SMS_PID_VIDEO = 0x27, 
+    SMS_PID_VIDEO = 0x27,
     SMS_PID_TELETEX_UNSPEC = 0x28,
     SMS_PID_TELETEX_PSPDN = 0x29,
     SMS_PID_TELETEX_CSPDN = 0x2A,
@@ -363,29 +363,29 @@ static MSG_SMS_PID_T convertPid(SMS_PID_T pid)
 {
     MSG_SMS_PID_T retPid;
 
-    switch (pid) {   
+    switch (pid) {
 	case SMS_PID_NORMAL:
 	    retPid = MSG_PID_TEXT;
-	    break;  
+	    break;
 	case SMS_PID_VOICE:
 	    retPid = MSG_PID_VOICE;
-	    break;  
+	    break;
 	case SMS_PID_TELEX:
 	    retPid = MSG_PID_FAX;
-	    break;  
+	    break;
 	case SMS_PID_x400:
 	    retPid = MSG_PID_X400;
-	    break;  
+	    break;
 	case SMS_PID_ERMES:
 	    retPid = MSG_PID_ERMES;
-	    break;  
+	    break;
 	case SMS_PID_EMAIL:
 	    retPid = MSG_PID_EMAIL;
-	    break;  
+	    break;
 	default:
 	    retPid = MSG_PID_TEXT;
-	    break;  
-    } 
+	    break;
+    }
 
     return retPid;
 }
@@ -397,7 +397,7 @@ static int convertBcdToDigit(const unsigned char *pBcd, int BcdLen, char *pDigit
     unsigned char temp;
 
     for (i = 0; i < BcdLen; i++)
-    {   
+    {
 	temp = pBcd[i] & 0x0F;
 
 	if (temp == 0x0A)
@@ -412,10 +412,10 @@ static int convertBcdToDigit(const unsigned char *pBcd, int BcdLen, char *pDigit
 	temp = (pBcd[i] & 0xF0) >> 4;
 
 	if (temp == 0x0F)
-	{   
+	{
 	    pDigit[offset] = '\0';
 	    return offset;
-	}   
+	}
 
 	if (temp == 0x0A)
 	    pDigit[offset++] = '*';
@@ -425,7 +425,7 @@ static int convertBcdToDigit(const unsigned char *pBcd, int BcdLen, char *pDigit
 	    pDigit[offset++] = 'P';
 	else
 	    pDigit[offset++] = temp + '0';
-    }   
+    }
 
     pDigit[offset] = '\0';
 
@@ -451,16 +451,16 @@ static void decodeSMSC(unsigned char* pAddress, int AddrLen, int ton, char *pDec
 int sms_param_set_vconf()
 {
     int i, alpha_id_len = 0,nOffset = 0;
-    unsigned long AlphaIdLen; 
+    unsigned long AlphaIdLen;
     char szAlphaId[TAPI_SIM_SMSP_ALPHA_ID_LEN_MAX + 1];
     char smscAddr[TAPI_SIM_SMSP_ALPHA_ID_LEN_MAX*2 + 1];
     unsigned char ParamIndicator;
-    unsigned int DialNumLen; 
+    unsigned int DialNumLen;
     unsigned char szDiallingNum[TAPI_SIM_SMSP_ADDRESS_LEN + 1];
-    int Ton=0,  Npi=0; 
-    unsigned short TpProtocolId = 0; 
+    int Ton=0,  Npi=0;
+    unsigned short TpProtocolId = 0;
     unsigned short TpDataCodingScheme = 0;
-    unsigned short TpValidityPeriod = 0; 
+    unsigned short TpValidityPeriod = 0;
     const unsigned char *p = NULL;
 
     p = &g_record[0];
@@ -584,27 +584,27 @@ int sms_param_set_vconf()
     TRACE(MSGL_VGSM_INFO, " VP = %d \n",TpValidityPeriod);
 
     if (vconf_set_str(SMSC_NAME"/0", szAlphaId) != 0 ){
-	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%s]" 
+	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%s]"
 		, SMSC_NAME"/0", szAlphaId);
     }
     if (vconf_set_str(SMSC_ADDRESS"/0", smscAddr) != 0 ){
-	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s]=> [%s]" 
+	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s]=> [%s]"
 		, SMSC_ADDRESS"/0", smscAddr);
     }
     if (vconf_set_int(SMSC_TON"/0", Ton) != 0 ){
-	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%d]" 
+	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%d]"
 		, SMSC_TON"/0", Ton);
     }
     if (vconf_set_int(SMSC_NPI"/0", Npi) != 0 ){
-	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%d]" 
+	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%d]"
 		, SMSC_NPI"/0", Npi);
     }
     if (vconf_set_int(SMSC_PID"/0", (int)convertPid(TpProtocolId)) != 0 ){
-	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%d]" 
+	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%d]"
 		, SMSC_PID"/0", (int)convertPid(TpProtocolId));
     }
     if (vconf_set_int(SMSC_VAL_PERIOD"/0", TpValidityPeriod) != 0 ){
-	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%d]" 
+	TRACE(MSGL_VGSM_INFO, "[FAIL] vconf error: [%s] => [%d]"
 		, SMSC_VAL_PERIOD"/0", TpValidityPeriod);
     }
 

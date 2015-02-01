@@ -1132,7 +1132,7 @@ int send_call_barring_entry(call_barring_entry_t* entry)
     data_len =4;
     data = malloc(sizeof(unsigned char) * data_len);
     data[0] = entry->type;
-    data[1] = 1;    // entry->count 
+    data[1] = 1;    // entry->count
     data[2] = entry->tel_class;
     data[3] = ss_status;
 

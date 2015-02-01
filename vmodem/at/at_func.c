@@ -3,10 +3,10 @@
  *
  * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -23,7 +23,7 @@
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 /*
@@ -68,7 +68,7 @@ char* find_new_line(char* ptr, bool sms)
     else
     {
 	// find new line
-	while (*ptr != '\0' && *ptr != '\r' && *ptr != '\n') 
+	while (*ptr != '\0' && *ptr != '\r' && *ptr != '\n')
 	{
 	    ptr++;
 	}
@@ -92,14 +92,14 @@ char* read_cmd_line(void)
     int start_pduIndex = 0;
 
     // empty data
-    if (*s_at_data_ptr == '\0') 
+    if (*s_at_data_ptr == '\0')
     {
 	s_at_data_ptr = s_at_data;
 	*s_at_data_ptr = '\0';
 	data_read = s_at_data;
-    } 
-    else 
-    {   
+    }
+    else
+    {
 	while(*s_at_data_ptr == '\r' || *s_at_data_ptr == '\n')
 	{
 	    s_at_data_ptr++;
@@ -107,7 +107,7 @@ char* read_cmd_line(void)
 
 	data_eol = find_new_line(s_at_data_ptr, sms);
 
-	if (data_eol == NULL) 
+	if (data_eol == NULL)
 	{
 	    unsigned int data_len;
 	    data_len = strlen(s_at_data_ptr);
@@ -117,11 +117,11 @@ char* read_cmd_line(void)
 	}
     }
 
-    while (data_eol == NULL) 
+    while (data_eol == NULL)
     {
 	int data_size = MAX_DATA_RESPONSE - (data_read - s_at_data);
 
-	if(data_size == 0) 
+	if(data_size == 0)
 	{
 	    s_at_data_ptr = s_at_data;
 	    *s_at_data_ptr = '\0';
@@ -153,7 +153,7 @@ char* read_cmd_line(void)
 
 		start_pduIndex = (strlen(ATCMGS) + strlen(length) + strlen(token) + 1);
 		sca_length = hexCharToInt(data_read[start_pduIndex]);
-		total_data_length = (pdu_length + sca_length + 1) * 2;	// 1: byte of sca length 
+		total_data_length = (pdu_length + sca_length + 1) * 2;	// 1: byte of sca length
 		sms_data_len = start_pduIndex + total_data_length;
 
 		TRACE(MSGL_VGSM_INFO, "sca_length:%d, total_data_length: %d, cnt: %d\n", sca_length, total_data_length, cnt);
@@ -224,7 +224,7 @@ int GSM_ATDispatchDpramData(GSM_StateMachine* pstate)
     }
     TRACE(MSGL_VGSM_INFO, "atmsg length: %d\n", strlen(atmsg));	
 
-    // set default value 
+    // set default value
     frame.m_StartMagicCode = 0x7F;
     frame.m_EndMagicCode = 0x7E;
     frame.m_CtrlInfo = 0x7F;

@@ -181,7 +181,7 @@ typedef enum {
 				     accepts the other (held or waiting) call.*/
     AT_GSM_SS_CM_2_SEND,          /* 0x02 : Places all active calls (if any exist) on hold
 				     and accepts the other (held or waiting) call.*/
-    AT_GSM_SS_CM_3_SEND,          /* 0x03 : Adds a held call to the conversation.*/  
+    AT_GSM_SS_CM_3_SEND,          /* 0x03 : Adds a held call to the conversation.*/
     AT_GSM_SS_CM_4_SEND,          /* 0x04 : Connects the two calls and disconnects
 				     the subscriber from both calls (ECT).*/
     AT_GSM_SS_CM_1X_SEND,         /* 0x05 : Releases a specific active call X.
@@ -209,8 +209,8 @@ typedef enum{
 /* ICC TYPE field */
 typedef enum{
     GSM_SEC_UNKNOWN,		/* 0x00 : UNKNOWN */
-    GSM_SEC_SIM,          
-    GSM_SEC_USIM,         
+    GSM_SEC_SIM,
+    GSM_SEC_USIM,
     GSM_SEC_RSIM
 } gsm_sec_sim_e_type;
 
@@ -223,7 +223,7 @@ typedef enum {
     AT_GSM_PWR_UP_ASLEEP
 } at_gsm_pwr_up_e_type;
 
-typedef enum {  
+typedef enum {
     AT_GSM_PWR_PHONE_ONLINE_OFF = 0x00,		/* ONLINE OFF*/
     AT_GSM_PWR_PHONE_ONLINE_ON,			/* ONLINE ON */
     AT_GSM_PWR_PHONE_ONLINE_MAX
@@ -321,7 +321,7 @@ static const struct {
 };
 
 static const struct {
-    const char*      fac;     
+    const char*      fac;
     ss_cb_e_type     cb_e_type;
 } sDefaultFac[] =
 {
@@ -345,7 +345,7 @@ static const struct {
 } sDefaultLock[] =
 {
     { "READY", GSM_SEC_LOCK_TYPE_READY},	/* 0x00 : ME is not locked */
-    { "SIM PIN", GSM_SEC_LOCK_TYPE_SC},		/* 0x03 : Lock SIM/UICC card 
+    { "SIM PIN", GSM_SEC_LOCK_TYPE_SC},		/* 0x03 : Lock SIM/UICC card
 						   ( SIM asks password in ME power-up and when this command is issued ) */
     { "SIM PUK", GSM_SEC_LOCL_TYPE_PUK},	/* 0x0C : Lock PUK (... ) */
     { "SIM PIN2", GSM_SEC_LOCK_TYPE_SC2},	/* 0x09 : Lock PIN2 ( ... ) */

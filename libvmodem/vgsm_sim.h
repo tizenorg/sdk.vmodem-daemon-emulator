@@ -55,10 +55,10 @@ typedef enum{
 /* LOCK_TYPE  field */
 typedef enum{
     GSM_SEC_LOCK_TYPE_READY,			/* 0x00 : ME is not locked */
-    GSM_SEC_LOCK_TYPE_PS,				/* 0x01 : PH-SIM, Lock Phone to SIM/UICC card 
-							   ( MT asks password when other than current SIM/UICC card inserted; 
-							   MT may remember certain amount of previously used cards thus not 
-							   requiring password when they are inserted ) */ 
+    GSM_SEC_LOCK_TYPE_PS,				/* 0x01 : PH-SIM, Lock Phone to SIM/UICC card
+							   ( MT asks password when other than current SIM/UICC card inserted;
+							   MT may remember certain amount of previously used cards thus not
+							   requiring password when they are inserted ) */
     GSM_SEC_LOCK_TYPE_PF,				/* 0x02 : PH-FSIM, Lock Phone to the very First inserted SIM/UICC card
 							   ( MT asks password when other than the first SIM/UICC card is inserted ) */
     GSM_SEC_LOCK_TYPE_SC,				/* 0x03 : Lock SIM/UICC card ( SIM asks password in ME power-up and when this command is issued ) */
@@ -215,7 +215,7 @@ typedef enum
     GSM_SEC_EFILE_USIM_PHONEBOOK_GAS	= 0x4F0E,		/**< Additional Number */
     GSM_SEC_EFILE_USIM_PHONEBOOK_GAS1	= 0x4F0F,		/**< Second Name Entry */
 
-    GSM_SEC_EFILE_USIM_PHONEBOOK_ANR	= 0x4FF4,		/**< Additional Number */ 
+    GSM_SEC_EFILE_USIM_PHONEBOOK_ANR	= 0x4FF4,		/**< Additional Number */
     GSM_SEC_EFILE_USIM_PHONEBOOK_SNE	= 0x4FF9,		/**< Second Name Entry */
     GSM_SEC_EFILE_USIM_PHONEBOOK_EMAIL	= 0x4FFA,		/**< e-mail address */
 #if 1
@@ -379,8 +379,8 @@ typedef struct
 {
     int type1;				// info : 0, data : 1
     int type2;				
-    //	info -> 0:usim_li, 1:ecc, 2:sst, 3:est, 4:cphs, 5:spn, 6:imsi 
-    //	data -> 0:iccid, 1:usim_li, 2:ecc, 3:sst, 4:est, 5:spn, 6:imsi 
+    //	info -> 0:usim_li, 1:ecc, 2:sst, 3:est, 4:cphs, 5:spn, 6:imsi
+    //	data -> 0:iccid, 1:usim_li, 2:ecc, 3:sst, 4:est, 5:spn, 6:imsi
     int size;
     unsigned char tmp[50];
 }_SIMD_t;
@@ -429,7 +429,7 @@ typedef enum {
     GSM_CMD_CFRM,				/* 0x04 : Response of the INDICATION */
     GSM_CMD_EVENT,			/* 0x05 : Notify the status of PDA */
     GSM_PDA_MAX
-} gsm_pda_cmd_e_type; 
+} gsm_pda_cmd_e_type;
 
 /*********************************************************************************/
 
@@ -460,12 +460,12 @@ typedef enum{
     GSM_SEC_CHANGE_LOCKING_PW,			/* 0x03 : Change Locking Password Message */
     GSM_SEC_SIM_LANG,						/* 0x04 : SIM Language Message */
     GSM_SEC_RSIM_ACCESS,					/* 0x05 : +CRSM, Restricted SIM Access Message */
-    GSM_SEC_GSIM_ACCESS,					/* 0x06 : +CSIM, General SIM Access Message */             
+    GSM_SEC_GSIM_ACCESS,					/* 0x06 : +CSIM, General SIM Access Message */
     GSM_SEC_SIM_ICC_TYPE,					/* 0x07 : SIM ICC Type Message*/
     GSM_SEC_LOCK_INFO,					/* 0x08 : Lock Information Message*/
     GSM_SEC_ISIM_AUTH,					/* 0x9 : ISIM Authentication Message */
     GSM_SEC_MAX
-} gsm_sec_sub_cmd_type; 
+} gsm_sec_sub_cmd_type;
 
 /*********************************************************************************/
 #endif

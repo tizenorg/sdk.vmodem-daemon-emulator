@@ -29,7 +29,7 @@
 #ifndef _vgsm_phone_h_
 #define _vgsm_phone_h_
 
-/* 
+/*
  * additional explanation of I858 TAPI
  *
  * I858 TAPI API is not much different from I519/I819. Also
@@ -48,7 +48,7 @@
  *
  */
 
-/* 
+/*
  * Main command group
  */
 #define GSM_CALL                             0x01
@@ -68,12 +68,13 @@
 #define GSM_POWER                             0x0F
 #define GSM_CLIENT		0x10
 #define RESTORE_EI_DATA						0x11
+#define GSM_RSSI                            0x13
 #define FUNC_EDB							0x12
 #define FUNC_EDB_IND						0x01
 #define FUNC_SINGLEDB_IND						0x02
 
 /* --------------------------------------------------------------------------
-GSM_CLIENT : 
+GSM_CLIENT :
 --------------------------------------------------------------------------*/
 #define GSM_CLIENT_RELEASE_NOTI		0x01
 #define GSM_CLIENT_RELEASE_NOTI_ACK		0x02
@@ -83,14 +84,14 @@ GSM_CALL : Call Control Functions
 
 /*
  * Length : Caller ID length (VAR)
- * Data   : 
- * - Caller ID 
+ * Data   :
+ * - Caller ID
  */
 #define GSM_CALL_MAKE_REQ                     0x21
 /*
  * Length : 2bytes
- * Data   : 
- * - NUM Calls (1byte) 
+ * Data   :
+ * - NUM Calls (1byte)
  * - Call ID   (1byte)
  */
 #define GSM_CALL_HANGUP_REQ                   0x22
@@ -130,7 +131,7 @@ GSM_CALL : Call Control Functions
  */
 #define GSM_CALL_GENERATE_DTMF_REQ            0x27
 
-// EMTRACE_I878 [ 
+// EMTRACE_I878 [
 // Testing purpose
 #define GSM_CALL_GET_FAKE_CALLLIST_REQ		0x28
 // EMTRACE_I878, civily 20051014 ]
@@ -151,8 +152,8 @@ GSM_CALL : Call Control Functions
 
 /*
  * Length : Caller ID length (VAR)
- * Data   : 
- * - Caller ID 
+ * Data   :
+ * - Caller ID
  */
 #define GSM_CALL_MAKE_TO_DEVICE_REQ           0x2C
 #define GSM_CALL_TO_DEVICE_CFRM               0x2D
@@ -186,7 +187,7 @@ GSM_CALL : Notification or Response
  */
 #define GSM_CALL_STATUS_NOTI                  0x22
 /*
- * Length : VAR 1byte(Reserved1) + 1byte(Reserved2) + 
+ * Length : VAR 1byte(Reserved1) + 1byte(Reserved2) +
  * 1byte(Call Count) + (Call Count) * 5 (Call Data)
  * DATA   :
  * - Reserved1      (1byte)
@@ -204,10 +205,10 @@ GSM_CALL : Notification or Response
 #define GSM_CALL_LIST_RES                     0x23
 
 /*
- * Length : VAR 1byte(result) + 1byte(Operation) + 1byte(call Id) + 
+ * Length : VAR 1byte(result) + 1byte(Operation) + 1byte(call Id) +
  * (Call Count) + VAR(Call Count * 1)
  * DATA   :
- * - result (1byte) 
+ * - result (1byte)
  * - GSM_MPTY_OPERATION (1byte) see mzgsmcall.h
  * - GSM_MPTY_PARAM_ID  (1byte) see mzgsmcall.h
  * - active call count  (1byte)
@@ -219,9 +220,9 @@ GSM_CALL : Notification or Response
  * Length : 2
  * Data   :
  * - call id (1byte)
- * - status  (1byte) 
- * 0x01 : waiting 상태 GSM_Call_Dialing, GSM_Call_Alerting, GSM_Call_Incoming
- * 0x00 : not waiting 상태 GSM_Call_Active, GSM_Call_Release
+ * - status  (1byte)
+ * 0x01 : waiting state (GSM_Call_Dialing, GSM_Call_Alerting, GSM_Call_Incoming)
+ * 0x00 : not waiting state (GSM_Call_Active, GSM_Call_Release)
  */
 #define GSM_CALL_WAITING_STATUS_IND           0x25
 
@@ -244,8 +245,8 @@ GSM_CALL : Notification or Response
 
 /*
  * Length : 2
- * - Result    : 1 byte 
- * - ALS value : 1 byte 
+ * - Result    : 1 byte
+ * - ALS value : 1 byte
  */
 #define GSM_CALL_GET_AUTO_REDIAL_RES          0x28
 
@@ -301,7 +302,7 @@ GSM_CALL : Notification or Response
 // sunnyfan ]
 
 #define GSM_CALL_STATE					0x61
-#define GSM_CALL_ALERT_IND				0x62 
+#define GSM_CALL_ALERT_IND				0x62
 
 /* --------------------------------------------------------------------------
 GSM_NETWORK : Network Functions
@@ -349,7 +350,7 @@ GSM_NETWORK : Network Functions
 
 /*
  * Length : 1
- * - Band value : 1 byte 
+ * - Band value : 1 byte
  */
 #define GSM_NETWORK_SET_BAND_REQ              0x37
 
@@ -437,15 +438,15 @@ GSM_NETWORK : Notification or Response
 
 /*
  * Length : 2
- * - Result    : 1 byte 
- * - Band value: 1 byte 
+ * - Result    : 1 byte
+ * - Band value: 1 byte
  */
 #define GSM_NETWORK_GET_BAND_RES              0x37
 
 /*
  * Length : 2
- * - Result    : 1 byte 
- * - Band value: 1 byte 
+ * - Result    : 1 byte
+ * - Band value: 1 byte
  */
 #define GSM_NETWORK_SET_BAND_RES               0x38
 
@@ -476,7 +477,7 @@ GSM_SUPS : Sups Service TX function
 --------------------------------------------------------------------------*/
 /*
  * Length : MMI String length
- * Data   : 
+ * Data   :
  * - MMI String
  */
 #define GSM_SUPS_MMI_REQ                      0x41
@@ -529,7 +530,7 @@ GSM_SUPS : Sups Service TX function
 /*
  * Length : 1(CW_Notify) + 1(GSM_CW_Mode) + 1(GSM_ClassX)
  * Data   :
- * - CW_Notify : (1byte) 
+ * - CW_Notify : (1byte)
  * - CW_Mode   : (1byte)
  * - GSM_ClassX  (1byte)
  */
@@ -538,7 +539,7 @@ GSM_SUPS : Sups Service TX function
 /*
  * Length : 1(CW_Notify) + 1(GSM_CW_Mode) + 1(GSM_ClassX)
  * Data   :
- * - CW_Notify : (1byte) 
+ * - CW_Notify : (1byte)
  * - CW_Mode   : (1byte)
  * - GSM_ClassX  (1byte)
  */
@@ -568,7 +569,7 @@ GSM_SUPS : Sups Service TX function
 #define GSM_SUPS_SET_ACM_MAX_REQ              0x4C
 
 /*
- * Length : 
+ * Length :
  * Data   :
  * - AOC_CURRENCY_Code (1byte)
  * - length            (1byte)
@@ -578,14 +579,14 @@ GSM_SUPS : Sups Service TX function
 
 /*
  * Length : USSD String length
- * Data   : 
+ * Data   :
  * - USSD String
  */
 #define GSM_SUPS_USSD_SEND_REQ                0x4E		
 
 /*
  * Length : 0
- * Data   : 
+ * Data   :
  * - None
  */
 #define GSM_SUPS_USSD_CANCEL_REQ              0x4F
@@ -601,14 +602,14 @@ GSM_SUPS : Sups Service TX function
 
 /*
  * Length : 1
- * Data   : 
+ * Data   :
  * - Barring Facility
  */
 #define GSM_SUPS_CB_STATUS_REQ                0x56
 
 /*
  * Length : 0
- * Data   : 
+ * Data   :
  * - None
  */
 #define GSM_SUPS_GET_PPU_REQ                  0x57
@@ -622,7 +623,7 @@ GSM_SUPS : Notification or Response
 /*
  * Length : 1(status) + 1(fac value) + 1(class)
  * Data   :
- * - status      (1byte) 0x00 : not active, 0x01 : active  
+ * - status      (1byte) 0x00 : not active, 0x01 : active
  * - fac   value (1byte) see mzgsmsups.h
  * - class value (1byte) see mzgsmsups.h
  */
@@ -631,7 +632,7 @@ GSM_SUPS : Notification or Response
 /*
  * Length : 1(fac value) + 1(class) + 1(mode)
  * Data   :
- * - result (1byte) 
+ * - result (1byte)
  * - fac    (1byte) see mzgsmsups.h
  * - remain (1byte)
  */
@@ -769,20 +770,20 @@ GSM_SUPS : Notification or Response
  */
 #define GSM_SUPS_GET_PPU_RES                  0x55
 
-#define GSM_SUPS_STATE			0x56 
-#define GSM_SUPS_CONFERENCE			0x57 
-#define GSM_SUPS_HOLD			0x58 
-#define GSM_SUPS_UNHOLD			0x59 
-#define GSM_SUPS_AOC_SET        0x5a 
-#define GSM_SUPS_AOC_GET        0x5b 
-#define GSM_SUPS_CW_SET			0xe0 
-#define GSM_SUPS_CW_GET			0xe1 
-#define GSM_SUPS_CF_SET			0xe2 
-#define GSM_SUPS_CF_GET			0xe3 
-#define GSM_SUPS_CB_SET			0xe4 
-#define GSM_SUPS_CB_GET			0xe5 
-#define GSM_SUPS_USSD_GET       0xe6 
-#define GSM_SUPS_USSD_SET       0xe7 
+#define GSM_SUPS_STATE			0x56
+#define GSM_SUPS_CONFERENCE			0x57
+#define GSM_SUPS_HOLD			0x58
+#define GSM_SUPS_UNHOLD			0x59
+#define GSM_SUPS_AOC_SET        0x5a
+#define GSM_SUPS_AOC_GET        0x5b
+#define GSM_SUPS_CW_SET			0xe0
+#define GSM_SUPS_CW_GET			0xe1
+#define GSM_SUPS_CF_SET			0xe2
+#define GSM_SUPS_CF_GET			0xe3
+#define GSM_SUPS_CB_SET			0xe4
+#define GSM_SUPS_CB_GET			0xe5
+#define GSM_SUPS_USSD_GET       0xe6
+#define GSM_SUPS_USSD_SET       0xe7
 
 /* --------------------------------------------------------------------------
 GSM_MISC : misc Functions
@@ -906,7 +907,7 @@ GSM_DISPLAY : Notification or Response
  * Length : 2bytes
  * Data   :
  * - Indicator (1byte) see mzgsmmisc.h
- * - Value     (1byte) 
+ * - Value     (1byte)
  */
 #define GSM_DISPLAY_INDICATOR_NOTI            0x71
 
@@ -1199,42 +1200,42 @@ GSM_EXT : Gong Jung mode
 --------------------------------------------------------------------------*/
 /*
  * Length : IMEI length
- * Data   : 
+ * Data   :
  * - IMEI Value
  */
 #define GSM_EXT_SET_IMEI_REQ                  0xB1
 
 /*
  * Length : BTMAC length
- * Data   : 
+ * Data   :
  * - BTMAC Value
  */
 #define GSM_EXT_SET_BTMAC_REQ                 0xB2
 
 /*
  * Length : 0
- * Data   : 
+ * Data   :
  * - None
  */
 #define GSM_EXT_GET_BTMAC_REQ                 0xB3
 
 /*
  * Length : 1
- * Data   : 
+ * Data   :
  * - mode : up Or down
  */
 #define GSM_EXT_SET_VOICE_VOL_REQ             0xB4
 
 /*
  * Length : 1
- * Data   : 
+ * Data   :
  * - path : Audio path
  */
 #define GSM_EXT_SET_AUDIO_PATH_REQ            0xB5
 
 /*
  * Length : 1
- * Data   : 
+ * Data   :
  * - path : Phone State
  */
 #define GSM_EXT_SET_INTERNAL_STATE_REQ        0xB6
@@ -1243,21 +1244,21 @@ GSM_EXT : Notification or Response
 --------------------------------------------------------------------------*/
 /*
  * Length : 1
- * Data   : 
+ * Data   :
  * - result
  */
 #define GSM_EXT_SET_IMEI_RES                  0xB1
 
 /*
  * Length : 1
- * Data   : 
+ * Data   :
  * - result
  */
 #define GSM_EXT_SET_BTMAC_RES                 0xB2
 
 /*
  * Length : 1 + VAR
- * Data   : 
+ * Data   :
  * - mac length
  * - mac value
  */
@@ -1265,14 +1266,14 @@ GSM_EXT : Notification or Response
 
 /*
  * Length : 1
- * Data   : 
+ * Data   :
  * - result
  */
 #define GSM_EXT_BATT_INFO_NOTI                0xB4
 
 /*
  * Length : 1
- * Data   : 
+ * Data   :
  * - result
  */
 #define GSM_EXT_PHONE_POWER_ON_RES            0xB5

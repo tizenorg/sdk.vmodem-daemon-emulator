@@ -90,7 +90,7 @@ extern "C"
     } gsm_pb_sub_cmd_type;
 
 
-#if 0 
+#if 0
     /*
        typedef struct tagPB2G {
        unsigned char num_type;
@@ -127,7 +127,7 @@ extern "C"
     typedef struct {
 	GSM_PB_ACCESS_MODE mode;
 	unsigned short index;
-	unsigned short next_idx; 
+	unsigned short next_idx;
 	GSM_PB_CARD pb_type;
 	unsigned char len_number;
 	unsigned char record_type;
@@ -161,7 +161,7 @@ extern "C"
 	GSM_PhoneBookGroupName* grp_name_list;
     } GSM_PhoneBookGroupNameList;
 
-#endif 
+#endif
 
 #ifdef __cplusplus
 }

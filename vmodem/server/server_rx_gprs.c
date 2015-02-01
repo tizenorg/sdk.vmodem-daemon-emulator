@@ -94,7 +94,7 @@ int server_rx_gprs_SetPDPContext(void *ptr_data, int data_len )
 	if(ret)
 	    g_pdpcontext.h_comp = atoi(ret);
 
-	log_msg(MSGL_VGSM_INFO,"MODE[%x] CID[%x] PDP_TYPE[%x] APN[%s] \n", 
+	log_msg(MSGL_VGSM_INFO,"MODE[%x] CID[%x] PDP_TYPE[%x] APN[%s] \n",
 		g_pdpcontext.mode, g_pdpcontext.cid, g_pdpcontext.pdp_type, g_pdpcontext.apn);
 	log_msg(MSGL_VGSM_INFO,"PDP_ADDRESS[%s] D_COMP[%x] H_COMP[%x] \n",
 		g_pdpcontext.pdp_addr, g_pdpcontext.d_comp, g_pdpcontext.h_comp);

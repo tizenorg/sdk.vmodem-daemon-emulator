@@ -86,7 +86,7 @@ int server_tx_net_reg_noti(LXT_MESSAGE const* packet)
 
     memset( data, 0, sizeof(unsigned char)*len );
 
-    if (packet && packet->data) 
+    if (packet && packet->data)
     {
 	VGSM_DEBUG("\n");
 	unsigned char *ptr = (unsigned char *)packet->data;

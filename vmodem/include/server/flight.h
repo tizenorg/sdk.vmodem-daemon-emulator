@@ -40,4 +40,4 @@ extern int g_svc_type;
 
 bool is_flight_mode(void);
 
-#endif 
+#endif

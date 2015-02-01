@@ -195,7 +195,7 @@ typedef enum
 
 }NumberingPlan;
 
-typedef struct 
+typedef struct
 {
     NumberType 	        ton;
 

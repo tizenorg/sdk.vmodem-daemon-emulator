@@ -531,7 +531,7 @@ int release_incoming_call(void)
 	    default:
 		break;
 	}
-    }   
+    }
 
     return releaseCnt;
 }

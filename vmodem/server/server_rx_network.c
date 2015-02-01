@@ -83,7 +83,7 @@ int server_rx_net_plmn_list_get(void)
 	data[n++] =0x11; /* LAC  2bytes*/
 	memset(tmpbuf, '\0', sizeof(tmpbuf));
 	VGSM_DEBUG("plmn: %s\n", plmn_data);
-	sprintf(tmpbuf, "(%d,\"%c%c%c%c%c%c\",\"%c%c%c%c%c%c\",\"%c%c%c%c%c%c\")", plmn_list->precord[i].status, 
+	sprintf(tmpbuf, "(%d,\"%c%c%c%c%c%c\",\"%c%c%c%c%c%c\",\"%c%c%c%c%c%c\")", plmn_list->precord[i].status,
 		plmn_data[0], plmn_data[1], plmn_data[2], plmn_data[3], plmn_data[4], plmn_data[5],
 		plmn_data[0], plmn_data[1], plmn_data[2], plmn_data[3], plmn_data[4], plmn_data[5],
 		plmn_data[0], plmn_data[1], plmn_data[2], plmn_data[3], plmn_data[4], plmn_data[5]);
@@ -189,7 +189,7 @@ int server_rx_net_current_plmn_get(void)
 
     find_plmn(plmn, act);
 #endif
-    sprintf(sndbuf, "%s%d,%d,%s,%d%s", COPS, data[0], GSM_NET_PLMN_FORMAT_NUMERIC, default_plmn, data[2], CRLF); 
+    sprintf(sndbuf, "%s%d,%d,%s,%d%s", COPS, data[0], GSM_NET_PLMN_FORMAT_NUMERIC, default_plmn, data[2], CRLF);
     return oem_tx_net_current_plmn_resp(sndbuf, strlen(sndbuf));
 }
 

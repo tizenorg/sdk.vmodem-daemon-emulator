@@ -33,6 +33,7 @@
 
 int server_tx_display_icon_info_resp(void);
 int server_tx_display_icon_info_noti( unsigned char icon_type, unsigned char rssi, unsigned char bat, unsigned char act, unsigned char reg);
+int server_tx_display_rssi_info_noti( unsigned char icon_type, unsigned char rssi);
 
 #endif
 

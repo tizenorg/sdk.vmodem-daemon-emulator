@@ -119,7 +119,7 @@ static void  argument_handling(int argc, char *argv[])
 	    else {
 		TRACE(MSGL_FATAL,"\nTo set up the port  --port  [ portnumber ]\n ");
 		exit(1);
-	    } 
+	    }
     }	
 }
 

@@ -307,7 +307,7 @@ int server_tx_sim_sec_pin_status_noti(STATE_TYPE before_state, STATE_TYPE curren
 			     */
 			    pdata[0]	=	GSM_SEC_LOCK_TYPE_READY;
 			    pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
-#if 0 //20110714 tmp 
+#if 0 //20110714 tmp
 			    oem_tx_sim_sec_pin_status_noti(pdata, data_size);
 
 			    sleep(3);

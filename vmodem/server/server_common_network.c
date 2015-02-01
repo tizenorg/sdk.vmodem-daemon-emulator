@@ -86,7 +86,7 @@ void init_plmn_list(void)
     char *buf;
     int i;
 
-    // load 
+    // load
     vgsm_network_database_restore();
 
     VGSM_DEBUG("num of current saved PLMN: %i \n", g_plmn_list.num_record);
@@ -118,7 +118,7 @@ void init_plmn_list(void)
     }
 
     // send noti to evt injector
-    if ((buf = malloc(1 + g_plmn_list.num_record * 8)) == NULL) { 
+    if ((buf = malloc(1 + g_plmn_list.num_record * 8)) == NULL) {
 	log_msg(MSGL_VGSM_ERR,"init_plmn_list: memory alloc error\n");
 	return;
     }

@@ -134,7 +134,7 @@ static void save_pid(int fd, pid_t pid)
  * @brief 	make pid directory
  * @param	pidfname : pid file name
  * @date    Nov 25. 2008
- * */ 
+ * */
 
 static int make_pid_path(const char *pidfname)
 {
@@ -161,12 +161,12 @@ static int make_pid_path(const char *pidfname)
 	    return -1;
 	}
 #ifdef _WIN32
-	if (dir != NULL && strlen (dir) > 0) 
+	if (dir != NULL && strlen (dir) > 0)
 #endif			
 	    strcat(dir, "/");
 	strcat(dir, lptr);
 
-	if (access(dir, R_OK) != 0) 
+	if (access(dir, R_OK) != 0)
 #ifndef _WIN32
 	    mkdir(dir, S_IRWXU | S_IRWXG);
 #else
@@ -234,7 +234,7 @@ int write_pidfile(const char *filename)
 {
     int		fd = -1;
     char	buf[128] = "";
-    char	pidfname[512] = ""; 
+    char	pidfname[512] = "";
 
     //	sprintf (pidfname, "%s%s.pid", PID_DIR, filename);
 #ifndef _WIN32
@@ -283,7 +283,7 @@ int write_pidfile(const char *filename)
 
 int remove_pidfile(const char *filename)
 {
-    char	pidfname[512] = ""; 
+    char	pidfname[512] = "";
 
     if (filename == NULL) {
 	return -1;
@@ -314,7 +314,7 @@ int remove_pidfile(const char *filename)
     return 0;
 }
 
-    FILE * 
+    FILE *
 popen_target(const char *cmdstring, const char *type)
 {
     FILE	*fp;

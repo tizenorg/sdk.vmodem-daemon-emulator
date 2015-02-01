@@ -7,5 +7,5 @@ Standards-Version: 0.2.23
 
 Package: vmodemd-emul
 Architecture: i386
-Depends: 
+Depends:
 Description: Modem Emulator

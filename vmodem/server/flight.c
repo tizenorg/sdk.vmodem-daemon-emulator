@@ -37,7 +37,7 @@
 #include <vconf/vconf-keys.h>
 
 /* For Flight Mode */
-int g_svc_type = VCONFKEY_TELEPHONY_SVCTYPE_3G; 
+int g_svc_type = VCONFKEY_TELEPHONY_SVCTYPE_3G;
 
 bool is_flight_mode(void)
 {
@@ -46,20 +46,20 @@ bool is_flight_mode(void)
 
     if(vconf_get_bool(VCONFKEY_TELEPHONY_FLIGHT_MODE, &status)) {
 	TRACE(MSGL_WARN, "vconf_get_bool(%s) fail\n", VCONFKEY_TELEPHONY_FLIGHT_MODE);
-	return ret; 
-    }    
+	return ret;
+    }
 
-    if(status == 1){ 
+    if(status == 1){
 	ret = true;
 	TRACE(MSGL_VGSM_INFO, "============ Flight mode On  ==========\n");
     }else{
 	ret = false;
 	TRACE(MSGL_VGSM_INFO, "============ Flight mode Off ==========\n");
-    }    
+    }
 
     TRACE(MSGL_VGSM_INFO, "============ Flight mode value: %d ==========\n", ret);
 
-    return ret; 
+    return ret;
 }
 
 

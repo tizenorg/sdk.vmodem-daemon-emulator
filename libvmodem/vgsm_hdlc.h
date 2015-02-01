@@ -34,7 +34,7 @@
 
 #include "vgsm.h"
 
-// nsclass 
+// nsclass
 typedef struct tagHDLCFrame {
     unsigned char 	m_StartMagicCode;
     unsigned short 	m_Length;

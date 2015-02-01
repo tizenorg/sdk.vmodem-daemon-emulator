@@ -383,7 +383,7 @@ typedef struct _SatCmdResponse SatCmdResponse;
 struct _SatCmdResponse
 {
     char*	respP;					//!< Associated text response
-    unsigned char	itemIdentifier;			//!< Item identifier  
+    unsigned char	itemIdentifier;			//!< Item identifier
     int	respSize;				//!< Associated text response size in bytes
     char	cmdId;					//!< Command Identifier
     char	respType;				//!< Expected response type, see ALP_TEL_CAT_RESP_TYPE_XXX
@@ -439,7 +439,7 @@ struct _SatSetUpCall
     int	subAddressSize;			//!< subaddress size in bytes
     char	bearerCapSize;			//!< Bearer capability size, in bytes
 
-    unsigned long	duration;				//!< if the time elapsed since the first call set-up attempt has exceeded the duration request, the redial mechanism shall be terminated 
+    unsigned long	duration;				//!< if the time elapsed since the first call set-up attempt has exceeded the duration request, the redial mechanism shall be terminated
     char	condition;				//!< Set up call commmand qualifier, see ALP_TEL_CAT_SETUP_CALL_XXX
 
     char	userConfIconId;			//!< Icon id. 0 if no icon
@@ -517,7 +517,7 @@ typedef struct _SatItemList SatItemList;
 struct _SatItemList
 {
     SatItem*	firstItemP;			//!< The first Item
-    int	itemCount;			//!< Number of items 
+    int	itemCount;			//!< Number of items
     char	softKey;			//!< Item can be selected by tapping on its icon
     char	helpInfo;			//!< Help information is provided by the SIM
     char	defItemId;			//!< Identifier of the item that should be pre-selected.
@@ -571,16 +571,16 @@ struct _SatOpenChannel
     char	accessPointSize;
 };
 
-//! answer made by the phone module directly to the SIM 
+//! answer made by the phone module directly to the SIM
 typedef struct _SatMEanswer SatMEanswer;
 struct _SatMEanswer	
 {
     char	cmdId;					//!< Command Identifier
-    char	resCode;				//!< Result codes applicable to command iCmdId 
+    char	resCode;				//!< Result codes applicable to command iCmdId
     char	addInfo;				//!< Additional information code
 };
 
-//! answer made by the SIM to the phone module CALL CONTROL or MO Short Message CONTROL command 
+//! answer made by the SIM to the phone module CALL CONTROL or MO Short Message CONTROL command
 typedef struct _SatSIManswer SatSIManswer;
 struct _SatSIManswer	
 {
@@ -589,7 +589,7 @@ struct _SatSIManswer
     char*	textP;				//!< Text to display
     int	textSize;			//!< The size of the encoded text
 
-    char*	addressP1;			//!> if it's a call control answer adressP1= dialling number, if the address data is not present, the terminal shall assume the dialling number is not to be modified 
+    char*	addressP1;			//!> if it's a call control answer adressP1= dialling number, if the address data is not present, the terminal shall assume the dialling number is not to be modified
     //!> if it's a MO short message control answer addressP1= RP_Destination_Address, if the address data object 1 is not present, then the ME shall assume the RP_Destination_Address of the Service Centre is not to be modified.
     char	addressSize1;		//!> address size
 
@@ -605,7 +605,7 @@ struct _SatSIManswer
     char*	capabilityConfP1;	//!< Capability configuration parameters1
     char	capabilityConfSize1;//!< the capability configuration parameters1 size
 
-    char*	capabilityConfP2;	//!< Capability configuration parameters2 
+    char*	capabilityConfP2;	//!< Capability configuration parameters2
     char	capabilityConfSize2;//!< the capability configuration parameters2 size
 };
 
@@ -654,11 +654,11 @@ struct _SatSIManswer
 #define	SAT_TIMER_EXPIRATION						0xD7
 
 
-// SIMPLE-TLV data objects tags 
+// SIMPLE-TLV data objects tags
 #define SAT_COMMAND_DETAILS						0x01 //!> Command details tag
 #define SAT_DEVICE_IDENTITIES						0x02 //!> Device identity tag
 #define SAT_RESULT									0x03 //!> Result tag
-#define SAT_DURATION								0x04 //!> Duration tag 
+#define SAT_DURATION								0x04 //!> Duration tag
 #define SAT_ALPHA_IDENTIFIER						0x05 //!> Alpha identifier tag
 #define SAT_ADDRESS								0x06 //!> Address tag
 #define SAT_CAPABILILITY_CONFIGURATION_PARAMETERS	0x07 //!> Capability configuration parameters tag
@@ -667,28 +667,28 @@ struct _SatSIManswer
 #define SAT_USSD_STRING							0x0A //!> USSD string tag
 #define SAT_SMS_TPDU								0x0B //!> SMS TPDU tag
 #define SAT_CELL_BROADCAST_PAGE					0x0C //!> Cell Broadcast page tag
-#define SAT_TEXT_STRING							0x0D //!> Text string tag 
+#define SAT_TEXT_STRING							0x0D //!> Text string tag
 #define SAT_TONE									0x0E //!> Tone tag
 #define SAT_ITEM									0x0F //!> Item tag
-#define SAT_ITEM_IDENTIFIER						0x10 //!> Item identifier tag 
-#define SAT_RESPONSE_LENGTH						0x11 //!> Response length tag 
+#define SAT_ITEM_IDENTIFIER						0x10 //!> Item identifier tag
+#define SAT_RESPONSE_LENGTH						0x11 //!> Response length tag
 #define SAT_FILE_LIST								0x12 //!> File List tag
 #define SAT_LOCATION_INFORMATION					0x13 //!> Location Information tag
-#define SAT_IMEI									0x14 //!> IMEI tag 
-#define SAT_HELP_REQUEST							0x15 //!> Help request tag 
-#define SAT_NETWORK_MEASUREMENT_RESULTS			0x16 //!> Network Measurement Results tag 
+#define SAT_IMEI									0x14 //!> IMEI tag
+#define SAT_HELP_REQUEST							0x15 //!> Help request tag
+#define SAT_NETWORK_MEASUREMENT_RESULTS			0x16 //!> Network Measurement Results tag
 #define SAT_DEFAULT_TEXT							0x17 //!> Default Text tag
 #define SAT_ITEMS_NEXT_ACTION_INDICATOR			0x18 //!> Items Next Action Indicator tag
 #define SAT_EVENT_LIST								0x19 //!> Event list tag
 #define SAT_CAUSE									0x1A //!> Cause tag
-#define SAT_LOCATION_STATUS						0x1B //!> Location status tag 
+#define SAT_LOCATION_STATUS						0x1B //!> Location status tag
 #define SAT_TRANSACTION_IDENTIFIER					0x1C //!> Transaction identifier tag
 #define SAT_BCCH_CHANNEL_LIST						0x1D //!> BCCH channel list tag
 #define SAT_ICON_IDENTIFIER						0x1E //!> Icon identifier tag
 #define SAT_ITEM_ICON_IDENTIFIER_LIST				0x1F //!> Item Icon identifier list tag
 //#define SAT_CARD_READER_STATUS						0x20 //!> Card reader status tag
 #define SAT_CARD_ATR								0x21 //!> Card ATR tag
-#define SAT_C_ADPU									0x22 //!> C-APDU tag 
+#define SAT_C_ADPU									0x22 //!> C-APDU tag
 #define SAT_R_ADPU									0x23 //!> R-APDU tag
 #define SAT_TIMER_IDENTIFIER						0x24 //!> Timer identifier tag
 #define SAT_TIMER_VALUE							0x25 //!> Timer value tag
@@ -701,8 +701,8 @@ struct _SatSIManswer
 #define SAT_DTMF_STRING							0x2C //!> DTMF string tag
 #define SAT_LANGUAGE								0x2D //!> Language tag
 #define SAT_TIMING_ADVANCE							0x2E //!> Timing Advance tag
-#define SAT_AID									0x2F //!> AID tag 
-#define SAT_BROWSER_IDENTITY						0x30 //!> Browser Identity tag 
+#define SAT_AID									0x2F //!> AID tag
+#define SAT_BROWSER_IDENTITY						0x30 //!> Browser Identity tag
 #define SAT_URL									0x31 //!> URL tag
 #define SAT_BEARER									0x32 //!> Bearer tag
 #define SAT_PROVISIONING_FILE_REFERENCE			0x33 //!> Provisioning Reference File tag
@@ -715,11 +715,11 @@ struct _SatSIManswer
 //#define SAT_CARD_READER_IDENTIFIER					0x3A //!> Card reader identifier tag
 #define SAT_FILE_UPDATE_INFORMATION				0x3B //!> File Update Information tag
 #define SAT_SIM_ME_INTERFACE_TRANSPORT_LEVEL		0x3C //!> UICC/terminal interface transport level tag
-// 0x3D Not used                                                           
+// 0x3D Not used
 #define SAT_OTHER_ADDRESS							0x3E //!> Other address (data destination address) tag
 
 
-// 
+//
 //Access Technology tag                                             0x3F
 //Display parameters tag                                            0x40
 //Service Record tag                                                0x41
@@ -749,9 +749,9 @@ struct _SatSIManswer
 //Multimedia Message Reference tag               				    '6A'
 //Multimedia Message Identifier tag                  				'6B'
 //Reserved for 3GPP (Multimedia Message Transfer Status tag) 1    	'6C'
-//MEID tag															'6D' 
-//Multimedia Message Content Identifier tag							'6E' 
-//Multimedia Message Notification tag								'6F' 
+//MEID tag															'6D'
+//Multimedia Message Content Identifier tag							'6E'
+//Multimedia Message Notification tag								'6F'
 
 
 // admissible values for kGetDataDeviceIdentities param
@@ -798,8 +798,8 @@ struct _SatSIManswer
 
 //! Card EF access mode
 #define	SAT_CARD_MODE_GET_INFO								0x00	//!<  Get EF information
-#define	SAT_CARD_MODE_READ_FILE								0x01	//!<  Read EF body 
-#define	SAT_CARD_MODE_READ_PART								0x02	//!<  Read EF part 
+#define	SAT_CARD_MODE_READ_FILE								0x01	//!<  Read EF body
+#define	SAT_CARD_MODE_READ_PART								0x02	//!<  Read EF part
 #define	SAT_CARD_MODE_READ_REC								0x03	//!<  Read EF record
 
 //! Card EF structure
@@ -809,7 +809,7 @@ struct _SatSIManswer
 
 /******************************************************************************************************************************************************/
 
-//! SetUpEventList parameters: each byte in the event list shall be coded with one of the values below: 
+//! SetUpEventList parameters: each byte in the event list shall be coded with one of the values below:
 #define SAT_EVENT_USER_ACTIVITY								0x04	//!< User activity
 #define SAT_EVENT_IDLE_SCREEN_AVAILABLE						0x05	//!< Idle screen available
 #define SAT_EVENT_LANGUAGE_SELECTION						0x07	//!< Language selection
@@ -863,9 +863,9 @@ struct _SatSIManswer
 
 
 /**********************************************************************************************************************************************************************
- *     
- *		Command qualifier     
- *     
+ *
+ *		Command qualifier
+ *
  **********************************************************************************************************************************************************************/
 
 //! Refresh command qualifier
@@ -879,7 +879,7 @@ struct _SatSIManswer
 
 /******************************************************************************************************************************************************/
 
-//! SetUpCall command qualifier 
+//! SetUpCall command qualifier
 #define SAT_SETUP_CALL_ONLY_IF_NOT_BUSY									0x00	//!< Set up call, but only if not currently busy on another call
 #define SAT_SETUP_CALL_ONLY_IF_NOT_BUSY_WITH_REDIAL						0x01	//!< Set up call, but only if not currently busy on another call, with redial
 #define SAT_SETUP_CALL_AND_PUT_ALL_OTHER_CALLS_ON_HOLD					0x02	//!< Set up call, putting all other calls (if any) on hold
@@ -901,7 +901,7 @@ struct _SatSIManswer
 
 /******************************************************************************************************************************************************/
 
-//! DISPLAY MULTIMEDIA MESSAGE / DISPLAY TEXT command qualifier 
+//! DISPLAY MULTIMEDIA MESSAGE / DISPLAY TEXT command qualifier
 
 // priority
 #define	SAT_NORMAL_PRIORITY							0x00	//!<normal priority
@@ -920,7 +920,7 @@ struct _SatSIManswer
 #define  SAT_RESP_TYPE_UNPACKED_DIGITS_ONLY			0x02	// unpacked digits (0 to 9, *, #, and +) only, applies to GetInkey, GetInput
 #define  SAT_RESP_TYPE_PACKED_DIGITS_ONLY			0x03	// packed digits (0 to 9, *, #, and +) only, applies to GetInput
 #define  SAT_RESP_TYPE_UCS2_DIGITS_ONLY				0x04	// UCS2 digits (0 to 9, *, #, and +) only, applies to GetInkey, GetInput
-#define  SAT_RESP_TYPE_UNPACKED_SMS_ALPHABET		0x05	// SMS default alphabet 8 bits data, applies to GetInkey, GetInput 
+#define  SAT_RESP_TYPE_UNPACKED_SMS_ALPHABET		0x05	// SMS default alphabet 8 bits data, applies to GetInkey, GetInput
 #define  SAT_RESP_TYPE_PACKED_SMS_ALPHABET			0x06	// SMS default alphabet 7 bits packed, applies to GetInput
 #define  SAT_RESP_TYPE_UCS2_ALPHABET				0x07   	// 16 bits UCS2 alphabet, applies to GetInkey, GetInput
 
@@ -957,7 +957,7 @@ struct _SatSIManswer
 
 /******************************************************************************************************************************************************/
 
-//! LaunchBrowser command qualifier 
+//! LaunchBrowser command qualifier
 #define SAT_LAUNCH_BROWSER_IF_NOT_ALREADY_LAUNCHED				0x00	//!< launch browser if not already launched
 #define SAT_LAUNCH_BROWSER_USE_EXISTING							0x02	//!< use the existing browser (the browser shall not use the active existing secured session)
 #define SAT_LAUNCH_BROWSER_CLOSE_EXISTING_AND_LAUNCH_NEW		0x03	//!< close the existing browser session and launch new browser session
@@ -987,10 +987,10 @@ struct _SatSIManswer
 #define SAT_BEARER_SMS											0x00	//!< short message
 #define SAT_BEARER_CSD											0x01	//!< circuit switched data
 #define SAT_BEARER_USSD											0x02	//!<
-#define SAT_BEARER_GPRS											0x03	//!< 
+#define SAT_BEARER_GPRS											0x03	//!<
 
 /******************************************************************************************************************************************************/
-//! Command OPEN CHANNEL parameters or response to OPEN CHANNEL: 
+//! Command OPEN CHANNEL parameters or response to OPEN CHANNEL:
 
 //type of adress in the TLV object "Other adress"
 #define	SAT_ADDRESS_IPV4										0x21
@@ -1001,7 +1001,7 @@ struct _SatSIManswer
 #define	SAT_TRANSPORT_TCP_CLIENT_MODE							0x02	//!< TCP, UICC in client mode (as defined in RFC 793 [10])
 #define	SAT_TRANSPORT_TCP_SERVER_MODE							0x03	//!< TCP, UICC in server mode (as defined in RFC 793 [10])
 
-//! Bearer type in the bearer description parameter 
+//! Bearer type in the bearer description parameter
 #define SAT_CSD													0x01	//!< circuit switched data
 #define SAT_GPRS_3G_PACKET_SERVICE								0x02	//!< GPRS / 3G packet service
 #define SAT_DEFAULT_BEARER										0x03	//!< default bearer for requested transport layer
@@ -1009,7 +1009,7 @@ struct _SatSIManswer
 #define SAT_BLUETOOTH											0x05	//!< Bluetooth
 #define SAT_IRDA												0x06	//!< IrDA
 #define SAT_RS232												0x07	//!< RS232
-#define SAT_PACKET_DATA_SERVICE									0x08	//!< TIA/EIA/IS-820 packet data service 
+#define SAT_PACKET_DATA_SERVICE									0x08	//!< TIA/EIA/IS-820 packet data service
 #define SAT_UTRAN												0x09	//!< UTRAN packet service with extended parameters
 #define SAT_USB													0x10	//!< USB
 
@@ -1028,14 +1028,14 @@ struct _SatSIManswer
 
 /******************************************************************************************************************************************************/
 
-// Command Menu Selection parameters:  
+// Command Menu Selection parameters:
 #define SAT_MENU_SELECTION_NO_HELP_REQUESTED			0x00 //!< do not insert help request tag in the enveloppe message MENU SELECTION
 #define SAT_MENU_SELECTION_HELP_REQUESTED				0x01 //!< insert help request tag in the enveloppe message MENU SELECTION to request help information on the item selected
 //#define SAT_MENU_SELECTION_APP_MENU_REQUEST			0x03
 
 /******************************************************************************************************************************************************/
 
-//! Browser termination cause to join in the structure of enveloppe (Browser termination)  
+//! Browser termination cause to join in the structure of enveloppe (Browser termination)
 #define SAT_BROWSER_USER_TERMINATION							0x00
 #define SAT_BROWSER_ERROR_TERMINATION							0x01
 

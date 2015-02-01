@@ -335,8 +335,8 @@ int at_recv_ss(char* cmd, char* atmsg)
 	    {
 		return at_rx_ss_cb_get(data);
 	    }
-	    else            
-	    {       
+	    else
+	    {
 		NOT_SUPPORTED_AT(atmsg);
 		return -1;
 	    }

@@ -34,7 +34,7 @@
 *********************************************************************/
 
 /* ------------------------------------------------------------------------
-   This is the most important header file for understanding the library architecture. 
+   This is the most important header file for understanding the library architecture.
    This goes like an instance of the structure, _GSM_StateMachine.
    So, you can figure out the whole architecture by analyzing this structure members.
 
@@ -155,7 +155,7 @@ typedef struct {
     int                      ArrayIndex;
     bool PBMirroringDone;
     bool AutoRedial;
-    /* 
+    /*
        GSM_PHONEBOOK_ALL       *PBAllItem;
        GSM_PB_ONE_ITEM         *PBOneItem;
        GSM_PB_StorageInfo      *pbinfo;

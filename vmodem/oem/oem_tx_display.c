@@ -31,6 +31,11 @@
 #include "at_tx_display.h"
 #include "oem_tx_display.h"
 
+int oem_tx_display_rssi_info_noti(void *data, int len)
+{
+    return at_tx_display_rssi_info_noti(data, len);
+}
+
 int oem_tx_display_icon_info_noti(void *data, int len)
 {
     return at_tx_display_icon_info_noti(data, len);

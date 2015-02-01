@@ -56,6 +56,20 @@ int server_tx_display_icon_info_resp(void)
     return oem_tx_display_icon_info_resp(data, n);
 }
 
+int server_tx_display_rssi_info_noti( unsigned char icon_type, unsigned char rssi)
+{
+    unsigned char data[2];
+    int n = 0;
+
+    TRACE(MSGL_VGSM_INFO, "icon %02x rssi %02x\n", icon_type, rssi);
+    g_rssi_value = rssi;
+
+    data[n++] = icon_type;
+    data[n++] = g_rssi_value;
+
+    return oem_tx_display_rssi_info_noti(data, n);
+}
+
 int server_tx_display_icon_info_noti( unsigned char icon_type, unsigned char rssi, unsigned char bat, unsigned char act, unsigned char reg)
 {
     unsigned char data[10];

@@ -79,18 +79,18 @@ typedef enum
     LXT_ID_CLIENT_PHONE_SETUP                                               = 0x0A, // ID of Phone setup
     LXT_ID_CLIENT_CARD_MANAGER                                              = 0x0B, // ID of CARD Manager
     LXT_ID_CLIENT_SMS_DAEMON                                                = 0x0C, // ID of SMS Daemon
-    LXT_ID_CLIENT_GPS                                                       = 0x0D, // ID of GPS 
-    LXT_ID_CLIENT_SECURITY_SETUP                                            = 0x0E, // ID of Security Setup 
-    LXT_ID_CLIENT_SAT                                            			= 0x0F, // ID of sim application toolkit 
-    LXT_ID_CLIENT_DATA_1                                            		= 0x10, // ID of data 1 
-    LXT_ID_CLIENT_DATA_2                                            		= 0x11, // ID of data 2 
-    LXT_ID_CLIENT_DATA_3                                            		= 0x12, // ID of data 3 
-    LXT_ID_CLIENT_DATA_4                                            		= 0x13, // ID of data 4 
-    LXT_ID_CLIENT_DATA_5                                            		= 0x14, // ID of data 5 
+    LXT_ID_CLIENT_GPS                                                       = 0x0D, // ID of GPS
+    LXT_ID_CLIENT_SECURITY_SETUP                                            = 0x0E, // ID of Security Setup
+    LXT_ID_CLIENT_SAT                                            			= 0x0F, // ID of sim application toolkit
+    LXT_ID_CLIENT_DATA_1                                            		= 0x10, // ID of data 1
+    LXT_ID_CLIENT_DATA_2                                            		= 0x11, // ID of data 2
+    LXT_ID_CLIENT_DATA_3                                            		= 0x12, // ID of data 3
+    LXT_ID_CLIENT_DATA_4                                            		= 0x13, // ID of data 4
+    LXT_ID_CLIENT_DATA_5                                            		= 0x14, // ID of data 5
     LXT_ID_CLIENT_DATA_6                                            		= 0x15, // ID of data 6
-    LXT_ID_CLIENT_EVENT_INJECTOR					    = 0x16, //ID of event injector 
-    LXT_ID_CLIENT_EVENT_MANAGER_RX					    = 0x17, //ID of event injector 
-    LXT_ID_CLIENT_EVENT_MANAGER_TX					    = 0x18, //ID of event injector 
+    LXT_ID_CLIENT_EVENT_INJECTOR					    = 0x16, //ID of event injector
+    LXT_ID_CLIENT_EVENT_MANAGER_RX					    = 0x17, //ID of event injector
+    LXT_ID_CLIENT_EVENT_MANAGER_TX					    = 0x18, //ID of event injector
     LXT_ID_CLIENT_EVENT_MANAGER					    = 0x19, //ID of event manager
     LXT_ID_CLIENT_INVALID                                                   = 0x39, // ID of invalid
     LXT_ID_CLIENT_ANY                                                       = 0xff
@@ -119,7 +119,7 @@ enum LXT_GRP
     LXT_GRP_RESPONSE                                                        = 0x5F,  // response
     LXT_GRP_PHONE_BOOK                                                      = 0x61,  // phone book
     LXT_GRP_CARD_SMS                                                        = 0x62,  // card sms
-    LXT_GRP_GPS                                                             = 0x63,  // GPS 
+    LXT_GRP_GPS                                                             = 0x63,  // GPS
     LXT_GRP_EOT                                                             = 0x80   // eot
 
 };
@@ -169,7 +169,7 @@ enum LXT_PHN_PHONE_INFO
     LXT_PHN_INTERNAL_SERVER_SIM_COVER_OPENED                                = 0x50,
     LXT_PHN_INTERNAL_SERVER_SIM_COVER_CLOSED                                = 0x51,
     LXT_PHN_INTERNAL_SERVER_PHONE_REBUILD_START                             = 0x52,
-    LXT_PHN_INTERNAL_SERVER_PHONE_REBUILD_END                               = 0x53,                
+    LXT_PHN_INTERNAL_SERVER_PHONE_REBUILD_END                               = 0x53,
     LXT_PHN_INTERNAL_SERVER_PHONE_FATAL_ERROR                               = 0x54,
     LXT_PHN_INTERNAL_SERVER_PHONE_NV_BACKUP_NOTIFICATION                    = 0x55,
     LXT_PHN_INTERNAL_PHONEBOOK_LOADING_COMPLETION_NOTIFICATION              = 0x56,
@@ -348,9 +348,9 @@ enum LXT_PDA_CALL
     LXT_PDA_CALL_CALL_ORIGINATION2_REQUEST                                  = 0x51,
     LXT_PDA_CALL_GET_VOICE_PRIVACY_OPTION_REQUEST                           = 0x52,
     LXT_PDA_CALL_SET_VOICE_PRIVACY_OPTION_REQUEST                           = 0x53,
-    LXT_PDA_CALL_CURRENT_VOICE_PRIVACY_STATUS_REQUEST                       = 0x54,    
+    LXT_PDA_CALL_CURRENT_VOICE_PRIVACY_STATUS_REQUEST                       = 0x54,
     LXT_PDA_CALL_SOS_CALL_REQUEST                                           = 0x55,
-    LXT_PDA_CALL_REJECT_CALL_REQUEST                                        = 0x56    
+    LXT_PDA_CALL_REJECT_CALL_REQUEST                                        = 0x56
 };
 
 enum LXT_PHN_CALL
@@ -445,7 +445,7 @@ enum LXT_PHN_CARD_SMS
     LXT_PHN_CARD_SMS_DELETE_RESPONSE                                        = 0x44,
     LXT_PHN_CARD_SMS_SET_TAG_RESPONSE                                       = 0x45,
     LXT_PHN_CARD_SMS_CLEAR_RESPONSE                                         = 0x46,
-    LXT_PHN_CARD_SMS_MESSAGE_READY_NOTIFICATION                             = 0x47,    
+    LXT_PHN_CARD_SMS_MESSAGE_READY_NOTIFICATION                             = 0x47,
     LXT_PHN_CARD_SMS_COMPLETE_NOTIFICATION                                  = 0x48,
 
     // GSM

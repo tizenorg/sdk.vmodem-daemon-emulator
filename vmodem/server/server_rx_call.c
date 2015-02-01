@@ -245,7 +245,7 @@ int server_rx_call_line_id_get(void)
 }
 
 int server_rx_call_release_incoming(void)
-{       
+{
     TRACE(MSGL_VGSM_INFO, "\n");
     int releaseCnt = 0;
 

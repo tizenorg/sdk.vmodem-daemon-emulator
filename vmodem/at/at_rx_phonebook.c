@@ -44,7 +44,7 @@ int at_rx_sim_pb_default(char* atmsg)
 
 
 /*
-   The only one entry could get on one time, in these times vmodem code, 
+   The only one entry could get on one time, in these times vmodem code,
    so Phonebook is implemented to 2G feature.
  */
 int at_rx_sim_pb_access(char* atmsg)

@@ -165,9 +165,9 @@ int server_tx_call_status(void) // it means call state.
 
     if(strcmp(callList->CallInfo[get_call_id()].number, ""))
     {
-	sprintf((char*)pdata, "%d,%d,%d,%d,%d,%s,%d", get_call_id() + 1, change_dir_for_at(callList->CallInfo[get_call_id()].dir), 
-		at_stat, AT_CALL_MODE_VOICE, AT_CALL_MPTY_FALSE, 
-		callList->CallInfo[get_call_id()].number,callList->CallInfo[get_call_id()].num_type); 
+	sprintf((char*)pdata, "%d,%d,%d,%d,%d,%s,%d", get_call_id() + 1, change_dir_for_at(callList->CallInfo[get_call_id()].dir),
+		at_stat, AT_CALL_MODE_VOICE, AT_CALL_MPTY_FALSE,
+		callList->CallInfo[get_call_id()].number,callList->CallInfo[get_call_id()].num_type);
     }
     else
     {
@@ -211,7 +211,7 @@ int server_tx_call_list_noti(void)
 	memset( data, 0, len * 2 );
 	sprintf((char*)data, "%d,%d,%d,%d,%d,%s,%d%s", callList->CallInfo[i].idx + 1,
 		change_dir_for_at(callList->CallInfo[i].dir),
-		change_stat_for_at(callList->CallInfo[i].stat), AT_CALL_MODE_VOICE, callList->CallInfo[i].mpty, 
+		change_stat_for_at(callList->CallInfo[i].stat), AT_CALL_MODE_VOICE, callList->CallInfo[i].mpty,
 		callList->CallInfo[i].number, callList->CallInfo[i].num_type, CRLF);
 	log_msg(MSGL_VGSM_INFO, "%s", data);
 	ret = oem_tx_call_status_noti(data, strlen((char*)data));
@@ -309,10 +309,10 @@ int server_tx_call_list_resp(void)
 
 	assert(valid_call_type(callList->CallInfo[i].call_type));
 	memset( data, 0, len * 2);
-	sprintf((char*)data, "%s%d,%d,%d,%d,%d,%s,%d%s", CLCC,callList->CallInfo[i].idx + 1, 
+	sprintf((char*)data, "%s%d,%d,%d,%d,%d,%s,%d%s", CLCC,callList->CallInfo[i].idx + 1,
 		change_dir_for_at(callList->CallInfo[i].dir),
-		change_stat_for_at(callList->CallInfo[i].stat), 
-		AT_CALL_MODE_VOICE, callList->CallInfo[i].mpty, 
+		change_stat_for_at(callList->CallInfo[i].stat),
+		AT_CALL_MODE_VOICE, callList->CallInfo[i].mpty,
 		callList->CallInfo[i].number, callList->CallInfo[i].num_type, CRLF);
 	log_msg(MSGL_VGSM_INFO, "%s", data);	
 	ret = oem_tx_call_list_resp(data, strlen((char*)data));

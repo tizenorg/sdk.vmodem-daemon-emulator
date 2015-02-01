@@ -88,7 +88,7 @@ typedef enum {
 
 // actually, this data structures is used at db.
 typedef enum {
-    SS_CMD_CW = 1, 
+    SS_CMD_CW = 1,
     SS_CMD_CB,
     SS_CMD_CF
 } ss_cmd_e_type;
@@ -140,7 +140,7 @@ typedef struct
     unsigned char CharTypeOfCurrency; 			/**< Specifies the Char type of currency. */
     unsigned char szCurrency[TAPI_SS_AOC_CURRENCY_LEN_MAX];	/**< Specifies the Currency characters. */
 } TelCallAocInfo_t;
-#endif 
+#endif
 // 090213 090330//////////////////////////////////////////////
 typedef struct
 {

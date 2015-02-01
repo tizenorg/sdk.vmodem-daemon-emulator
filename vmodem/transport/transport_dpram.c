@@ -349,7 +349,7 @@ static int dpram_poweron(GSM_StateMachine * s, int first_boot)
     }
     else{
 #ifdef __arm__
-	if (!_IsFlightMode() || first_boot) { 
+	if (!_IsFlightMode() || first_boot) {
 	    GSM_Device_DPRAMData	*d = &s->Device.Data.DPRAM;
 	    GSM_Phone_Data			*Data = &s->Phone.Data;
 	    int rc = -1;
@@ -432,14 +432,14 @@ static int dpram_write(GSM_StateMachine *s, void *buf, size_t nbytes)
 	    if (actual != nbytes)
 		GSM_OSErrorInfo(s, "dpram_write");
 	    return actual;
-	}               
+	}
 
 	actual  += ret;
 	p       += ret;
     } while (actual < nbytes);
 
     return actual;
-}   
+}
 
 static bool dpram_powerstatus(GSM_StateMachine *s)
 {

@@ -33,6 +33,17 @@
 #include "at_tx_display.h"
 #include "at_func.h"
 
+int at_tx_display_rssi_info_noti(void *data, int len)
+{
+    TRACE(MSGL_VGSM_INFO, "%s noti\n", CIEV);
+    char* buf = (char*)data;
+    char sndbuf1[SEND_BUF_SIZE];
+    memset(sndbuf1, '\0', sizeof(sndbuf1));
+
+    sprintf(sndbuf1, "%s%d,%d%s", CIEV, SIGNAL, buf[1], CRLF);  // rssi
+    return at_msg_send(ACK_SEQ_NOTIFICATION, sndbuf1, strlen(sndbuf1));
+}
+
 int at_tx_display_icon_info_noti(void *data, int len)
 {
     TRACE(MSGL_VGSM_INFO, "%s noti\n", CIEV);

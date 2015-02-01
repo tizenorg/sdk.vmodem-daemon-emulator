@@ -31,7 +31,7 @@
 int vgsm_display_icon_information(LXT_HANDLE* handle, disp_icon_info_t info)
 {
     int nretn = 0;
-    int	length = 5; 
+    int	length = 5;
 
     if( handle == NULL )
 	return -1;

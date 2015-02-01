@@ -91,12 +91,12 @@ typedef enum{
     GSM_SEC_CHANGE_LOCKING_PW,			/* 0x03 : Change Locking Password Message */
     GSM_SEC_SIM_LANG,						/* 0x04 : SIM Language Message */
     GSM_SEC_RSIM_ACCESS,					/* 0x05 : +CRSM, Restricted SIM Access Message */
-    GSM_SEC_GSIM_ACCESS,					/* 0x06 : +CSIM, General SIM Access Message */             
+    GSM_SEC_GSIM_ACCESS,					/* 0x06 : +CSIM, General SIM Access Message */
     GSM_SEC_SIM_ICC_TYPE,					/* 0x07 : SIM ICC Type Message*/
     GSM_SEC_LOCK_INFO,					/* 0x08 : Lock Information Message*/
     GSM_SEC_ISIM_AUTH,					/* 0x9 : ISIM Authentication Message */
     GSM_SEC_MAX
-} gsm_sec_sub_cmd_type; 
+} gsm_sec_sub_cmd_type;
 
 typedef enum{
     GSM_CALL_OUTGOING=0x01,           /* 0x01 : Call Outgoing Message */

@@ -224,8 +224,8 @@ LXT_HANDLE* lxt_initialize(LXT_ID_CLIENT clientclass, LXT_CALLBACK cb)
     //if(is_inet_mode()) //FALSE
     if(1) // 090501	prevent segfault in qemu
     {
-	//printf("[VGSM] INET MODE : LINUX TAPI with coruscant on i819 : [%s][%s]\n", __DATE__, __TIME__);        
-	LIBVGSM_DEBUG("INET MODE : LINUX VGSM\n");        
+	//printf("[VGSM] INET MODE : LINUX TAPI with coruscant on i819 : [%s][%s]\n", __DATE__, __TIME__);
+	LIBVGSM_DEBUG("INET MODE : LINUX VGSM\n");
 	if((sockfd = connect_af_inet("127.0.0.1")) == -1)
 	{
 	    LIBVGSM_DEBUG("LINUX VGSM : connect to target failed");
@@ -302,7 +302,7 @@ int vgsm_injector_get_fd(LXT_HANDLE *handle)
    int vgsm_release(LXT_HANDLE* handle)
    {
    int rc = -1;
-   int exit_status; 
+   int exit_status;
 
 // check handle
 if (handle == NULL)
