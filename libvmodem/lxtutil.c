@@ -1,30 +1,29 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 // ++++++++++++++++++++++++++++++++++++++++++++++include about standard library
@@ -57,10 +56,10 @@ int lxt_util_readRawBytes(int fd, void *data, int size)
     if ( (data == 0) || (fd < 0) )
     {
 #ifndef _NO_ESPRESSO_DEBUG_
-        LIBVGSM_DEBUG("Source Invalid \n");
+	LIBVGSM_DEBUG("Source Invalid \n");
 #endif // _NO_ESPRESSO_DEBUG_
 
-        return -1;
+	return -1;
     }
 
     rc = read(fd, &tmp_buf, size);
@@ -72,11 +71,11 @@ int lxt_util_readRawBytes(int fd, void *data, int size)
     if (rc <= 0)
     {
 #ifndef _NO_ESPRESSO_DEBUG_
-		fprintf(stderr,"File read error:%s\n",strerror(errno));
-		LIBVGSM_DEBUG("Read Fail and size=%d,  rc=%d\n",size,rc);
+	fprintf(stderr,"File read error:%s\n",strerror(errno));
+	LIBVGSM_DEBUG("Read Fail and size=%d,  rc=%d\n",size,rc);
 #endif // _NO_ESPRESSO_DEBUG_
 
-        return -1;
+	return -1;
     }
 
 #ifndef _NO_ESPRESSO_DEBUG_
@@ -91,16 +90,16 @@ int lxt_util_writeRawBytes(int fd, const void *data, int size)
 {
     int rc;
 
-	LIBVGSM_DEBUG("%s\n", __FUNCTION__);
+    LIBVGSM_DEBUG("%s\n", __FUNCTION__);
 
     // check
     if ( (data == 0) || (fd < 0) )
     {
 #ifndef _NO_ESPRESSO_DEBUG_
-        LIBVGSM_DEBUG("Source Invalid\n");
+	LIBVGSM_DEBUG("Source Invalid\n");
 #endif // _NO_ESPRESSO_DEBUG_
 
-        return -1;
+	return -1;
     }
 
     rc = write(fd, data, size);
@@ -108,10 +107,10 @@ int lxt_util_writeRawBytes(int fd, const void *data, int size)
     if (rc <= 0)
     {
 #ifndef _NO_ESPRESSO_DEBUG_
-        LIBVGSM_DEBUG("Write Failed\n");
+	LIBVGSM_DEBUG("Write Failed\n");
 #endif // _NO_ESPRESSO_DEBUG_
 
-        return -1;
+	return -1;
     }
 
 #ifndef _NO_ESPRESSO_DEBUG_
@@ -124,18 +123,18 @@ int lxt_util_writeRawBytes(int fd, const void *data, int size)
 
 void lxt_util_rawdataPrint(void *rawdata, int rawdatasize, const char *title)
 {
-	int i;
-	int len;
-	unsigned char *p;
+    int i;
+    int len;
+    unsigned char *p;
 
-	LIBVGSM_DEBUG("%s\n", __FUNCTION__);
+    LIBVGSM_DEBUG("%s\n", __FUNCTION__);
 
-	if ( (rawdatasize > 0) && (rawdata == NULL) )
-	{
-		return;
-	}
+    if ( (rawdatasize > 0) && (rawdata == NULL) )
+    {
+	return;
+    }
 
-	printf(title);
+    printf(title);
 
     // save pointer
     p = (unsigned char *)rawdata;
@@ -145,9 +144,9 @@ void lxt_util_rawdataPrint(void *rawdata, int rawdatasize, const char *title)
 
     for (i = 0; i < len; i++)
     {
-        if (!(i%16))
-            printf("\n");
-        printf("%02x ", p[i]);
+	if (!(i%16))
+	    printf("\n");
+	printf("%02x ", p[i]);
 
     }
     printf("\n");
@@ -158,11 +157,11 @@ int lxt_msg_send_to_server(int fd, const void *data, int size)
 {
     int rc = -1;
 
-	LIBVGSM_DEBUG("%s\n", __FUNCTION__);
+    LIBVGSM_DEBUG("%s\n", __FUNCTION__);
 
     // check
     if ( (data == 0) || (fd < 0) )
-        return rc;
+	return rc;
 
     // tx to phone server
     rc = lxt_util_writeRawBytes(fd, data, size);
@@ -176,7 +175,7 @@ int lxt_msg_send_message(int fd, unsigned char g, unsigned char a, unsigned int 
     LXT_MESSAGE packet;
     int rc;
 
-	LIBVGSM_DEBUG("lxt_msg_send_message : fd=%d, total size = 4+%d \n",fd, len);
+    LIBVGSM_DEBUG("lxt_msg_send_message : fd=%d, total size = 4+%d \n",fd, len);
 
     // save group
     packet.group = g;
@@ -190,15 +189,15 @@ int lxt_msg_send_message(int fd, unsigned char g, unsigned char a, unsigned int 
     // tx to phone server
     rc = lxt_msg_send_to_server(fd, &packet, 4);
 
-	if(rc != 4 )
-		printf("[ %s ] [WARNING] write fail : rc = %d \n", __FUNCTION__, rc);
+    if(rc != 4 )
+	printf("[ %s ] [WARNING] write fail : rc = %d \n", __FUNCTION__, rc);
 
     if (len > 0)
     {
-        // tx to phone server if exists data
-        rc = lxt_msg_send_to_server(fd, data, len);
-		if(rc != len )
-			printf("[ %s ] [WARNING] write fail : rc = %d \n", __FUNCTION__, rc);
+	// tx to phone server if exists data
+	rc = lxt_msg_send_to_server(fd, data, len);
+	if(rc != len )
+	    printf("[ %s ] [WARNING] write fail : rc = %d \n", __FUNCTION__, rc);
     }
 
     return rc;

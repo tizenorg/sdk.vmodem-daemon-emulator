@@ -14,7 +14,7 @@ CFLAGS += -Wuninitialized
 CFLAGS += -Wpointer-arith
 CFLAGS += -Wp,-MD,$(dir $@).$(notdir $@).d -Wp,-MT,$@
 # for bypass __stack_chk_fail
-CFLAGS +=-fno-stack-protector 
+CFLAGS +=-fno-stack-protector
 
 CC = @CC@
 LD = @LD@

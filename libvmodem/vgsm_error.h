@@ -1,52 +1,51 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 #ifndef _vgsm_error_h_
 #define _vgsm_error_h_
 
 /*
- * 아래의 에러코드중 어플리케이션(폰어플리케이션)에서 체크하는 것은 
- * AT command result가 OK가 아닌 다음의 경우 
- * ERR_CME
- * ERR_CMS
- * ERR_UNKNOWN
- * ERR_UNKNOWNRESPONSE
- * 이렇게 네 개의 경우만 확인한다.
+ * The phone app checks,
+ * when the AT command result is not OK,
+ *  ERR_CME
+ *  ERR_CMS
+ *  ERR_UNKNOWN
+ *  ERR_UNKNOWNRESPONSE
+ * only this four cases.
  */
 typedef enum {
     ERR_NONE=1,
     ERR_CME,
     ERR_CMS,
     ERR_UNKNOWN,
-    ERR_UNKNOWNRESPONSE,    // 정의되지 않은 response
-    ERR_DEVICEOPENERROR,    // device open 에러
-    ERR_DEVICELOCKED,       // device lock 에러
+    ERR_UNKNOWNRESPONSE,
+    ERR_DEVICEOPENERROR,
+    ERR_DEVICELOCKED,
     ERR_DEVICENOTEXIST,
     ERR_DEVICEBUSY,
     ERR_DEVICENOPERMISSION,
@@ -57,9 +56,9 @@ typedef enum {
     ERR_DEVICEWRITEERROR,
     ERR_DEVICEREADERROR,
     ERR_DEVICEPARITYERROR,
-    ERR_TIMEOUT,            // at command timeout 에러
+    ERR_TIMEOUT,
     ERR_FRAMENOTREQUESTED,
-    ERR_UNKNOWNFRAME,       // 위의 경우와 유사
+    ERR_UNKNOWNFRAME,
     ERR_UNKNOWNCONNECTIONTYPESTRING,
     ERR_UNKNOWNMODELSTRING,
     ERR_SOURCENOTAVAILABLE,

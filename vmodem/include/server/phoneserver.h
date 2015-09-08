@@ -1,56 +1,45 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 /*********************************************************************
-* $Id: phoneserver.h,v 1.1.1.1 2008-12-08 04:45:34 okdear Exp $
-*
-* Copyright (C) Samsung Electronics
-*
-*********************************************************************/
+ * $Id: phoneserver.h,v 1.1.1.1 2008-12-08 04:45:34 okdear Exp $
+ *********************************************************************/
 
 #ifndef __phoneserver_h
 #define __phoneserver_h
 
-#ifdef __arm__
-#include "dpram.h"
-	//#include "mesgbox_set.h"
-#else
-	#include <sys/ioctl.h>
-#endif
+#include <sys/ioctl.h>
 
 #include <linuxtapi.h>
 #include <vgsm_sim.h>
 #include <vgsm_network.h>
 #include <vgsm_call.h>
 #include <vgsm_ss.h>
-
-//#include <mzgsmpb.h>
 
 #include "gsmstate.h"
 
@@ -67,61 +56,7 @@ typedef enum {
 typedef struct _Phone_Server PhoneServer;
 
 /* ---------------------------------------------------------------------------
-     IOManager
-   ---------------------------------------------------------------------------*/
-#ifdef __arm__
-typedef struct
-{
-    int  (*Open)     (PhoneServer *);
-    int  (*Close)    (PhoneServer *);
-    void (*SendQuery)(PhoneServer * s, const char * query);
-    void (*SendCast) (PhoneServer * s, const LXT_MESSAGE * packet);
-    int  (*CallBack) (PhoneServer * s,int fd,EloopCondition cond,void * data);
-    int  (*Init)     (PhoneServer *);
-} FunctionsIOM;
-
-extern FunctionsIOM IOMHandle;
-
-typedef enum
-{
-    TFactoryCableStatus_off                 =0x00,
-    TFactoryCableStatus_on                  =0x01
-}
-TFactoryCableStatus;
-
-typedef enum
-{
-    TFactoryCardStatus_off                  =0x00,
-    TFactoryCardStatus_on                   =0x01
-}
-TFactoryCardStatus;
-
-typedef enum
-{
-    TFactoryMode_exit                       =0x00,
-    TFactoryMode_enter                      =0x01,
-    TFactoryMode_unknown                    =0x0f
-}
-TFactoryMode;
-
-typedef struct
-{
-    int fd;
-    //MBSET mbs;
-
-    signed int          _battery_level;
-    TFactoryCableStatus _factory_cable_status;
-    TFactoryCardStatus  _factory_card_status;
-    TFactoryMode        _factory_mode;
-	char                _calibration_status;
-    char                _earjack_status;
-
-    FunctionsIOM * Functions;
-} IOManager;
-#endif
-
-/* ---------------------------------------------------------------------------
-     PPP Gateway : Dial up Networking을 위한 ppp gateway와의 통신을 위함
+   PPP Gateway : comunicate with ppp gateway for Dial up Networking
    ---------------------------------------------------------------------------*/
 typedef struct
 {
@@ -143,8 +78,8 @@ typedef struct
 } PPP_GATEWAY;
 
 /* ---------------------------------------------------------------------------
-     dpram : dpram handle GSM InitConnection에서 생성된 fd를 그대로 사용
-   ---------------------------------------------------------------------------*/
+dpram : use the 'fd' which is generate by dpram handle GSM InitConnection
+---------------------------------------------------------------------------*/
 typedef struct
 {
     int (*CallBack)(PhoneServer * s, int fd, EloopCondition cond, void * data);
@@ -160,7 +95,7 @@ typedef struct
 } DPRAM;
 
 /* ---------------------------------------------------------------------------
-     dpram event : ppp, SIM cover상태등의 phone event를 전달하는 fd
+   dpram event : 'fd' for phone event like ppp, SIM cover.
    ---------------------------------------------------------------------------*/
 typedef struct
 {
@@ -178,7 +113,7 @@ typedef struct
 } DPRAM_EVENT;
 
 /* ---------------------------------------------------------------------------
-     dpram error : phone binary critical message 처리
+   dpram error : for the phone binary critical message
    ---------------------------------------------------------------------------*/
 typedef struct
 {
@@ -196,8 +131,8 @@ typedef struct
 } DPRAM_ERROR;
 
 /* ---------------------------------------------------------------------------
-     socket server : client 연결을 위한 socket server
-     대부분의 코드는 TClientInfo의 CallBack에 들어있다.
+   socket server : socket server for client connecting
+   almost codes are in CallBack of TClientInfo.
    ---------------------------------------------------------------------------*/
 typedef struct
 {
@@ -256,24 +191,20 @@ typedef struct
 
 extern int vgsm_server_port;
 
-//
 typedef struct
 {
-    //GSM_WaitingCall WaitingCall; // unused
     LXT_PHONE_STATE CurrentPhoneState;
-    // char prevCallList[MAX_CALL_COUNT];
-    // unsigned short prevCallList[MAX_CALL_COUNT];
     gsm_call_list_t   prevCallList;
     bool m_waitingmode;
     bool m_deviceCall;
-	int 			UIMLockType;
-	int				UIMLockKey;
-	int				LastNetState;
-	int				StatePhoneOn;
-	int				GSMDataRequest;
+    int                         UIMLockType;
+    int                         UIMLockKey;
+    int                         LastNetState;
+    int                         StatePhoneOn;
+    int                         GSMDataRequest;
 } PhoneServerData;
 /* ---------------------------------------------------------------------------
-     main 구조체
+   main structure
    ---------------------------------------------------------------------------*/
 typedef struct {
     void (*SetInternalState) (PhoneServer * ps, LXT_PHONE_STATE state);
@@ -288,14 +219,12 @@ extern PhoneServerFunc PhoneServerHandle;
 
 struct _Phone_Server
 {
-#ifdef __arm__
-    //IOManager       Iom;
-#endif
     PPP_GATEWAY     PPPGW;
     DPRAM           Dpram;
     DPRAM_EVENT     DpramEvent;
     DPRAM_ERROR     DpramError;
     Server          ServerSocket;
+
     // phone server's data collection
     PhoneServerData Data;
     PhoneServerFunc * Functions1;
@@ -303,8 +232,6 @@ struct _Phone_Server
 
 extern const char * clientName[];
 
-
-//////////////////////////////////////////////////////////////////////
 // by nsclass : remove implicit warning sign.
 int PhoneServer_Init(PhoneServer * server, GSM_StateMachine * s);
 int PhoneServer_Connect(void);
@@ -313,6 +240,5 @@ extern PhoneServer       GlobalPS;
 extern PhoneServerFunc * FuncPhoneServer;
 extern FunctionsServer * FuncServer;
 extern PhoneServerFunc * FuncPhoneServer;
-
 
 #endif

@@ -1,30 +1,29 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 /* * 	dpram.h 		* */
@@ -51,11 +50,11 @@
 #define IOC_MZ_MAGIC		('h')
 
 /*
-  extra IOCTL mapping
-  	0x00 ~ 0x0f			for TV
-  	0x10 ~ 0x2f			for Camera
-  	0x30 ~ 0xff			reserved for future use
-*/
+   extra IOCTL mapping
+   0x00 ~ 0x0f			for TV
+   0x10 ~ 0x2f			for Camera
+   0x30 ~ 0xff			reserved for future use
+ */
 #define IOC_MZ2_MAGIC		(0xC1)
 
 /*
@@ -73,11 +72,11 @@
 #define MZ_LED_COLOR		0x40
 
 typedef struct {
-  unsigned int index;		/* LED index to control */
-  unsigned int stat;		/* control command or current status */
-  unsigned int rate;		/* blinking rate */
-  unsigned int color;		/* LED color */
-  unsigned int info;		/* capable function */
+    unsigned int index;		/* LED index to control */
+    unsigned int stat;		/* control command or current status */
+    unsigned int rate;		/* blinking rate */
+    unsigned int color;		/* LED color */
+    unsigned int info;		/* capable function */
 } LED_RET;
 
 #define MZ_GET_LED_NO		_IOR(IOC_MZ_MAGIC, 0x8b, unsigned int)
@@ -94,9 +93,9 @@ typedef struct {
  * for mz_ctrl_mmap
  */
 typedef struct __mz_mmap_t {
-	int id;
-	unsigned long offset;
-	unsigned long size;
+    int id;
+    unsigned long offset;
+    unsigned long size;
 } mz_mmap_t;
 
 #define MZ_MMAP_GET		_IOR(IOC_MZ_MAGIC, 0x94, mz_mmap_t)
@@ -106,9 +105,9 @@ typedef struct __mz_mmap_t {
  * PDA test
  */
 typedef struct _mz_tst_t {
-	int id;
-	unsigned int buf[3];
-	unsigned long jiff;
+    int id;
+    unsigned int buf[3];
+    unsigned long jiff;
 } mz_tst_t;
 #define MZ_TST_ID_KEY		0	/* keyboard, button, ... */
 #define MZ_TST_ID_TS		1	/* TouchScreen */
@@ -168,10 +167,10 @@ typedef struct _mz_tst_t {
 
 /* Audio Gain */
 struct audio_gain {
-	unsigned short apply;
-	unsigned int pcm;
-	unsigned int altpcm;
-	unsigned int phone;
+    unsigned short apply;
+    unsigned int pcm;
+    unsigned int altpcm;
+    unsigned int phone;
 };
 
 #define HN_AUDIO_GAIN		_IOW(IOC_MZ_MAGIC, 0xdf, struct audio_gain)
@@ -309,18 +308,18 @@ struct audio_gain {
 #define WCAM_VIDIOCGINFOR	_IOR(IOC_MZ2_MAGIC, 0x15, int)
 
 typedef struct _mz_cif_reg_t {
-	int val1, val2;
+    int val1, val2;
 } mz_cif_reg_t;
 
 /*
  * camera DSP control
  */
 struct i819_cam_window {
-	int width;
-	int height;
-	int zoom;
-	int color_space;
-	int ret_mode;
+    int width;
+    int height;
+    int zoom;
+    int color_space;
+    int ret_mode;
 };
 #define HN_CAM_S_WB		_IOW(IOC_MZ2_MAGIC, 0x16, unsigned int)
 #define HN_CAM_S_BRIGHTNESS	_IOW(IOC_MZ2_MAGIC, 0x17, unsigned int)
@@ -411,22 +410,22 @@ struct i819_cam_window {
 
 #define HN_MMAP_BATTERY		0x01
 typedef struct _hn_mmap_bat_t {
-	unsigned int voltage, raw;
-	unsigned int level, battery, ac, blite;
+    unsigned int voltage, raw;
+    unsigned int level, battery, ac, blite;
 
-	unsigned int cpu, load;
-	unsigned int master, altpcm, pcm, flash;
-	unsigned long stat;
+    unsigned int cpu, load;
+    unsigned int master, altpcm, pcm, flash;
+    unsigned long stat;
 
-	/* used by iom */
-	unsigned int phone_fsm_bak;
-	unsigned int stat_bak;
+    /* used by iom */
+    unsigned int phone_fsm_bak;
+    unsigned int stat_bak;
 } hn_mmap_bat_t;
 
 #if defined(__KERNEL__)
 struct hn_b_mmap_t {
-	mz_kmap_t k;
-	hn_mmap_bat_t *v;
+    mz_kmap_t k;
+    hn_mmap_bat_t *v;
 };
 extern struct hn_b_mmap_t hn_b_mmap;
 #endif

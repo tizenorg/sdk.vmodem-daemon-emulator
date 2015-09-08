@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-package=vmodemd-emul 
+package=vmodemd-emul
 
 SRCDIR = .
 CC     = gcc
@@ -27,7 +27,7 @@ install: build
 binary-arch: install
 	dh_testdir
 	dh_testroot
-#	dh_installchangelogs 
+#	dh_installchangelogs
 #	dh_installdocs
 #	dh_installexamples
 	dh_install --sourcedir=debian/tmp

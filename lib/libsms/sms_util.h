@@ -1,30 +1,29 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 #ifndef	_SMS_UTIL_H_
@@ -34,58 +33,58 @@
 
 //#include <linuxtapi.h>
 
-#define 	SIM_TON_UNKNOWN					0 //unknown
+#define	SIM_TON_UNKNOWN					0 //unknown
 #define	SIM_TON_INTERNATIONAL			 	1 //international number
-#define	SIM_TON_NATIONAL				        2 //national number
-#define  	SIM_TON_NETWORK_SPECIFIC		 	3 //natwork specific number
+#define	SIM_TON_NATIONAL				2 //national number
+#define	SIM_TON_NETWORK_SPECIFIC		 	3 //natwork specific number
 #define	SIM_TON_DEDICATED_ACCESS		 	4 //subscriber number
 #define	SIM_TON_ALPHA_NUMERIC			 	5//alphanumeric, GSM 7-bit default alphabet)
-#define	SIM_TON_ABBREVIATED_NUMBER		6 //abbreviated number
+#define	SIM_TON_ABBREVIATED_NUMBER			6 //abbreviated number
 #define	SIM_TON_RESERVED_FOR_EXT		 	7 //reserved for extension
 
 
-#define MAX_UDH_LEN		137 
-#define UDH_MAX				7
+#define MAX_UDH_LEN		137
+#define UDH_MAX			7
 #define SMDATA_SIZE_MAX 	160
 
 
 #define FAIL			0x00
 #define SUCCESS 		0x01
 //////////////////////////////////TPDU type////////////////////////////////
-typedef enum 
+typedef enum
 {
-	SMS_TPDU_DELIVER				= 0x00, // sc -> ms
-	SMS_TPDU_DELIVER_REPORT		= 0x00, // ms -> sc
-	SMS_TPDU_SUBMIT				= 0x01, // ms -> sc
-	SMS_TPDU_SUBMIT_REPORT		= 0x01, // sc -> ms
-	SMS_TPDU_STATUS_REPORT		= 0x02, // sc -> ms
-	SMS_TPDU_COMMAND				= 0x02, // ms -> sc
-	SMS_PDU_INVALID_TYPE
-	
+    SMS_TPDU_DELIVER				= 0x00, // sc -> ms
+    SMS_TPDU_DELIVER_REPORT		= 0x00, // ms -> sc
+    SMS_TPDU_SUBMIT				= 0x01, // ms -> sc
+    SMS_TPDU_SUBMIT_REPORT		= 0x01, // sc -> ms
+    SMS_TPDU_STATUS_REPORT		= 0x02, // sc -> ms
+    SMS_TPDU_COMMAND				= 0x02, // ms -> sc
+    SMS_PDU_INVALID_TYPE
+
 } SmsTPDUType;
 
 typedef struct
 {
-	int		year;
-	int		month;
-	int		day;
-	int		hour;
-	int		minute;
-	int		second;
-	
+    int		year;
+    int		month;
+    int		day;
+    int		hour;
+    int		minute;
+    int		second;
+
 } TmDateTime;
 
 
 #define BASE_YEAR		70L					/* 1970 is the base year */
-#define MAX_YEAR			130L					/* 2030 is the max year */
+#define MAX_YEAR		130L					/* 2030 is the max year */
 
 
-#define	SIM_SMSP_ADDRESS_LEN					20	// digit length
+#define	SIM_SMSP_ADDRESS_LEN	20	// digit length
 
 #define SET_TON_NPI(dest, ton, npi) {	\
-	dest = 0x80;						\
-	dest |= (ton & 0x07) << 4;			\
-	dest |= npi & 0x0F;					\
+    dest = 0x80;			\
+    dest |= (ton & 0x07) << 4;		\
+    dest |= npi & 0x0F;			\
 }
 
 
@@ -93,202 +92,202 @@ typedef struct
 
 typedef struct
 {
-	/************HEADER************/
-	
-	// message type [M]
-	SmsTPDUType  msgType ;   //bit 0 ,1
+    /************HEADER************/
 
-	// reject duplicates [M]
-	BOOL rd ;  // bit 2
+    // message type [M]
+    SmsTPDUType  msgType ;   //bit 0 ,1
 
-	// validity period format [M]
-	TapiNetTextVPType vpf ; //  bits 3, 4
+    // reject duplicates [M]
+    BOOL rd ;  // bit 2
 
-	// reply path [M]
-	BOOL rp ; //bit 7
+    // validity period format [M]
+    TapiNetTextVPType vpf ; //  bits 3, 4
 
-	// user data header indication
-	BOOL udhi ;   //bit 6
+    // reply path [M]
+    BOOL rp ; //bit 7
 
-	// status report request
-	BOOL  srr ;  // bit 5
+    // user data header indication
+    BOOL udhi ;   //bit 6
 
-	/************BODY************/
+    // status report request
+    BOOL  srr ;  // bit 5
 
-	//message reference [M]
-	UINT mr;
+    /************BODY************/
 
-	// destination address [M]
-	SmsAddressInfo desAddr;
+    //message reference [M]
+    UINT mr;
 
-	// protocol identifier [M]
-	BYTE pId;
+    // destination address [M]
+    SmsAddressInfo desAddr;
 
-	// data coding scheme [M]
-	TapiNetTextCodingScheme dcs;
+    // protocol identifier [M]
+    BYTE pId;
 
-	// validity period
-	TapiNetTextVP vp;
+    // data coding scheme [M]
+    TapiNetTextCodingScheme dcs;
 
-	// user data length [M]
-	UINT32 udl;
+    // validity period
+    TapiNetTextVP vp;
 
-	// user data
-	BYTE *  userData;
- 
+    // user data length [M]
+    UINT32 udl;
+
+    // user data
+    BYTE *  userData;
+
 
 }TPDU_SMS_SUBMIT;
 
 typedef struct
 {
-	/************HEADER************/
-	
-	// message type [M]
-	SmsTPDUType  msgType;  //bit 0 ,1
+    /************HEADER************/
 
-	// user data header indication
-	BOOL udhi ;   //bit 6
+    // message type [M]
+    SmsTPDUType  msgType;  //bit 0 ,1
 
-	/************BODY************/
+    // user data header indication
+    BOOL udhi ;   //bit 6
 
-	// failure Cause [M]
-        UINT	fcs;
+    /************BODY************/
 
-	// parameter indicator [M]
-	BYTE paraInd;
+    // failure Cause [M]
+    UINT	fcs;
 
-	// service centre time stamp [M]
-	TmDateTime scts;
+    // parameter indicator [M]
+    BYTE paraInd;
 
-	// protocol identifier [M]
-	BYTE pId;
+    // service centre time stamp [M]
+    TmDateTime scts;
 
-	// data coding scheme 
-	TapiNetTextCodingScheme dcs;
+    // protocol identifier [M]
+    BYTE pId;
 
-	// user data length [M]
-	UINT udl;
+    // data coding scheme
+    TapiNetTextCodingScheme dcs;
 
-	// user data
-	BYTE *  userData;
+    // user data length [M]
+    UINT udl;
+
+    // user data
+    BYTE *  userData;
 
 }TPDU_SMS_SUBMIT_REPORT;
 
 
 typedef struct
 {	
-	/************HEADER************/
-	SmsTPDUType msgType;   //bit 0 ,1
-	
-	BOOL mms; // bit 2 
-	
-	BOOL rp; // bit 7 
-	
-	BOOL udhi;  //bit 6
-	
-	BOOL sri; // bit , 5status_report_indication
-	
-	/************BODY************/
+    /************HEADER************/
+    SmsTPDUType msgType;   //bit 0 ,1
 
-	SmsAddressInfo orgAddr;
+    BOOL mms; // bit 2
 
-	BYTE  pId;
+    BOOL rp; // bit 7
 
-	TmDateTime scts;
+    BOOL udhi;  //bit 6
 
-	TapiNetTextCodingScheme dcs;
+    BOOL sri; // bit , 5status_report_indication
 
-	UINT udl;
+    /************BODY************/
 
-	BYTE  * userData;
-	
+    SmsAddressInfo orgAddr;
+
+    BYTE  pId;
+
+    TmDateTime scts;
+
+    TapiNetTextCodingScheme dcs;
+
+    UINT udl;
+
+    BYTE  * userData;
+
 }TPDU_SMS_DELIVER;
 
 typedef struct
 {
-	/************HEADER************/
-	SmsTPDUType msgType ;   //bit 0 ,1
+    /************HEADER************/
+    SmsTPDUType msgType ;   //bit 0 ,1
 
-	BOOL udhi ;  //bit 6
-	
-	/************BODY************/
+    BOOL udhi ;  //bit 6
 
-	UINT fcs;
+    /************BODY************/
 
-	BYTE paraInd;
+    UINT fcs;
 
-	BYTE pId;
+    BYTE paraInd;
 
-	TapiNetTextCodingScheme dcs;
+    BYTE pId;
 
-	UINT udl;
+    TapiNetTextCodingScheme dcs;
 
-	BYTE * userData;
+    UINT udl;
+
+    BYTE * userData;
 
 }TPDU_SMS_DELIVER_REPORT;
 
 
 typedef struct
 {
-	/************HEADER************/
-	SmsTPDUType msgType ;   //bit 0 ,1
+    /************HEADER************/
+    SmsTPDUType msgType ;   //bit 0 ,1
 
-	BOOL udhi ; //bit 6
+    BOOL udhi ; //bit 6
 
-	BOOL srr; //bit 5, status_report_request
+    BOOL srr; //bit 5, status_report_request
 
-	/************BODY************/
+    /************BODY************/
 
-	UINT  mr; //message_ref
+    UINT  mr; //message_ref
 
-	BYTE pId;
+    BYTE pId;
 
-	BYTE cmdType;
+    BYTE cmdType;
 
-	BYTE msgNum;
+    BYTE msgNum;
 
-	SmsAddressInfo destAddr;
+    SmsAddressInfo destAddr;
 
-	UINT udl;
+    UINT udl;
 
-	BYTE * userData;
+    BYTE * userData;
 
 }TPDU_SMS_COMMAND;
 
 
 typedef struct
 {
-	/************HEADER************/
-	
-	SmsTPDUType msgType ;   //bit 0 ,1
+    /************HEADER************/
 
-	BOOL  udhi ; //bit 6
+    SmsTPDUType msgType ;   //bit 0 ,1
 
-	BOOL mms ; //bit 2
+    BOOL  udhi ; //bit 6
 
-	BOOL srq; //bit 5, status_report_qualifier
+    BOOL mms ; //bit 2
 
-	/************BODY************/
-	
-	UINT  mr;
+    BOOL srq; //bit 5, status_report_qualifier
 
-	SmsAddressInfo rcpAddr; //recipient_addr
+    /************BODY************/
 
-	TmDateTime scts;
+    UINT  mr;
 
-	TmDateTime dt; //discharge_time
+    SmsAddressInfo rcpAddr; //recipient_addr
 
-        BYTE  status;
-	
-        BYTE paraInd;
-	  	
-	BYTE pId;
+    TmDateTime scts;
 
-	TapiNetTextCodingScheme dcs;
+    TmDateTime dt; //discharge_time
 
-	UINT udl;
+    BYTE  status;
 
-	BYTE * userData;
+    BYTE paraInd;
+
+    BYTE pId;
+
+    TapiNetTextCodingScheme dcs;
+
+    UINT udl;
+
+    BYTE * userData;
 
 }TPDU_SMS_STATUS_REPORT;
 
@@ -297,26 +296,26 @@ typedef struct
 
 typedef struct
 {
-	BYTE		accessNetwork; 				//GSM or UMTS
-	BYTE		messageType;				//!< The type of cellbroadcast message. [only UMTS use]
-	UINT		messageId;					//!< The source and type of cellbroadcast message.
-	BYTE		geographicalScope;		      //!< The geographical area over which the cellbroadcast message is sent.
-	BYTE		updateNumber;				//!< Identifies a change of the message content of the same cellbroadcast message.
-	UINT		messageCode;				//!< Identifies different message themes.
-	BYTE		language;					//!< Language of the cellbroadcast message content.
-	BYTE		messageClass;				//!< Class of the cellbroadcast message.
-	BYTE 		page;
+    BYTE		accessNetwork; 				//GSM or UMTS
+    BYTE		messageType;				//!< The type of cellbroadcast message. [only UMTS use]
+    UINT		messageId;					//!< The source and type of cellbroadcast message.
+    BYTE		geographicalScope;		      //!< The geographical area over which the cellbroadcast message is sent.
+    BYTE		updateNumber;				//!< Identifies a change of the message content of the same cellbroadcast message.
+    UINT		messageCode;				//!< Identifies different message themes.
+    BYTE		language;					//!< Language of the cellbroadcast message content.
+    BYTE		messageClass;				//!< Class of the cellbroadcast message.
+    BYTE 		page;
 
-	BYTE      * 	message;
-	
+    BYTE      * 	message;
+
 }CELLBROADCASTING;  //june
 
 
 
 /**************************************************************************************
-*** (main.c) function header****************************************************************
-***************************************************************************************
-***************************************************************************************/
+ *** (main.c) function header****************************************************************
+ ***************************************************************************************
+ ***************************************************************************************/
 
 BOOL EncodeSmsDeliverTpdu(SmsAddressInfo SCA, TPDU_SMS_DELIVER tpdu_deliver, char *rawdata, int *rawdata_len, BYTE pid);
 BOOL EncodeSmsSubmitReportTpdu(unsigned char *rawdata, int *rawdata_len);
@@ -343,11 +342,11 @@ int SmsUtilEncodeAddrField( unsigned char* pAddrField, unsigned char* diallingNu
 
 int SmsUtilDecodeScAddrField( SmsAddressInfo* pSmsAddrField, BYTE* pAddrField );
 int SmsUtilEncodeScAddrField( BYTE* pAddrField, SmsAddressInfo * pSmsAddrField );
- 
+
 void SmsUtilDecodeDCS( TapiNetTextCodingScheme* pCodingScheme,   unsigned char dcs );
 void SmsUtilEncodeDCS( BYTE* pDCS, TapiNetTextCodingScheme* pCodingScheme);
 
 UINT8 SmsUtilEncodeValidity( BYTE* pValidity, TapiNetTextVP* pVP );
 
 #endif /* _SMS_UTIL_H_ */
- 
+

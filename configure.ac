@@ -7,7 +7,6 @@ AC_PROG_CXX
 
 AC_CHECK_PROGS(PKG_CONFIG, pkg-config, false)
 AC_CHECK_PROGS(AR, ar, false)
-#AC_PREFIX_DEFAULT(/opt/samsung_sdk)
 
 if test "$PKG_CONFIG" = "false"
 then

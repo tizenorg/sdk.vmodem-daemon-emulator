@@ -1,30 +1,29 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 #ifndef SAT_VALUES_H
@@ -56,90 +55,90 @@ typedef int	(*SatApduDecoderCallback)		(char tag, SatApduDecoder* decoderP, char
 
 typedef struct _DISPLAY_TEXT  DP_TEXT;
 struct _DISPLAY_TEXT {
-	char priority;
-	char clear_msg;
-	char text_string[255];
-	char coding_scheme;
-	char icon_qualifier;
-	char icon_identifier;
-	char icon_identifier_flag;
-	char immediate_response;
-	char duration;
-	char duration_unit;
+    char priority;
+    char clear_msg;
+    char text_string[255];
+    char coding_scheme;
+    char icon_qualifier;
+    char icon_identifier;
+    char icon_identifier_flag;
+    char immediate_response;
+    char duration;
+    char duration_unit;
 
 };
 
 ///
 typedef struct _GET_INKEY  GET_INKEY;
 struct _GET_INKEY {
-	unsigned char cmd_detail;
+    unsigned char cmd_detail;
 
-	char text_string[255];
-	char coding_scheme;
-	char icon_qualifier;
-	char icon_identifier;
-	char icon_identifier_flag;
-	char immediate_response;
-	char duration;
-	char duration_unit;
-//	char duration_interval;
-//	char  text_len;
+    char text_string[255];
+    char coding_scheme;
+    char icon_qualifier;
+    char icon_identifier;
+    char icon_identifier_flag;
+    char immediate_response;
+    char duration;
+    char duration_unit;
+    //	char duration_interval;
+    //	char  text_len;
 };
 
 ///
 typedef struct _GET_INKEY  GET_INPUT;
 struct _GET_INPUT {
-	unsigned char cmd_detail;
+    unsigned char cmd_detail;
 
-	char text_string[255];
-	char coding_scheme;
-	char icon_qualifier;
-	char icon_identifier;
-	char icon_identifier_flag;
-	char immediate_response;
-	char duration;
-	char duration_unit;
+    char text_string[255];
+    char coding_scheme;
+    char icon_qualifier;
+    char icon_identifier;
+    char icon_identifier_flag;
+    char immediate_response;
+    char duration;
+    char duration_unit;
 };
 
 
 typedef struct _SET_MENU  SET_MENU;
 struct _SET_MENU {
-	//unsigned char cmd_detail;
-	char id_num;
-	char alpah_string[255];
-	char item_string[255];
+    //unsigned char cmd_detail;
+    char id_num;
+    char alpah_string[255];
+    char item_string[255];
 };
 
 ///
 typedef struct _SEND_SMS  SEND_SMS;
 struct _SEND_SMS {
-	unsigned char cmd_detail;
-	unsigned char address;
-	char dial_num[25];
-	char  tpdu_sms[255];
+    unsigned char cmd_detail;
+    unsigned char address;
+    char dial_num[25];
+    char  tpdu_sms[255];
 };
 
 ///
 struct _SatApduDecoder
 {
-	SatApduDecoderCallback	HLSetDataF;
-	void*			HLDataP;
-	unsigned char*	formatP;
-	unsigned char*	apduP;
-	int				apduSizeInBytes;
-	unsigned char*	apduReadP;
-	unsigned char		currentObjectTag;
-	unsigned char		currentObjectLength;
+    SatApduDecoderCallback	HLSetDataF;
+    void*			HLDataP;
+    unsigned char*	formatP;
+    unsigned char*	apduP;
+    int				apduSizeInBytes;
+    unsigned char*	apduReadP;
+    unsigned char		currentObjectTag;
+    unsigned char		currentObjectLength;
 };
 
 typedef struct _SatCmdResponseInternal SatCmdResponseInternal;
 struct _SatCmdResponseInternal
 {
-	char cmdId;		//!< Command Identifier
-	char resCode;	//!< Result codes applicable to command iCmdId, see ALP_TEL_CAT_RES_XXX
-	char infoType;	// type for local information
-	int infoLen;		// length for local information
-	char *infoData;
+    char cmdId;		//!< Command Identifier
+    char resCode;	//!< Result codes applicable to command iCmdId, see ALP_TEL_CAT_RES_XXX
+    char infoType;	// type for local information
+    int infoLen;		// length for local information
+    char *infoData;
 };
 
 
@@ -161,10 +160,10 @@ struct _SatCmdResponseInternal
 
 #define	alp_prv_mbiz_param_to_buffer(bufferP, paramP, paramSize)	\
 {																\
-	unsigned char* bufferOffset = (unsigned char*) (bufferP);			\
-	memmove((bufferP), (paramP), (paramSize));					\
-	bufferOffset += (paramSize);									\
-	(bufferP) = (void*) bufferOffset;									\
+    unsigned char* bufferOffset = (unsigned char*) (bufferP);			\
+    memmove((bufferP), (paramP), (paramSize));					\
+    bufferOffset += (paramSize);									\
+    (bufferP) = (void*) bufferOffset;									\
 }
 
 // STK config
@@ -336,278 +335,278 @@ struct _SatCmdResponseInternal
 typedef struct _SatConfig SatConfig;
 struct _SatConfig
 {
-	char*	profileP;				//!< Terminal Profile standard parameters
-	int		profileSize;			//!< Profile data size, in bytes
-	char		lanCode[2]; 			//!< ISO 639 language code
-	char		mode;					//!< Result code presentation enable/disable
+    char*	profileP;				//!< Terminal Profile standard parameters
+    int		profileSize;			//!< Profile data size, in bytes
+    char		lanCode[2]; 			//!< ISO 639 language code
+    char		mode;					//!< Result code presentation enable/disable
 };
 
 typedef struct _SatFile SatFile;
 struct _SatFile
 {
-	int*	pathP;			//!< Absolute path of the file to read in the SIM.
-												//!< Example: { 0x3F00, 0x7F20, 0x6F21 }
-												//!< Consists of file identifiers from the Master File
-												//!< to the Elementary File to be accessed
-	char*	bufP;			//!< Buffer to be filled in with requested file body bytes.
-	int	bufSize;		//!< Buffer size in bytes
-	int	byteCount;		//!< Amount of applicable bytes in ioBufP
+    int*	pathP;			//!< Absolute path of the file to read in the SIM.
+    //!< Example: { 0x3F00, 0x7F20, 0x6F21 }
+    //!< Consists of file identifiers from the Master File
+    //!< to the Elementary File to be accessed
+    char*	bufP;			//!< Buffer to be filled in with requested file body bytes.
+    int	bufSize;		//!< Buffer size in bytes
+    int	byteCount;		//!< Amount of applicable bytes in ioBufP
 
-	int	partOffset;		//!< Offset of requested file body part
-	int	partSize;		//!< Size of requested file body part
+    int	partOffset;		//!< Offset of requested file body part
+    int	partSize;		//!< Size of requested file body part
 
-	int	fileSize;		//!< EF size
-	char	fileStruct;		//!< EF structure (transparent, linear fixed or cyclic)
-	char	mode;			//!< Access mode (see EF access mode)
+    int	fileSize;		//!< EF size
+    char	fileStruct;		//!< EF structure (transparent, linear fixed or cyclic)
+    char	mode;			//!< Access mode (see EF access mode)
 
-	char	pathCount;		//!< File identifiers count in iPathP
-	char	recId;			//!< Identifier of the record to be read. Range 1..254
-	char	recSize;		//!< Size of a record, in bytes.
-												//!< 0 if the file is not a Linear Fixed or a Cyclic EF
+    char	pathCount;		//!< File identifiers count in iPathP
+    char	recId;			//!< Identifier of the record to be read. Range 1..254
+    char	recSize;		//!< Size of a record, in bytes.
+    //!< 0 if the file is not a Linear Fixed or a Cyclic EF
 };
 
 typedef struct _SatCmdParams SatCmdParams;
 struct _SatCmdParams
 {
-	void*	cmdParamP;				//!< Structure associated to the command (according to iCmdId)
-	int	cmdParamSize;			//!< Size of the specific command parameter buffer
-														//!< Common parameter for all (almost) commands
-	char*	textP;					//!< Text to display
-	char	iconId;					//!< Icon identifier
-	char	cmdId;					//!< See the Proactive Commands Id for more details
-	char	explicitIcon; 			//!< Icon is explicit
-	char	noResponse;				//!< true if the command does not need a response	
-	int	textSize;				//!< The size of the encoded text
+    void*	cmdParamP;				//!< Structure associated to the command (according to iCmdId)
+    int	cmdParamSize;			//!< Size of the specific command parameter buffer
+    //!< Common parameter for all (almost) commands
+    char*	textP;					//!< Text to display
+    char	iconId;					//!< Icon identifier
+    char	cmdId;					//!< See the Proactive Commands Id for more details
+    char	explicitIcon; 			//!< Icon is explicit
+    char	noResponse;				//!< true if the command does not need a response	
+    int	textSize;				//!< The size of the encoded text
 };
 
 typedef struct _SatCmdResponse SatCmdResponse;
 struct _SatCmdResponse
 {
-	char*	respP;					//!< Associated text response
-	unsigned char	itemIdentifier;			//!< Item identifier  
-	int	respSize;				//!< Associated text response size in bytes
-	char	cmdId;					//!< Command Identifier
-	char	respType;				//!< Expected response type, see ALP_TEL_CAT_RESP_TYPE_XXX
-	char	resCode;				//!< Result codes applicable to command iCmdId, see ALP_TEL_CAT_RES_XXX
-	char	addInfo;				//!< Additional information code
+    char*	respP;					//!< Associated text response
+    unsigned char	itemIdentifier;			//!< Item identifier
+    int	respSize;				//!< Associated text response size in bytes
+    char	cmdId;					//!< Command Identifier
+    char	respType;				//!< Expected response type, see ALP_TEL_CAT_RESP_TYPE_XXX
+    char	resCode;				//!< Result codes applicable to command iCmdId, see ALP_TEL_CAT_RES_XXX
+    char	addInfo;				//!< Additional information code
 };
 
 typedef struct _SatMenuSelection SatMenuSelection;
 struct _SatMenuSelection
 {
-	char	evtCode;				//!< Menu Selection event code, see ALP_TEL_CAT_MENU_SELECTION_XXX
-	char	appId;					//!< Associated application identifier
+    char	evtCode;				//!< Menu Selection event code, see ALP_TEL_CAT_MENU_SELECTION_XXX
+    char	appId;					//!< Associated application identifier
 };
 
 typedef struct _SatEventToCard SatEventToCard;
 struct _SatEventToCard
 {
-	char	evtCode;					//!< Event Download code, see ALP_TEL_CAT_EVENT_XXX
-	char	lanCode[2];					//!< ISO 639 language code
-	char	browserTerminationCause;	//!< Browser Termination cause code, see ALP_TEL_CAT_BROWSER_XXX
+    char	evtCode;					//!< Event Download code, see ALP_TEL_CAT_EVENT_XXX
+    char	lanCode[2];					//!< ISO 639 language code
+    char	browserTerminationCause;	//!< Browser Termination cause code, see ALP_TEL_CAT_BROWSER_XXX
 };
 
 
 typedef struct _SatRefreshFileList	SatRefreshFileList;
 struct _SatRefreshFileList
 {
-	unsigned short*	filePathP;			//!< Concatenated absolute paths of the modified EF
-													//!< or NULL if no specific file has been mentioned.
-	unsigned char	filePathCount;		//!< Number of paths in the file list
-	unsigned char	fileIdCount;		//!< Number of files described in the file list
-	unsigned char	opCode;				//!< Operation code (see above the refresh command qualifier )
-	unsigned char*	AID;				//!< Application identifier (only used for 3G platform)
+    unsigned short*	filePathP;			//!< Concatenated absolute paths of the modified EF
+    //!< or NULL if no specific file has been mentioned.
+    unsigned char	filePathCount;		//!< Number of paths in the file list
+    unsigned char	fileIdCount;		//!< Number of files described in the file list
+    unsigned char	opCode;				//!< Operation code (see above the refresh command qualifier )
+    unsigned char*	AID;				//!< Application identifier (only used for 3G platform)
 };
 
 typedef struct _SatSetUpEventList SatSetUpEventList;
 struct _SatSetUpEventList
 {
-	char*	eventP;				//!< Events to be monitored, see ALP_TEL_CAT_EVENT_XXX
-	char	eventCount;			//!< Events number in eventP or 0 to stop monitoring
+    char*	eventP;				//!< Events to be monitored, see ALP_TEL_CAT_EVENT_XXX
+    char	eventCount;			//!< Events number in eventP or 0 to stop monitoring
 };
 
 typedef struct _SatSetUpCall SatSetUpCall;
 struct _SatSetUpCall
 {
-	char*	bearerCapP;				//!< Bearer capability configuration params (GSM 04.08 5.3.0 section 10.5.4.5)
-	char*	numberP;				//!< Dialing number
-	char*	userConfTextP;			//!< Text to display. NULL if not provided
-	char*	callEstaTextP;			//!< Text to display, NULL if not provided
-	char*	subAddressP;			//!< called party subaddress
-	int	userConfTextSize;		//!< Text buffer size in bytes
-	int	numberSize;				//!< Number buffer size in bytes
-	int	callEstaTextSize;		//!< Call establishment text buffer size in bytes
-	int	subAddressSize;			//!< subaddress size in bytes
-	char	bearerCapSize;			//!< Bearer capability size, in bytes
-	
-	unsigned long	duration;				//!< if the time elapsed since the first call set-up attempt has exceeded the duration request, the redial mechanism shall be terminated 
-	char	condition;				//!< Set up call commmand qualifier, see ALP_TEL_CAT_SETUP_CALL_XXX
-	
-	char	userConfIconId;			//!< Icon id. 0 if no icon
-	char	userConfExplicitIcon;	//!< Icon is explicit
-	char	callEstaIconId;			//!< Icon id. 0 if no icon
-	char	callEstaExplicitIcon;	//!< Icon is explicit
+    char*	bearerCapP;				//!< Bearer capability configuration params (GSM 04.08 5.3.0 section 10.5.4.5)
+    char*	numberP;				//!< Dialing number
+    char*	userConfTextP;			//!< Text to display. NULL if not provided
+    char*	callEstaTextP;			//!< Text to display, NULL if not provided
+    char*	subAddressP;			//!< called party subaddress
+    int	userConfTextSize;		//!< Text buffer size in bytes
+    int	numberSize;				//!< Number buffer size in bytes
+    int	callEstaTextSize;		//!< Call establishment text buffer size in bytes
+    int	subAddressSize;			//!< subaddress size in bytes
+    char	bearerCapSize;			//!< Bearer capability size, in bytes
+
+    unsigned long	duration;				//!< if the time elapsed since the first call set-up attempt has exceeded the duration request, the redial mechanism shall be terminated
+    char	condition;				//!< Set up call commmand qualifier, see ALP_TEL_CAT_SETUP_CALL_XXX
+
+    char	userConfIconId;			//!< Icon id. 0 if no icon
+    char	userConfExplicitIcon;	//!< Icon is explicit
+    char	callEstaIconId;			//!< Icon id. 0 if no icon
+    char	callEstaExplicitIcon;	//!< Icon is explicit
 };
 
 typedef struct _SatLaunchBrowser SatLaunchBrowser;
 struct _SatLaunchBrowser
 {
-	char*	urlP;				//!< The URL
-	int	urlSize;
-	char*	gatewayP;			//!< Gateway name, Proxy identity to be used
-	int	gatewaySize;
-	int*	filePathP;			//!< Concatenated absolute paths of provisioning EF
-													//!< or NULL if no specific file has been mentioned.
-	char*	prefBearersP;		//!< Prioritized list of ALP_TEL_CAT_BEARER_XXX bearer codes
-	char	fileIdCount;		//!< File identifiers count in filePathP
-	char	prefBearerCount;	//!< Number of bearer codes in prefBearersP.
-	char	condition;			//!< Launch browser conditions, see ALP_TEL_CAT_LAUNCH_BROWSER_XXX
-	char	browserId;			//!< Browser Identity
+    char*	urlP;				//!< The URL
+    int	urlSize;
+    char*	gatewayP;			//!< Gateway name, Proxy identity to be used
+    int	gatewaySize;
+    int*	filePathP;			//!< Concatenated absolute paths of provisioning EF
+    //!< or NULL if no specific file has been mentioned.
+    char*	prefBearersP;		//!< Prioritized list of ALP_TEL_CAT_BEARER_XXX bearer codes
+    char	fileIdCount;		//!< File identifiers count in filePathP
+    char	prefBearerCount;	//!< Number of bearer codes in prefBearersP.
+    char	condition;			//!< Launch browser conditions, see ALP_TEL_CAT_LAUNCH_BROWSER_XXX
+    char	browserId;			//!< Browser Identity
 };
 
 typedef struct _SatPlayTone SatPlayTone;
 struct _SatPlayTone
 {
-	int	sndDuration;		//!< Sound duration in ms. 0 for default or 100..15300000
-	char	sndCode;			//!< One of the ALP_TEL_CAT_PLAY_TONE_XXX codes
-	unsigned char	vibrateAlert;		//!< One of the ALP_TEL_CAT_VIBRATE_XXX codes
+    int	sndDuration;		//!< Sound duration in ms. 0 for default or 100..15300000
+    char	sndCode;			//!< One of the ALP_TEL_CAT_PLAY_TONE_XXX codes
+    unsigned char	vibrateAlert;		//!< One of the ALP_TEL_CAT_VIBRATE_XXX codes
 };
 
 typedef struct _SatDisplayText SatDisplayText;
 struct _SatDisplayText
 {
-	char	priority;			//!< Priority level
-	char	clearAfterDelay;	//!< Wait for user's action
-	char	immediateResponse;	//!< Send a response to the SIM ASAP
-	unsigned long	duration;			//!< the terminal shall continue to dsiplay the text until the expiration of this variable display timeout	
+    char	priority;			//!< Priority level
+    char	clearAfterDelay;	//!< Wait for user's action
+    char	immediateResponse;	//!< Send a response to the SIM ASAP
+    unsigned long	duration;			//!< the terminal shall continue to dsiplay the text until the expiration of this variable display timeout	
 };
 
 typedef struct _SatGetInkey SatGetInkey;
 struct _SatGetInkey
 {
-	char	helpInfo;			//!< Help information is provided by the SIM
-	char	respType;			//!< Expected response type. See ALP_TEL_CAT_RESP_TYPE_XXX
-	unsigned long	duration; 			//!> the terminal shall wait until either the user enters a single characters or the timeout expires.
+    char	helpInfo;			//!< Help information is provided by the SIM
+    char	respType;			//!< Expected response type. See ALP_TEL_CAT_RESP_TYPE_XXX
+    unsigned long	duration; 			//!> the terminal shall wait until either the user enters a single characters or the timeout expires.
 };
 
 typedef struct _SatGetInput SatGetInput;
 struct _SatGetInput
 {
-	char*	defRespP;			//!< Default response text to propose
-	int	defRespSize;		//!< Default response text size in bytes
-	char	hideUserInput;		//!< Mask entered data
-	char	helpInfo;			//!< Help information is provided by the SIM
-	char	minRespLength;		//!< Minimum response length, in characters
-	char	maxRespLength;		//!< Maximum response length, in characters
-	char	respType;			//!< Expected response type, see ALP_TEL_CAT_RESP_TYPE_XXX
+    char*	defRespP;			//!< Default response text to propose
+    int	defRespSize;		//!< Default response text size in bytes
+    char	hideUserInput;		//!< Mask entered data
+    char	helpInfo;			//!< Help information is provided by the SIM
+    char	minRespLength;		//!< Minimum response length, in characters
+    char	maxRespLength;		//!< Maximum response length, in characters
+    char	respType;			//!< Expected response type, see ALP_TEL_CAT_RESP_TYPE_XXX
 };
 
 typedef struct _SatItem SatItem;
 struct _SatItem
 {
-	char*	nameP;				//!< Item name
-	int	nameSize;			//!< Item name size in bytes
-	char	id;					//!< Item identifier
-	char	iconId;				//!< Icon Identifier
-	char	expIcon;			//!< Icon is explicit
-	char	nextActionInd;		//!< Identifier of the next command for this item
-	SatItem*	nextItemP;			//!> @ of the next item (if any)
+    char*	nameP;				//!< Item name
+    int	nameSize;			//!< Item name size in bytes
+    char	id;					//!< Item identifier
+    char	iconId;				//!< Icon Identifier
+    char	expIcon;			//!< Icon is explicit
+    char	nextActionInd;		//!< Identifier of the next command for this item
+    SatItem*	nextItemP;			//!> @ of the next item (if any)
 };
 
 typedef struct _SatItemList SatItemList;
 struct _SatItemList
 {
-	SatItem*	firstItemP;			//!< The first Item
-	int	itemCount;			//!< Number of items 
-	char	softKey;			//!< Item can be selected by tapping on its icon
-	char	helpInfo;			//!< Help information is provided by the SIM
-	char	defItemId;			//!< Identifier of the item that should be pre-selected.
+    SatItem*	firstItemP;			//!< The first Item
+    int	itemCount;			//!< Number of items
+    char	softKey;			//!< Item can be selected by tapping on its icon
+    char	helpInfo;			//!< Help information is provided by the SIM
+    char	defItemId;			//!< Identifier of the item that should be pre-selected.
 };
 
 typedef struct _SatSendShortMessage SatSendShortMessage;
 struct _SatSendShortMessage
 {
-	char*	addressP;			//!< RP_Destination_Address (optional)
-	int	addressSize;
-	char*	TPDUP;				//!< SMS TPDU
-	int	TPDUSize;
-	char	packingRequired;
+    char*	addressP;			//!< RP_Destination_Address (optional)
+    int	addressSize;
+    char*	TPDUP;				//!< SMS TPDU
+    int	TPDUSize;
+    char	packingRequired;
 };
 
 typedef struct _SatBuffer SatBuffer;
 struct _SatBuffer		//!< used in: SendData, SendDTMF, Send USSD, Send SS
 {
-	char*	bufferP;				//!< the data buffer
-	int	bufferSize;				//!< the data buffer size
-	char	other;					//!< other parameter specific to the command (if any)
+    char*	bufferP;				//!< the data buffer
+    int	bufferSize;				//!< the data buffer size
+    char	other;					//!< other parameter specific to the command (if any)
 };
 
 typedef struct _SatOpenChannel SatOpenChannel;
 struct _SatOpenChannel
 {
-	char*	addressP;
-	char*	subAddressP;
-	char*	otherAddressP;
-	char*	destinationAddressP;
-	char*	loginP;
-	char*	passwordP;
-	char*	bearerParamsP;
-	char*	accessPointP;
-	int	duration1;				//!< duration1 in ms
-	int	duration2;				//!< duration2 in ms
-	int	bufferSize;
-	int	transportPort;
-	char	onDemand;				//!< Is link established immediately
-	char	bearerCode; 			//!< Bearer code, see ALP_TEL_CAT_BEARER_XXX
-	char	otherAddressType;		//!< see ALP_TEL_CAT_ADDRESS_XXX
-	char	destinationAddressType; //!< see ALP_TEL_CAT_ADDRESS_XXX
-	char	transportType;			//!< see ALP_TEL_CAT_TRANSPORT_XXX
-	char	addressSize;
-	char	subAddressSize;
-	char	otherAddressSize;
-	char	bearerParamsSize;
-	char	loginSize;
-	char	passwordSize;
-	char	destinationAddressSize;
-	char	accessPointSize;
+    char*	addressP;
+    char*	subAddressP;
+    char*	otherAddressP;
+    char*	destinationAddressP;
+    char*	loginP;
+    char*	passwordP;
+    char*	bearerParamsP;
+    char*	accessPointP;
+    int	duration1;				//!< duration1 in ms
+    int	duration2;				//!< duration2 in ms
+    int	bufferSize;
+    int	transportPort;
+    char	onDemand;				//!< Is link established immediately
+    char	bearerCode; 			//!< Bearer code, see ALP_TEL_CAT_BEARER_XXX
+    char	otherAddressType;		//!< see ALP_TEL_CAT_ADDRESS_XXX
+    char	destinationAddressType; //!< see ALP_TEL_CAT_ADDRESS_XXX
+    char	transportType;			//!< see ALP_TEL_CAT_TRANSPORT_XXX
+    char	addressSize;
+    char	subAddressSize;
+    char	otherAddressSize;
+    char	bearerParamsSize;
+    char	loginSize;
+    char	passwordSize;
+    char	destinationAddressSize;
+    char	accessPointSize;
 };
 
-//! answer made by the phone module directly to the SIM 
+//! answer made by the phone module directly to the SIM
 typedef struct _SatMEanswer SatMEanswer;
 struct _SatMEanswer	
 {
-	char	cmdId;					//!< Command Identifier
-	char	resCode;				//!< Result codes applicable to command iCmdId 
-	char	addInfo;				//!< Additional information code
+    char	cmdId;					//!< Command Identifier
+    char	resCode;				//!< Result codes applicable to command iCmdId
+    char	addInfo;				//!< Additional information code
 };
 
-//! answer made by the SIM to the phone module CALL CONTROL or MO Short Message CONTROL command 
+//! answer made by the SIM to the phone module CALL CONTROL or MO Short Message CONTROL command
 typedef struct _SatSIManswer SatSIManswer;
 struct _SatSIManswer	
 {
-	char	result;				//!< call control or MO Short Message control result, see ALP_TEL_CAT_RESULT_CONTROL_XXX
-	
-	char*	textP;				//!< Text to display
-	int	textSize;			//!< The size of the encoded text
-	
-	char*	addressP1;			//!> if it's a call control answer adressP1= dialling number, if the address data is not present, the terminal shall assume the dialling number is not to be modified 
-												//!> if it's a MO short message control answer addressP1= RP_Destination_Address, if the address data object 1 is not present, then the ME shall assume the RP_Destination_Address of the Service Centre is not to be modified.
-	char	addressSize1;		//!> address size
-	
-	char*	addressP2;			//!> apply only if it's a a MO short message control answer addressP2= TP_Destination_Address, if the address data object 2 is not present, then the ME shall assume the TP_Destination_Address is not to be modified.
-	char	addressSize2;		//!> address size
-	
-												
-	char*	subAddressP;		//!> subaddress
-	char	subAddressSize;		//!> subaddress buffer size
-	
-	char	BCrepeatIndicator;	//!> BC repeat indicator
-	
-	char*	capabilityConfP1;	//!< Capability configuration parameters1
-	char	capabilityConfSize1;//!< the capability configuration parameters1 size
-	
-	char*	capabilityConfP2;	//!< Capability configuration parameters2 
-	char	capabilityConfSize2;//!< the capability configuration parameters2 size
+    char	result;				//!< call control or MO Short Message control result, see ALP_TEL_CAT_RESULT_CONTROL_XXX
+
+    char*	textP;				//!< Text to display
+    int	textSize;			//!< The size of the encoded text
+
+    char*	addressP1;			//!> if it's a call control answer adressP1= dialling number, if the address data is not present, the terminal shall assume the dialling number is not to be modified
+    //!> if it's a MO short message control answer addressP1= RP_Destination_Address, if the address data object 1 is not present, then the ME shall assume the RP_Destination_Address of the Service Centre is not to be modified.
+    char	addressSize1;		//!> address size
+
+    char*	addressP2;			//!> apply only if it's a a MO short message control answer addressP2= TP_Destination_Address, if the address data object 2 is not present, then the ME shall assume the TP_Destination_Address is not to be modified.
+    char	addressSize2;		//!> address size
+
+
+    char*	subAddressP;		//!> subaddress
+    char	subAddressSize;		//!> subaddress buffer size
+
+    char	BCrepeatIndicator;	//!> BC repeat indicator
+
+    char*	capabilityConfP1;	//!< Capability configuration parameters1
+    char	capabilityConfSize1;//!< the capability configuration parameters1 size
+
+    char*	capabilityConfP2;	//!< Capability configuration parameters2
+    char	capabilityConfSize2;//!< the capability configuration parameters2 size
 };
 
 // Card command
@@ -655,11 +654,11 @@ struct _SatSIManswer
 #define	SAT_TIMER_EXPIRATION						0xD7
 
 
-// SIMPLE-TLV data objects tags 
+// SIMPLE-TLV data objects tags
 #define SAT_COMMAND_DETAILS						0x01 //!> Command details tag
 #define SAT_DEVICE_IDENTITIES						0x02 //!> Device identity tag
 #define SAT_RESULT									0x03 //!> Result tag
-#define SAT_DURATION								0x04 //!> Duration tag 
+#define SAT_DURATION								0x04 //!> Duration tag
 #define SAT_ALPHA_IDENTIFIER						0x05 //!> Alpha identifier tag
 #define SAT_ADDRESS								0x06 //!> Address tag
 #define SAT_CAPABILILITY_CONFIGURATION_PARAMETERS	0x07 //!> Capability configuration parameters tag
@@ -668,28 +667,28 @@ struct _SatSIManswer
 #define SAT_USSD_STRING							0x0A //!> USSD string tag
 #define SAT_SMS_TPDU								0x0B //!> SMS TPDU tag
 #define SAT_CELL_BROADCAST_PAGE					0x0C //!> Cell Broadcast page tag
-#define SAT_TEXT_STRING							0x0D //!> Text string tag 
+#define SAT_TEXT_STRING							0x0D //!> Text string tag
 #define SAT_TONE									0x0E //!> Tone tag
 #define SAT_ITEM									0x0F //!> Item tag
-#define SAT_ITEM_IDENTIFIER						0x10 //!> Item identifier tag 
-#define SAT_RESPONSE_LENGTH						0x11 //!> Response length tag 
+#define SAT_ITEM_IDENTIFIER						0x10 //!> Item identifier tag
+#define SAT_RESPONSE_LENGTH						0x11 //!> Response length tag
 #define SAT_FILE_LIST								0x12 //!> File List tag
 #define SAT_LOCATION_INFORMATION					0x13 //!> Location Information tag
-#define SAT_IMEI									0x14 //!> IMEI tag 
-#define SAT_HELP_REQUEST							0x15 //!> Help request tag 
-#define SAT_NETWORK_MEASUREMENT_RESULTS			0x16 //!> Network Measurement Results tag 
+#define SAT_IMEI									0x14 //!> IMEI tag
+#define SAT_HELP_REQUEST							0x15 //!> Help request tag
+#define SAT_NETWORK_MEASUREMENT_RESULTS			0x16 //!> Network Measurement Results tag
 #define SAT_DEFAULT_TEXT							0x17 //!> Default Text tag
 #define SAT_ITEMS_NEXT_ACTION_INDICATOR			0x18 //!> Items Next Action Indicator tag
 #define SAT_EVENT_LIST								0x19 //!> Event list tag
 #define SAT_CAUSE									0x1A //!> Cause tag
-#define SAT_LOCATION_STATUS						0x1B //!> Location status tag 
+#define SAT_LOCATION_STATUS						0x1B //!> Location status tag
 #define SAT_TRANSACTION_IDENTIFIER					0x1C //!> Transaction identifier tag
 #define SAT_BCCH_CHANNEL_LIST						0x1D //!> BCCH channel list tag
 #define SAT_ICON_IDENTIFIER						0x1E //!> Icon identifier tag
 #define SAT_ITEM_ICON_IDENTIFIER_LIST				0x1F //!> Item Icon identifier list tag
 //#define SAT_CARD_READER_STATUS						0x20 //!> Card reader status tag
 #define SAT_CARD_ATR								0x21 //!> Card ATR tag
-#define SAT_C_ADPU									0x22 //!> C-APDU tag 
+#define SAT_C_ADPU									0x22 //!> C-APDU tag
 #define SAT_R_ADPU									0x23 //!> R-APDU tag
 #define SAT_TIMER_IDENTIFIER						0x24 //!> Timer identifier tag
 #define SAT_TIMER_VALUE							0x25 //!> Timer value tag
@@ -702,8 +701,8 @@ struct _SatSIManswer
 #define SAT_DTMF_STRING							0x2C //!> DTMF string tag
 #define SAT_LANGUAGE								0x2D //!> Language tag
 #define SAT_TIMING_ADVANCE							0x2E //!> Timing Advance tag
-#define SAT_AID									0x2F //!> AID tag 
-#define SAT_BROWSER_IDENTITY						0x30 //!> Browser Identity tag 
+#define SAT_AID									0x2F //!> AID tag
+#define SAT_BROWSER_IDENTITY						0x30 //!> Browser Identity tag
 #define SAT_URL									0x31 //!> URL tag
 #define SAT_BEARER									0x32 //!> Bearer tag
 #define SAT_PROVISIONING_FILE_REFERENCE			0x33 //!> Provisioning Reference File tag
@@ -716,11 +715,11 @@ struct _SatSIManswer
 //#define SAT_CARD_READER_IDENTIFIER					0x3A //!> Card reader identifier tag
 #define SAT_FILE_UPDATE_INFORMATION				0x3B //!> File Update Information tag
 #define SAT_SIM_ME_INTERFACE_TRANSPORT_LEVEL		0x3C //!> UICC/terminal interface transport level tag
-// 0x3D Not used                                                           
+// 0x3D Not used
 #define SAT_OTHER_ADDRESS							0x3E //!> Other address (data destination address) tag
 
 
-// 
+//
 //Access Technology tag                                             0x3F
 //Display parameters tag                                            0x40
 //Service Record tag                                                0x41
@@ -750,9 +749,9 @@ struct _SatSIManswer
 //Multimedia Message Reference tag               				    '6A'
 //Multimedia Message Identifier tag                  				'6B'
 //Reserved for 3GPP (Multimedia Message Transfer Status tag) 1    	'6C'
-//MEID tag															'6D' 
-//Multimedia Message Content Identifier tag							'6E' 
-//Multimedia Message Notification tag								'6F' 
+//MEID tag															'6D'
+//Multimedia Message Content Identifier tag							'6E'
+//Multimedia Message Notification tag								'6F'
 
 
 // admissible values for kGetDataDeviceIdentities param
@@ -799,8 +798,8 @@ struct _SatSIManswer
 
 //! Card EF access mode
 #define	SAT_CARD_MODE_GET_INFO								0x00	//!<  Get EF information
-#define	SAT_CARD_MODE_READ_FILE								0x01	//!<  Read EF body 
-#define	SAT_CARD_MODE_READ_PART								0x02	//!<  Read EF part 
+#define	SAT_CARD_MODE_READ_FILE								0x01	//!<  Read EF body
+#define	SAT_CARD_MODE_READ_PART								0x02	//!<  Read EF part
 #define	SAT_CARD_MODE_READ_REC								0x03	//!<  Read EF record
 
 //! Card EF structure
@@ -810,7 +809,7 @@ struct _SatSIManswer
 
 /******************************************************************************************************************************************************/
 
-//! SetUpEventList parameters: each byte in the event list shall be coded with one of the values below: 
+//! SetUpEventList parameters: each byte in the event list shall be coded with one of the values below:
 #define SAT_EVENT_USER_ACTIVITY								0x04	//!< User activity
 #define SAT_EVENT_IDLE_SCREEN_AVAILABLE						0x05	//!< Idle screen available
 #define SAT_EVENT_LANGUAGE_SELECTION						0x07	//!< Language selection
@@ -835,7 +834,7 @@ struct _SatSIManswer
 #define SAT_PLAY_TONE_SPECIAL_INFORMATION_OR_ERROR				0x06 	//!< Error/Special information
 #define SAT_PLAY_TONE_CALL_WAITING_TONE							0x07 	//!< Call waiting tone
 #define SAT_PLAY_TONE_RINGING_TONE								0x08 	//!< Ringing tone
-  
+
 //! Terminal proprietary tones:
 #define SAT_GENERAL_BEEP										0x10	//!< General beep	
 #define SAT_POSITIVE_ACKNOWLEDGE_TONE							0x11	//!< Positive acknowledgement tone
@@ -843,7 +842,7 @@ struct _SatSIManswer
 #define SAT_USER_RINGING_TONE									0x13	//!< Ringing tone as selected by the user for incoming speech call
 #define SAT_USER_SMS_TONE										0x14	//!< Alert tone as selected by the user for incoming SMS
 #define SAT_CRITICAL_ALERET										0x15	//!< Critical Alert - This tone is to be used in critical situations.        terminal;
-  
+
 //! Themed tones:
 #define SAT_VIBRATE_ONLY										0x20	//!< vibrate only, if available
 #define SAT_HAPPY_TONE											0x30	//!< happy tone
@@ -864,10 +863,10 @@ struct _SatSIManswer
 
 
 /**********************************************************************************************************************************************************************
-*     
-*		Command qualifier     
-*     
-**********************************************************************************************************************************************************************/
+ *
+ *		Command qualifier
+ *
+ **********************************************************************************************************************************************************************/
 
 //! Refresh command qualifier
 #define SAT_REFRESH_SIM_INIT_AND_FULL_FILE_CHANGE_NOTIFICATION	0x00	//!< NAA Initialization and Full File Change Notification
@@ -880,7 +879,7 @@ struct _SatSIManswer
 
 /******************************************************************************************************************************************************/
 
-//! SetUpCall command qualifier 
+//! SetUpCall command qualifier
 #define SAT_SETUP_CALL_ONLY_IF_NOT_BUSY									0x00	//!< Set up call, but only if not currently busy on another call
 #define SAT_SETUP_CALL_ONLY_IF_NOT_BUSY_WITH_REDIAL						0x01	//!< Set up call, but only if not currently busy on another call, with redial
 #define SAT_SETUP_CALL_AND_PUT_ALL_OTHER_CALLS_ON_HOLD					0x02	//!< Set up call, putting all other calls (if any) on hold
@@ -902,7 +901,7 @@ struct _SatSIManswer
 
 /******************************************************************************************************************************************************/
 
-//! DISPLAY MULTIMEDIA MESSAGE / DISPLAY TEXT command qualifier 
+//! DISPLAY MULTIMEDIA MESSAGE / DISPLAY TEXT command qualifier
 
 // priority
 #define	SAT_NORMAL_PRIORITY							0x00	//!<normal priority
@@ -921,10 +920,10 @@ struct _SatSIManswer
 #define  SAT_RESP_TYPE_UNPACKED_DIGITS_ONLY			0x02	// unpacked digits (0 to 9, *, #, and +) only, applies to GetInkey, GetInput
 #define  SAT_RESP_TYPE_PACKED_DIGITS_ONLY			0x03	// packed digits (0 to 9, *, #, and +) only, applies to GetInput
 #define  SAT_RESP_TYPE_UCS2_DIGITS_ONLY				0x04	// UCS2 digits (0 to 9, *, #, and +) only, applies to GetInkey, GetInput
-#define  SAT_RESP_TYPE_UNPACKED_SMS_ALPHABET		0x05	// SMS default alphabet 8 bits data, applies to GetInkey, GetInput 
+#define  SAT_RESP_TYPE_UNPACKED_SMS_ALPHABET		0x05	// SMS default alphabet 8 bits data, applies to GetInkey, GetInput
 #define  SAT_RESP_TYPE_PACKED_SMS_ALPHABET			0x06	// SMS default alphabet 7 bits packed, applies to GetInput
 #define  SAT_RESP_TYPE_UCS2_ALPHABET				0x07   	// 16 bits UCS2 alphabet, applies to GetInkey, GetInput
-																	 
+
 /******************************************************************************************************************************************************/
 
 //! GET INPUT command qualifier dispatched on the field hideUserInput
@@ -949,16 +948,16 @@ struct _SatSIManswer
 //softKey
 #define  SAT_NO_SOFT_KEY							0x00	//!< no selection preference
 #define  SAT_SOFT_KEY_PREFERRED						0x01	//!< selection using softkey preferred
-   
+
 /******************************************************************************************************************************************************/
-           
+
 //! Language Notification command qualifier
 #define SAT_LANGUAGE_NON_SPECIFIC_NOTIFICATION		0x00	//!< non-specific language notification
 #define SAT_LANGUAGE_SPECIFIC_NOTIFICATION			0x01	//!< specific language notification
 
 /******************************************************************************************************************************************************/
 
-//! LaunchBrowser command qualifier 
+//! LaunchBrowser command qualifier
 #define SAT_LAUNCH_BROWSER_IF_NOT_ALREADY_LAUNCHED				0x00	//!< launch browser if not already launched
 #define SAT_LAUNCH_BROWSER_USE_EXISTING							0x02	//!< use the existing browser (the browser shall not use the active existing secured session)
 #define SAT_LAUNCH_BROWSER_CLOSE_EXISTING_AND_LAUNCH_NEW		0x03	//!< close the existing browser session and launch new browser session
@@ -988,10 +987,10 @@ struct _SatSIManswer
 #define SAT_BEARER_SMS											0x00	//!< short message
 #define SAT_BEARER_CSD											0x01	//!< circuit switched data
 #define SAT_BEARER_USSD											0x02	//!<
-#define SAT_BEARER_GPRS											0x03	//!< 
+#define SAT_BEARER_GPRS											0x03	//!<
 
 /******************************************************************************************************************************************************/
-//! Command OPEN CHANNEL parameters or response to OPEN CHANNEL: 
+//! Command OPEN CHANNEL parameters or response to OPEN CHANNEL:
 
 //type of adress in the TLV object "Other adress"
 #define	SAT_ADDRESS_IPV4										0x21
@@ -1002,7 +1001,7 @@ struct _SatSIManswer
 #define	SAT_TRANSPORT_TCP_CLIENT_MODE							0x02	//!< TCP, UICC in client mode (as defined in RFC 793 [10])
 #define	SAT_TRANSPORT_TCP_SERVER_MODE							0x03	//!< TCP, UICC in server mode (as defined in RFC 793 [10])
 
-//! Bearer type in the bearer description parameter 
+//! Bearer type in the bearer description parameter
 #define SAT_CSD													0x01	//!< circuit switched data
 #define SAT_GPRS_3G_PACKET_SERVICE								0x02	//!< GPRS / 3G packet service
 #define SAT_DEFAULT_BEARER										0x03	//!< default bearer for requested transport layer
@@ -1010,7 +1009,7 @@ struct _SatSIManswer
 #define SAT_BLUETOOTH											0x05	//!< Bluetooth
 #define SAT_IRDA												0x06	//!< IrDA
 #define SAT_RS232												0x07	//!< RS232
-#define SAT_PACKET_DATA_SERVICE									0x08	//!< TIA/EIA/IS-820 packet data service 
+#define SAT_PACKET_DATA_SERVICE									0x08	//!< TIA/EIA/IS-820 packet data service
 #define SAT_UTRAN												0x09	//!< UTRAN packet service with extended parameters
 #define SAT_USB													0x10	//!< USB
 
@@ -1029,14 +1028,14 @@ struct _SatSIManswer
 
 /******************************************************************************************************************************************************/
 
-// Command Menu Selection parameters:  
+// Command Menu Selection parameters:
 #define SAT_MENU_SELECTION_NO_HELP_REQUESTED			0x00 //!< do not insert help request tag in the enveloppe message MENU SELECTION
 #define SAT_MENU_SELECTION_HELP_REQUESTED				0x01 //!< insert help request tag in the enveloppe message MENU SELECTION to request help information on the item selected
 //#define SAT_MENU_SELECTION_APP_MENU_REQUEST			0x03
 
 /******************************************************************************************************************************************************/
 
-//! Browser termination cause to join in the structure of enveloppe (Browser termination)  
+//! Browser termination cause to join in the structure of enveloppe (Browser termination)
 #define SAT_BROWSER_USER_TERMINATION							0x00
 #define SAT_BROWSER_ERROR_TERMINATION							0x01
 
@@ -1063,7 +1062,7 @@ struct _SatSIManswer
 #define	SAT_RES_COMMAND_SUCCESSFUL_BUT_MODIFIED_BY_CALL_CONTROL		0x05	//!<Command performed, but modified by call control by NAA
 #define	SAT_RES_COMMAND_SUCCESSFUL_BUT_LIMITED_SERVICE				0x06	//!<Command performed successfully, limited service
 #define	SAT_RES_COMMAND_SUCCESSFUL_WITH_MODIFICATION				0x07	//!<Command performed with modification
-  
+
 #define	SAT_RES_ABORTED_BY_USER										0x10	//!<Proactive UICC session terminated by the user
 #define	SAT_RES_BACKWARD											0x11	//!<Backward move in the proactive UICC session requested by the user
 #define	SAT_RES_NO_RESPONSE											0x12	//!<No response from user

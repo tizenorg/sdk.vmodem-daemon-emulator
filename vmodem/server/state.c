@@ -1,30 +1,29 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 #include <stdio.h>
@@ -68,10 +67,10 @@ int g_current_call_status_error = 0x00;
 SmsAddressInfo g_sca = { 0x01, 0x01, 10, "8210911111" };
 
 STATE_MACHINE state_machine_call =
-    { {STATE_ON, 0, 0, 0}, {STATE_STANDBY, 0, 0, 0} };
+{ {STATE_ON, 0, 0, 0}, {STATE_STANDBY, 0, 0, 0} };
 
 STATE_MACHINE state_machine_sim =
-    { {STATE_ON, 0, 0, 0}, {STATE_ON, 0, 0, 0} };
+{ {STATE_ON, 0, 0, 0}, {STATE_ON, 0, 0, 0} };
 
 /* Call - end */
 
@@ -89,32 +88,32 @@ GprsConfList g_gprs_conflist = {0, 0};
 /* GPRS - end */
 
 STATE_TABLE state_table[MAX_STATE_COUNT] = {
-/* Call - begin */
+    /* Call - begin */
     { {STATE_STANDBY, GSM_CALL_CMD, GSM_CALL_OUTGOING, 0},	// set by server_rx_call_originate_exec()
-      {STATE_CALL_WAITING_OUTGOING, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
+	{STATE_CALL_WAITING_OUTGOING, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
 
     { {STATE_CALL_WAITING_OUTGOING, GSM_CALL_CMD, GSM_CALL_ANSWER, 0},	// set by server_tx_call_answer_exec()
-      {STATE_CALL_CONVERSATION, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
+	{STATE_CALL_CONVERSATION, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
 
-/*    In call status msg, incoming msg do not exist.  Incoming noti msg is replaced.
-    { {STATE_STANDBY, GSM_CALL_CMD, GSM_CALL_INCOMING, 0},
-      {STATE_CALL_WAITING_INCOMING, GSM_CALL_CMD, GSM_CALL_STATUS, &TxCall_Msg} },
-*/
+    /*    In call status msg, incoming msg do not exist.  Incoming noti msg is replaced.
+	  { {STATE_STANDBY, GSM_CALL_CMD, GSM_CALL_INCOMING, 0},
+	  {STATE_CALL_WAITING_INCOMING, GSM_CALL_CMD, GSM_CALL_STATUS, &TxCall_Msg} },
+     */
     { {STATE_CALL_WAITING_INCOMING, GSM_CALL_CMD, GSM_CALL_ANSWER, 0}, //set by server_rx_call_answer_exec()
-      {STATE_CALL_CONVERSATION, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
+	{STATE_CALL_CONVERSATION, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
 
     { {STATE_CALL_CONVERSATION, GSM_CALL_CMD, GSM_CALL_RELEASE, 0},
-      {STATE_CALL_RELEASED, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
+	{STATE_CALL_RELEASED, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
 
     { {STATE_CALL_RELEASED, GSM_CALL_CMD, GSM_CALL_RELEASE, 0},	// set by server_tx_call_release_internal()
-      {STATE_STANDBY, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
-/* Call - end */
+	{STATE_STANDBY, GSM_CALL_CMD, GSM_CALL_STATUS, &server_tx_call_msg} },
+    /* Call - end */
 
-/* SIM - start */
+    /* SIM - start */
 
-/* SIM - end */
+    /* SIM - end */
     { {0,0,0},
-      {0,0,0} }
+	{0,0,0} }
 };
 
 #define TABLE_CURRENT_STATE_TYPE(x)	state_table[x].current_state.state_type
@@ -131,22 +130,22 @@ STATE_TABLE state_table[MAX_STATE_COUNT] = {
 #if 0
 void init_vgsm()
 {
-	// initialize network db
-	vgsm_network_database_init();
-	init_plmn_list();
-	init_network_registration();
+    // initialize network db
+    vgsm_network_database_init();
+    init_plmn_list();
+    init_network_registration();
 
-	// initialize sim security & phonebook db
-	server_sim_db_init();
+    // initialize sim security & phonebook db
+    server_sim_db_init();
 
 
-	// initialize gprs db
-	vgsm_gprs_database_init();
-	init_gprs_info();
+    // initialize gprs db
+    vgsm_gprs_database_init();
+    init_gprs_info();
 
-	// initialize ss db
-	vgsm_ss_database_init();
-	init_ss_info();
+    // initialize ss db
+    vgsm_ss_database_init();
+    init_ss_info();
 }
 #endif
 
@@ -173,21 +172,21 @@ char *string_state[]={
     "STATE_OFF",
     "STATE_ON",
     "STATE_STANDBY",
-/* Call - begin */
+    /* Call - begin */
     "STATE_CALL_WAITING_INCOMING",
     "STATE_CALL_WAITING_OUTGOING",
     "STATE_CALL_CONVERSATION",
     "STATE_CALL_RELEASED",
-/* Call - end */
+    /* Call - end */
 
-/* SIM -start */
+    /* SIM -start */
 
     "STATE_SIM_READY",
     "STATE_SIM_PIN",
     "STATE_SIM_FDN", // 0x10
     "STATE_SIM_PUK",
 
-"STATE_SIM_FRIZEN",
+    "STATE_SIM_FRIZEN",
     "STATE_SIM_PUK2",
     "STATE_SIM_PIN2",
 
@@ -200,16 +199,16 @@ char *string_state[]={
     "STATE_SIM_PUK_OK", //0x20
     "STATE_SIM_PUK2_OK",
     "STATE_SIM_PIN2_OK",
-   
+
     "STATE_SIM_PIN_WRONG_ALL",
     "STATE_SIM_PUK_WRONG_ALL",
     "STATE_SIM_PUK2_WRONG_ALL",
     "STATE_SIM_PIN2_WRONG_ALL",
 
-	//STATE_SIM_PIN_LOCK_DISABLE,
-	//0215
-	"STATE_SIM_NO_SIM",
-	"STATE_ANY"
+    //STATE_SIM_PIN_LOCK_DISABLE,
+    //0215
+    "STATE_SIM_NO_SIM",
+    "STATE_ANY"
 };
 
 void print_state( STATE state )
@@ -223,7 +222,7 @@ void print_state( STATE state )
 void print_state_machine2(void)
 {
     log_msg(MSGL_VGSM_INFO,"===========================================\n");
-   log_msg(MSGL_VGSM_INFO, "PREV_STATE: %d, %d, %d, %p \n",
+    log_msg(MSGL_VGSM_INFO, "PREV_STATE: %d, %d, %d, %p \n",
 	    STATE_TYPE(state_machine->prev_state),
 	    STATE_MAIN_CMD(state_machine->prev_state),
 	    STATE_SUB_CMD(state_machine->prev_state),
@@ -239,7 +238,7 @@ void print_state_machine2(void)
 void print_state_machine(void)
 {
     log_msg(MSGL_VGSM_INFO,"==========================\n");
-   log_msg(MSGL_VGSM_INFO, "PREV_STATE: %s, %d, %d, %p \n",
+    log_msg(MSGL_VGSM_INFO, "PREV_STATE: %s, %d, %d, %p \n",
 	    string_state[STATE_TYPE(state_machine->prev_state)],
 	    STATE_MAIN_CMD(state_machine->prev_state),
 	    STATE_SUB_CMD(state_machine->prev_state),
@@ -269,20 +268,20 @@ int find_next_state_for_state( STATE current, STATE *next, int flag )
 	    }
 	}
 	else if( ( flag & STATE_FLAG_TYPE ) &&
-                 ( ( STATE_TYPE(current) == TABLE_CURRENT_STATE_TYPE(i) ) ||
-                   ( TABLE_CURRENT_STATE_TYPE(i) == STATE_ANY )
-		 ) &&
-		 ( flag & STATE_FLAG_MAIN_CMD ) &&
-		 ( STATE_MAIN_CMD(current) == TABLE_CURRENT_STATE_MAIN_CMD(i) )
+		( ( STATE_TYPE(current) == TABLE_CURRENT_STATE_TYPE(i) ) ||
+		  ( TABLE_CURRENT_STATE_TYPE(i) == STATE_ANY )
+		) &&
+		( flag & STATE_FLAG_MAIN_CMD ) &&
+		( STATE_MAIN_CMD(current) == TABLE_CURRENT_STATE_MAIN_CMD(i) )
 	       ) {
 	    memcpy( next, &state_table[i].next_state, sizeof( STATE ) );
 
 	    return 1;
 	}
 	else if( ( ( flag == STATE_FLAG_TYPE ) &&
-		   ( ( STATE_TYPE(current) == TABLE_CURRENT_STATE_TYPE(i) ) ||
-		     ( TABLE_CURRENT_STATE_TYPE(i) == STATE_ANY )
-		   )
+		    ( ( STATE_TYPE(current) == TABLE_CURRENT_STATE_TYPE(i) ) ||
+		      ( TABLE_CURRENT_STATE_TYPE(i) == STATE_ANY )
+		    )
 		 )
 	       ) {
 	    memcpy( next, &state_table[i].next_state, sizeof( STATE ) );
@@ -290,14 +289,14 @@ int find_next_state_for_state( STATE current, STATE *next, int flag )
 	    return 1;
 	}
 	else if( ( flag == STATE_FLAG_MAIN_CMD ) &&
-		 ( STATE_MAIN_CMD(current) == TABLE_CURRENT_STATE_MAIN_CMD(i) )
+		( STATE_MAIN_CMD(current) == TABLE_CURRENT_STATE_MAIN_CMD(i) )
 	       ) {
 	    memcpy( next, &state_table[i].next_state, sizeof( STATE ) );
 
 	    return 1;
 	}
 	else if( ( flag == STATE_FLAG_SUB_CMD ) &&
-		 ( STATE_SUB_CMD(current) == TABLE_CURRENT_STATE_SUB_CMD(i) )
+		( STATE_SUB_CMD(current) == TABLE_CURRENT_STATE_SUB_CMD(i) )
 	       ) {
 	    memcpy( next, &state_table[i].next_state, sizeof( STATE ) );
 
@@ -349,23 +348,23 @@ void set_state_machine( STATE state )
 
 int change_state_machine( int main_cmd )
 {
-	_ENTER();
+    _ENTER();
 
-	switch( main_cmd ) {
+    switch( main_cmd ) {
 	case GSM_CALL_CMD:  /* 0x02 : Call Control Commands */
 	case GSM_SS_CMD:    /* 0x0C : Supplementary Service Control Command */
-		state_machine = &state_machine_call;
-		break;
+	    state_machine = &state_machine_call;
+	    break;
 	case GSM_SEC_CMD:   /* 0x05 : Security - SIM control Commands */
-		state_machine = &state_machine_sim;
-		break;
+	    state_machine = &state_machine_sim;
+	    break;
 
 	case GSM_PWR_CMD:   /* 0x01 : Power Control Commands */
-		break;
+	    break;
 	case GSM_DATA_CMD:  /* 0x03 : Data Control Commands */
-		break;
+	    break;
 	case GSM_SMS_CMD:   /* 0x04 : Short Message Service Commands */
-		break;
+	    break;
 	case GSM_PB_CMD:    /* 0x06 : Phonebook Control Commands */
 	case GSM_DISP_CMD:  /* 0x07 : Display Control Commands */
 	case GSM_NET_CMD:   /* 0x08 : Network Commands */
@@ -377,31 +376,31 @@ int change_state_machine( int main_cmd )
 	case GSM_CFG_CMD:   /* 0x0F : Configuration Commands */
 	case GSM_GEN_CMD:   /* 0x80 : General Response Commands */
 	default:
-		break;
-	}
+	    break;
+    }
 
-	_LEAVE();
+    _LEAVE();
 
-	return 1;
+    return 1;
 }
 
 void send_msg( void)
 {
-	STATE state;
+    STATE state;
 
-	_ENTER();
+    _ENTER();
 
-	get_current_state_machine( &state );
-	log_msg(MSGL_VGSM_INFO," exe state_type %d, state main_cmd=%d sub_cmd =%d\n", state.state_type,state.main_cmd,state.sub_cmd);
+    get_current_state_machine( &state );
+    log_msg(MSGL_VGSM_INFO," exe state_type %d, state main_cmd=%d sub_cmd =%d\n", state.state_type,state.main_cmd,state.sub_cmd);
 
-	if( state.state_function )
-	{
-		log_msg(MSGL_VGSM_CALL,"state.function exe !! \n");
+    if( state.state_function )
+    {
+	log_msg(MSGL_VGSM_CALL,"state.function exe !! \n");
 
-		state.state_function();
-	}
+	state.state_function();
+    }
 
-	_LEAVE();
+    _LEAVE();
 }
 
 void get_current_state_machine( STATE *state )
@@ -426,13 +425,13 @@ void set_current_state( int state, int main_cmd, int sub_cmd)
 {
     _ENTER();
 
-	STATE st;
+    STATE st;
     STATE_TYPE(st) = state;
     STATE_MAIN_CMD(st) = main_cmd;
     STATE_SUB_CMD(st) = sub_cmd;
     //STATE_FUNCTION(st) = func;
     set_state_machine( st );
-	    _LEAVE();
+    _LEAVE();
 }
 
 void set_hdlc_mode( int mode )
@@ -448,40 +447,40 @@ int get_hdlc_mode()
 void set_ss_transfer_response_error( int error ,int ss_error_type)
 {
 
-	log_msg(MSGL_VGSM_INFO,"---<set_ss_response_error>--- error : %x type : %d\n", error,ss_error_type);
-	switch ( ss_error_type)
-	{
-		case GSM_EMULATOR_SET_SS_HOLD_RESPONSE_ERROR :
-			g_ss_hold_response_error = error;
-			break;
-		case GSM_EMULATOR_SET_SS_RETRIEVE_RESPONSE_ERROR:
-			g_ss_retrieve_response_error = error;
-			break;
-		case GSM_EMULATOR_SET_SS_JOIN_RESPONSE_ERROR:
-			g_ss_join_response_error = error;
-			break;
-		case GSM_EMULATOR_SET_SS_SPLIT_RESPONSE_ERROR:
-			g_ss_split_response_error = error;
-			break;
-		case GSM_EMULATOR_SET_SS_TRANSFER_RESPONSE_ERROR :
-			g_ss_transfer_response_error = error;
-			break;
-		case GSM_EMULATOR_SET_SS_GENERAL_RESPONSE_ERROR:
-			g_ss_general_response_error = error;
-			break;
-		}
+    log_msg(MSGL_VGSM_INFO,"---<set_ss_response_error>--- error : %x type : %d\n", error,ss_error_type);
+    switch ( ss_error_type)
+    {
+	case GSM_EMULATOR_SET_SS_HOLD_RESPONSE_ERROR :
+	    g_ss_hold_response_error = error;
+	    break;
+	case GSM_EMULATOR_SET_SS_RETRIEVE_RESPONSE_ERROR:
+	    g_ss_retrieve_response_error = error;
+	    break;
+	case GSM_EMULATOR_SET_SS_JOIN_RESPONSE_ERROR:
+	    g_ss_join_response_error = error;
+	    break;
+	case GSM_EMULATOR_SET_SS_SPLIT_RESPONSE_ERROR:
+	    g_ss_split_response_error = error;
+	    break;
+	case GSM_EMULATOR_SET_SS_TRANSFER_RESPONSE_ERROR :
+	    g_ss_transfer_response_error = error;
+	    break;
+	case GSM_EMULATOR_SET_SS_GENERAL_RESPONSE_ERROR:
+	    g_ss_general_response_error = error;
+	    break;
+    }
 }
 
 void set_general_response_error( int error )
 {
-	log_msg(MSGL_VGSM_INFO,"---<set_general_response_error>---general response error : %x \n", error);
-	g_general_response_error = error;
+    log_msg(MSGL_VGSM_INFO,"---<set_general_response_error>---general response error : %x \n", error);
+    g_general_response_error = error;
 }
 
 int get_general_response_error()
 {
-	log_msg(MSGL_VGSM_INFO,"---<get_general_response_error>---general response error : %x \n", g_general_response_error);
-	return g_general_response_error;
+    log_msg(MSGL_VGSM_INFO,"---<get_general_response_error>---general response error : %x \n", g_general_response_error);
+    return g_general_response_error;
 }
 
 void set_ss_general_response_error( int error )
@@ -550,36 +549,36 @@ int get_sca( SmsAddressInfo *SCA )
 
 static void int_to_string(char *res, unsigned int s_value, int s_radix)
 {
-	static const char c_base_ascii[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-	static char s_buffer[64] = {0, };
-	size_t s_offset = sizeof(s_buffer) - 1;
+    static const char c_base_ascii[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+    static char s_buffer[64] = {0, };
+    size_t s_offset = sizeof(s_buffer) - 1;
 
-	do {
-		s_buffer[--s_offset] = c_base_ascii[ s_value % s_radix ];
-		s_value /= s_radix;
-	} while (s_value != 0u);
+    do {
+	s_buffer[--s_offset] = c_base_ascii[ s_value % s_radix ];
+	s_value /= s_radix;
+    } while (s_value != 0u);
 
-	strcpy(res, (char *)(&s_buffer[s_offset]));
+    strcpy(res, (char *)(&s_buffer[s_offset]));
 
-	return;
+    return;
 }
 
 /*UNUSED! */ int change_ip_to_ipstring(unsigned char *ip_addr, char* message, int msg_len);
 int change_ip_to_ipstring(unsigned char *ip_addr, char* message, int msg_len)
 {
-	int i = 0;					//, j = 0;
-	char temp[20];			//, ret;
+    int i = 0;					//, j = 0;
+    char temp[20];			//, ret;
 
-	memset(message, 0, msg_len);
+    memset(message, 0, msg_len);
 
-	for (i = 0; i < 4; i++) {
-		int_to_string(temp, ip_addr[i], 10);
+    for (i = 0; i < 4; i++) {
+	int_to_string(temp, ip_addr[i], 10);
 
-		strcat(message, temp);
+	strcat(message, temp);
 
-		if (i != 3)
-			strcat(message, ".");
-	}
+	if (i != 3)
+	    strcat(message, ".");
+    }
 
-	return 0;
+    return 0;
 }

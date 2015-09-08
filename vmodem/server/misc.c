@@ -1,30 +1,29 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 #include <stdlib.h>
@@ -46,11 +45,11 @@ void* PacketDataMalloc(int size)
     p = malloc(size);
 
     if (p == NULL)
-        return p;
+	return p;
     else
     {
-        memset(p, 0, size);
-        return p;
+	memset(p, 0, size);
+	return p;
     }
 }
 
@@ -58,9 +57,9 @@ void PacketDataFree(void *p)
 {
     if (p != NULL)
     {
-        free(p);
-        p = NULL;
-        return;
+	free(p);
+	p = NULL;
+	return;
     }
 }
 
@@ -72,7 +71,7 @@ int ReadPacketBytes4(int fd, void *data)
 
     if ( (data == 0) || (fd < 0) )
     {
-        return -1;
+	return -1;
     }
 
     rc = read(fd, &tmp_buf, size);
@@ -84,7 +83,7 @@ int ReadPacketBytes4(int fd, void *data)
 
     if (rc <= 0)
     {
-        return -1;
+	return -1;
     }
 
     return rc;
@@ -97,14 +96,14 @@ int ReadBytes(int fd, void *data, int size)
 
     if ( (data == 0) || (fd < 0) )
     {
-        return -1;
+	return -1;
     }
 
     rc = read(fd, data, size);
 
     if (rc <= 0)
     {
-        return -1;
+	return -1;
     }
 
     return rc;
@@ -117,14 +116,14 @@ int WriteBytes(int fd, void *data, int size)
 
     if ( (data == 0) || (fd < 0) )
     {
-        return -1;
+	return -1;
     }
 
     rc = write(fd, data, size);
 
     if (rc <= 0)
     {
-        return -1;
+	return -1;
     }
     // assert(rc == size);
 
@@ -160,12 +159,12 @@ int packed_S32(unsigned char* bytearray)
     if (!p) return 0;
 
     for(i = sizeof(int); i >= 0; i--) {
-	    if(p[i] > 255){
-		    return 0;
-	    }
-	    else{
-		    rc = rc | p[i] << i*8;
-	    }
+	if(p[i] > 255){
+	    return 0;
+	}
+	else{
+	    rc = rc | p[i] << i*8;
+	}
     }
 
     return rc;
@@ -188,50 +187,50 @@ char const* printCurrentState(LXT_PHONE_STATE CurrentState)
 {
     switch (CurrentState)
     {
-        case LXT_STATE_OFF :
-            return "LXT_STATE_OFF";
+	case LXT_STATE_OFF :
+	    return "LXT_STATE_OFF";
 
-        case LXT_STATE_ON  :
-            return "LXT_STATE_ON";
+	case LXT_STATE_ON  :
+	    return "LXT_STATE_ON";
 
-        case LXT_STATE_UIM_NOT_READY :
-            return "LXT_STATE_UIM_NOT_READY";
+	case LXT_STATE_UIM_NOT_READY :
+	    return "LXT_STATE_UIM_NOT_READY";
 
-        case LXT_STATE_UIM_READY     :
-            return "LXT_STATE_UIM_READY";
+	case LXT_STATE_UIM_READY     :
+	    return "LXT_STATE_UIM_READY";
 
-        case LXT_STATE_NO_SERVICE :
-            return "LXT_STATE_NO_SERVICE";
+	case LXT_STATE_NO_SERVICE :
+	    return "LXT_STATE_NO_SERVICE";
 
-        case LXT_STATE_STANDBY :
-            return "LXT_STATE_STANDBY";
+	case LXT_STATE_STANDBY :
+	    return "LXT_STATE_STANDBY";
 
-        case LXT_STATE_WAITING_OUTGOING_CALL :
-            return "LXT_STATE_WAITING_OUTGOING_CALL";
+	case LXT_STATE_WAITING_OUTGOING_CALL :
+	    return "LXT_STATE_WAITING_OUTGOING_CALL";
 
-        case LXT_STATE_WAITING_INCOMING_CALL :
-            return "LXT_STATE_WAITING_INCOMING_CALL";
+	case LXT_STATE_WAITING_INCOMING_CALL :
+	    return "LXT_STATE_WAITING_INCOMING_CALL";
 
-        case LXT_STATE_WAITING_DATA_SERVICE :
-            return "LXT_STATE_WAITING_DATA_SERVICE";
+	case LXT_STATE_WAITING_DATA_SERVICE :
+	    return "LXT_STATE_WAITING_DATA_SERVICE";
 
-        case LXT_STATE_CONVERSATION :
-            return "LXT_STATE_CONVERSATION";
+	case LXT_STATE_CONVERSATION :
+	    return "LXT_STATE_CONVERSATION";
 
-        case LXT_STATE_DATA_SERVICED :
-            return "LXT_STATE_DATA_SERVICED";
+	case LXT_STATE_DATA_SERVICED :
+	    return "LXT_STATE_DATA_SERVICED";
 
-        case LXT_STATE_DIAL_UP_DATA_SERVICED :
-            return "LXT_STATE_DIAL_UP_DATA_SERVICED";
+	case LXT_STATE_DIAL_UP_DATA_SERVICED :
+	    return "LXT_STATE_DIAL_UP_DATA_SERVICED";
 
-        case LXT_STATE_RELEASED :
-            return "LXT_STATE_RELEASED";
+	case LXT_STATE_RELEASED :
+	    return "LXT_STATE_RELEASED";
 
-        case LXT_STATE_RESERVED :
-            return "LXT_STATE_RESERVED";
+	case LXT_STATE_RESERVED :
+	    return "LXT_STATE_RESERVED";
 
-        default :
-            return "Unknown";
+	default :
+	    return "Unknown";
     }
 }
 

@@ -1,30 +1,29 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 #include <sys/types.h>
@@ -84,8 +83,8 @@ static int connect_af_unix()
     sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
 
     if (sockfd < 0) {
-        perror("socket");
-        return -1;
+	perror("socket");
+	return -1;
     }
 
     // set address type
@@ -103,9 +102,9 @@ static int connect_af_unix()
 
     if (rc == -1)
     {
-        perror("connect");
+	perror("connect");
 	close(sockfd);
-        return -1;
+	return -1;
     }
 
 #ifndef _NO_ESPRESSO_DEBUG_
@@ -145,8 +144,8 @@ static int connect_af_inet(const char* hostname)
 
     if (rc == -1)
     {
-        perror(" vgsm connect err : ");
-        return -1;
+	perror(" vgsm connect err : ");
+	return -1;
     }
 
 #ifndef _NO_ESPRESSO_DEBUG_
@@ -161,24 +160,24 @@ static int connect_af_inet(const char* hostname)
 
 static int connect_af_inet(const char* hostname)
 {
-	int sockfd;
-	struct sockaddr_in server = {0}; // = {AF_INET, 3578, {INADDR_ANY}};
+    int sockfd;
+    struct sockaddr_in server = {0}; // = {AF_INET, 3578, {INADDR_ANY}};
 
-	server.sin_family = AF_INET;
-	server.sin_port = htons(3578);
-	server.sin_addr.s_addr = inet_addr(hostname);
-	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-	{
-		printf("fail to call socket()\n");
-		return -1;
-	}
+    server.sin_family = AF_INET;
+    server.sin_port = htons(3578);
+    server.sin_addr.s_addr = inet_addr(hostname);
+    if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    {
+	printf("fail to call socket()\n");
+	return -1;
+    }
 
-	if(connect(sockfd, (struct sockaddr*)&server, SIZE) == -1)
-	{
-		perror("connect() failed");
-		close(sockfd);
-		return -1;
-	}
+    if(connect(sockfd, (struct sockaddr*)&server, SIZE) == -1)
+    {
+	perror("connect() failed");
+	close(sockfd);
+	return -1;
+    }
 
 #ifndef _NO_ESPRESSO_DEBUG_
     printf("[VGSM] SOCKET [%d]\n", sockfd);
@@ -191,283 +190,283 @@ static int connect_af_inet(const char* hostname)
 #if 0
 static char is_inet_mode()
 {
-	char file_name_cal[128] = {0, };
-	int fd = 0;
-	char result = 0;
+    char file_name_cal[128] = {0, };
+    int fd = 0;
+    char result = 0;
 
-	sprintf(file_name_cal,"/tmp/.vgsm_inet_mode");
-	fd = open(file_name_cal, O_RDONLY);
+    sprintf(file_name_cal,"/tmp/.vgsm_inet_mode");
+    fd = open(file_name_cal, O_RDONLY);
 
-	if(fd >=0)
-	{
-		result = 1;
-		close(fd);
-		perror(" is_inet_mode open err:");
-	}
-	else
-	{
-		result = 0;
-	}
+    if(fd >=0)
+    {
+	result = 1;
+	close(fd);
+	perror(" is_inet_mode open err:");
+    }
+    else
+    {
+	result = 0;
+    }
 
-	return result;
+    return result;
 }
 #endif
 
 // initialize handle
 LXT_HANDLE* lxt_initialize(LXT_ID_CLIENT clientclass, LXT_CALLBACK cb)
 {
-	LXT_HANDLE *handle;
-	int sockfd;
-	int rc;
+    LXT_HANDLE *handle;
+    int sockfd;
+    int rc;
 
-	exit_status = 0;
+    exit_status = 0;
 
-	//if(is_inet_mode()) //FALSE
-	if(1) // 090501	prevent segfault in qemu
+    //if(is_inet_mode()) //FALSE
+    if(1) // 090501	prevent segfault in qemu
+    {
+	//printf("[VGSM] INET MODE : LINUX TAPI with coruscant on i819 : [%s][%s]\n", __DATE__, __TIME__);
+	LIBVGSM_DEBUG("INET MODE : LINUX VGSM\n");
+	if((sockfd = connect_af_inet("127.0.0.1")) == -1)
 	{
-		//printf("[VGSM] INET MODE : LINUX TAPI with coruscant on i819 : [%s][%s]\n", __DATE__, __TIME__);        
-		LIBVGSM_DEBUG("INET MODE : LINUX VGSM\n");        
-		if((sockfd = connect_af_inet("127.0.0.1")) == -1)
-		{
-			LIBVGSM_DEBUG("LINUX VGSM : connect to target failed");
+	    LIBVGSM_DEBUG("LINUX VGSM : connect to target failed");
 
-			/*
-			if((sockfd = connect_af_unix()) == -1)
-			{
-				return NULL;
-			}
-			*/
-		}
-		LIBVGSM_DEBUG("LINUX VGSM : connect to target");
-
+	    /*
+	       if((sockfd = connect_af_unix()) == -1)
+	       {
+	       return NULL;
+	       }
+	     */
 	}
-	else
-	{
-		//printf("[VGSM] DOMAIN MODE : LINUX TAPI with coruscant on i819 : [%s][%s]\n", __DATE__, __TIME__);
-		LIBVGSM_DEBUG("DOMAIN MODE : LINUX VGSM\n");
-		sockfd = connect_af_unix();
-		LIBVGSM_DEBUG("sockfd = %d\n",sockfd);
-	}
+	LIBVGSM_DEBUG("LINUX VGSM : connect to target");
 
-	if (sockfd < 0)
-		return NULL;
+    }
+    else
+    {
+	//printf("[VGSM] DOMAIN MODE : LINUX TAPI with coruscant on i819 : [%s][%s]\n", __DATE__, __TIME__);
+	LIBVGSM_DEBUG("DOMAIN MODE : LINUX VGSM\n");
+	sockfd = connect_af_unix();
+	LIBVGSM_DEBUG("sockfd = %d\n",sockfd);
+    }
 
-	// allocate memory
-	handle = malloc(sizeof(LXT_HANDLE));
-	if (!handle) {
-		close(sockfd);
-		return NULL;
-	}
+    if (sockfd < 0)
+	return NULL;
 
-	// save client class
-	handle->clientclass = clientclass;
+    // allocate memory
+    handle = malloc(sizeof(LXT_HANDLE));
+    if (!handle) {
+	close(sockfd);
+	return NULL;
+    }
 
-	// save socket
-	handle->fd = sockfd;
+    // save client class
+    handle->clientclass = clientclass;
 
-	// save call back function
-	handle->cb = cb;
+    // save socket
+    handle->fd = sockfd;
 
-	// register id
-	rc = lxt_internal_setClientClass(handle);
+    // save call back function
+    handle->cb = cb;
 
-	if (rc < 0)
-	{
+    // register id
+    rc = lxt_internal_setClientClass(handle);
+
+    if (rc < 0)
+    {
 #ifndef _NO_ESPRESSO_DEBUG_
-		printf("[VGSM] id registration failed\n");
+	printf("[VGSM] id registration failed\n");
 #endif // _NO_ESPRESSO_DEBUG_
 
-		// realease memory
-		free(handle);
-		return NULL;
-	}
+	// realease memory
+	free(handle);
+	return NULL;
+    }
 
-	// request missed message
-	rc = lxt_internal_MissedMessage(handle);
+    // request missed message
+    rc = lxt_internal_MissedMessage(handle);
 
-	// request current state
-	rc = lxt_requestCurruntState(handle); // not implemented . Is it needed?
+    // request current state
+    rc = lxt_requestCurruntState(handle); // not implemented . Is it needed?
 
-	vgsm_ss_restoreEI(handle);
+    vgsm_ss_restoreEI(handle);
 
-	// return handle
-	return handle;
+    // return handle
+    return handle;
 }
 
 int vgsm_injector_get_fd(LXT_HANDLE *handle)
 {
-	return handle->fd;
+    return handle->fd;
 }
 
 /*
-int vgsm_release(LXT_HANDLE* handle)
-{
-    int rc = -1;
-    int exit_status; 
+   int vgsm_release(LXT_HANDLE* handle)
+   {
+   int rc = -1;
+   int exit_status;
 
-    // check handle
-    if (handle == NULL)
-        return rc;
+// check handle
+if (handle == NULL)
+return rc;
 
-    // check handle
-    if (handle->fd > 0)
-        rc = close(handle->fd);
-    else
-        rc = -1;
-    
-    
+// check handle
+if (handle->fd > 0)
+rc = close(handle->fd);
+else
+rc = -1;
 
-    // free handle's memory
-    lxt_util_free(handle);
 
-    return rc;
+
+// free handle's memory
+lxt_util_free(handle);
+
+return rc;
 }
-*/
+ */
 
 // missed message request
 static int lxt_internal_MissedMessage(LXT_HANDLE* handle)
 {
-	return lxt_msg_send_message(	handle->fd,
-									LXT_GRP_INTERNAL,
-									LXT_PDA_INTERNAL_MISSED_MESSAGE_REQUEST,
-									0x00,
-									NULL);
+    return lxt_msg_send_message(	handle->fd,
+	    LXT_GRP_INTERNAL,
+	    LXT_PDA_INTERNAL_MISSED_MESSAGE_REQUEST,
+	    0x00,
+	    NULL);
 
 }
 
 // tx client id to phone server
 static int lxt_internal_setClientClass(LXT_HANDLE* handle)
 {
-	return lxt_msg_send_message(	handle->fd,
-									LXT_GRP_INTERNAL,
-									LXT_PDA_INTERNAL_ID_REQUEST,
-									sizeof(int),
-									&(handle->clientclass));
+    return lxt_msg_send_message(	handle->fd,
+	    LXT_GRP_INTERNAL,
+	    LXT_PDA_INTERNAL_ID_REQUEST,
+	    sizeof(int),
+	    &(handle->clientclass));
 }
 
 int lxt_requestCurruntState(LXT_HANDLE* handle)
 {
-	return lxt_msg_send_message(	handle->fd,
-									LXT_GRP_INTERNAL,
-									LXT_PDA_INTERNAL_STATE_REQUEST,
-									0,
-									NULL);
+    return lxt_msg_send_message(	handle->fd,
+	    LXT_GRP_INTERNAL,
+	    LXT_PDA_INTERNAL_STATE_REQUEST,
+	    0,
+	    NULL);
 }
 
 // call back
 static int lxt_callback(LXT_HANDLE* handle)
 {
-	LIBVGSM_DEBUG("\n");
+    LIBVGSM_DEBUG("\n");
 
-	LXT_MESSAGE packet;
-	int length;
-	int group;
-	int action;
-	void *data;
-	int rc;
+    LXT_MESSAGE packet;
+    int length;
+    int group;
+    int action;
+    void *data;
+    int rc;
 
-	// check handle
-	if (handle == NULL)
-		return -1;
+    // check handle
+    if (handle == NULL)
+	return -1;
 
-	packet.data = NULL;
+    packet.data = NULL;
 
-	// rx information from server
-	rc = lxt_util_readRawBytes(handle->fd, &packet, 4);
+    // rx information from server
+    rc = lxt_util_readRawBytes(handle->fd, &packet, 4);
 
-	if(rc != 4)
-	{
-		group = LXT_GRP_INTERNAL;
-		action = LXT_PHN_INTERNAL_SERVER_DIE_EMERGENCY;
-		handle->cb(group, action, 0, 0);
-		return -1;
-	}
+    if(rc != 4)
+    {
+	group = LXT_GRP_INTERNAL;
+	action = LXT_PHN_INTERNAL_SERVER_DIE_EMERGENCY;
+	handle->cb(group, action, 0, 0);
+	return -1;
+    }
 
-	// check length
-	if (packet.length != 0)
-	{
-		// allocated memory
-		packet.data = malloc(packet.length);
-		assert(packet.data != NULL);
+    // check length
+    if (packet.length != 0)
+    {
+	// allocated memory
+	packet.data = malloc(packet.length);
+	assert(packet.data != NULL);
 
-		// clear memory
-		memset(packet.data, 0, packet.length);
+	// clear memory
+	memset(packet.data, 0, packet.length);
 
-		// rx data from server
-		rc = lxt_util_readRawBytes(handle->fd, packet.data, packet.length);
+	// rx data from server
+	rc = lxt_util_readRawBytes(handle->fd, packet.data, packet.length);
 
 #ifndef _NO_ESPRESSO_DEBUG_
-		assert(rc == packet.length);
+	assert(rc == packet.length);
 #endif
-	}
-	else
-	{
-		// init
-		packet.data = NULL;
-	}
+    }
+    else
+    {
+	// init
+	packet.data = NULL;
+    }
 
-	// length
-	length = packet.length;
+    // length
+    length = packet.length;
 
-	// group
-	group = packet.group;
+    // group
+    group = packet.group;
 
-	// action
-	action = packet.action;
+    // action
+    action = packet.action;
 
-	// data
-	data = packet.data;
+    // data
+    data = packet.data;
 
-	if ( rc != length)
-		LIBVGSM_DEBUG ("Read data : read len = %d, len = %d \n",rc, length);
+    if ( rc != length)
+	LIBVGSM_DEBUG ("Read data : read len = %d, len = %d \n",rc, length);
 
-	LIBVGSM_DEBUG("Client Read Data : CID[0x%x]length[%d]group[0x%x]action[0x%x]\n", handle->clientclass, length, group, action);
-	//lxt_util_rawdataPrint(data, length, "=============Call Back Data==================");
+    LIBVGSM_DEBUG("Client Read Data : CID[0x%x]length[%d]group[0x%x]action[0x%x]\n", handle->clientclass, length, group, action);
+    //lxt_util_rawdataPrint(data, length, "=============Call Back Data==================");
 
-	// call back
-	handle->cb(group, action, data, length);
+    // call back
+    handle->cb(group, action, data, length);
 
-	if (packet.data != NULL)
-		free(packet.data);
+    if (packet.data != NULL)
+	free(packet.data);
 
-	return rc;
+    return rc;
 }
 
 int vgsm_socket_read_callback(LXT_HANDLE* handle)
 {
-	return lxt_callback(handle);
+    return lxt_callback(handle);
 }
 
 LXT_HANDLE* vgsm_injector_initialize(LXT_CALLBACK cb)
 {
-	return lxt_initialize( LXT_ID_CLIENT_EVENT_INJECTOR, cb );
+    return lxt_initialize( LXT_ID_CLIENT_EVENT_INJECTOR, cb );
 }
 
 LXT_HANDLE* vgsm_manager_rx_initialize(LXT_CALLBACK cb)
 {
-	return lxt_initialize( LXT_ID_CLIENT_EVENT_MANAGER_RX, cb );
+    return lxt_initialize( LXT_ID_CLIENT_EVENT_MANAGER_RX, cb );
 }
 
 LXT_HANDLE* vgsm_manager_tx_initialize(LXT_CALLBACK cb)
 {
-	return lxt_initialize( LXT_ID_CLIENT_EVENT_MANAGER_TX, cb );
+    return lxt_initialize( LXT_ID_CLIENT_EVENT_MANAGER_TX, cb );
 }
 
 LXT_HANDLE* vgsm_manager_initialize(LXT_CALLBACK cb)
 {
-	return lxt_initialize( LXT_ID_CLIENT_EVENT_MANAGER, cb );
+    return lxt_initialize( LXT_ID_CLIENT_EVENT_MANAGER, cb );
 }
 
 int vgsm_injector_release(LXT_HANDLE* handle)
 {
-	// check handle
-	if (handle == NULL)
-		return -1;
+    // check handle
+    if (handle == NULL)
+	return -1;
 
-	LIBVGSM_DEBUG("handle->fd = %d \n", handle->fd);
+    LIBVGSM_DEBUG("handle->fd = %d \n", handle->fd);
 
-	vgsm_client_release_notify(handle);
+    vgsm_client_release_notify(handle);
 
-	return 1;
+    return 1;
 }
 

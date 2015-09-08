@@ -1,30 +1,29 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 #ifndef _PHONEPROTOCOL_H_
@@ -80,18 +79,18 @@ typedef enum
     LXT_ID_CLIENT_PHONE_SETUP                                               = 0x0A, // ID of Phone setup
     LXT_ID_CLIENT_CARD_MANAGER                                              = 0x0B, // ID of CARD Manager
     LXT_ID_CLIENT_SMS_DAEMON                                                = 0x0C, // ID of SMS Daemon
-    LXT_ID_CLIENT_GPS                                                       = 0x0D, // ID of GPS 
-    LXT_ID_CLIENT_SECURITY_SETUP                                            = 0x0E, // ID of Security Setup 
-    LXT_ID_CLIENT_SAT                                            			= 0x0F, // ID of sim application toolkit 
-    LXT_ID_CLIENT_DATA_1                                            		= 0x10, // ID of data 1 
-    LXT_ID_CLIENT_DATA_2                                            		= 0x11, // ID of data 2 
-    LXT_ID_CLIENT_DATA_3                                            		= 0x12, // ID of data 3 
-    LXT_ID_CLIENT_DATA_4                                            		= 0x13, // ID of data 4 
-    LXT_ID_CLIENT_DATA_5                                            		= 0x14, // ID of data 5 
+    LXT_ID_CLIENT_GPS                                                       = 0x0D, // ID of GPS
+    LXT_ID_CLIENT_SECURITY_SETUP                                            = 0x0E, // ID of Security Setup
+    LXT_ID_CLIENT_SAT                                            			= 0x0F, // ID of sim application toolkit
+    LXT_ID_CLIENT_DATA_1                                            		= 0x10, // ID of data 1
+    LXT_ID_CLIENT_DATA_2                                            		= 0x11, // ID of data 2
+    LXT_ID_CLIENT_DATA_3                                            		= 0x12, // ID of data 3
+    LXT_ID_CLIENT_DATA_4                                            		= 0x13, // ID of data 4
+    LXT_ID_CLIENT_DATA_5                                            		= 0x14, // ID of data 5
     LXT_ID_CLIENT_DATA_6                                            		= 0x15, // ID of data 6
-    LXT_ID_CLIENT_EVENT_INJECTOR					    = 0x16, //ID of event injector 
-    LXT_ID_CLIENT_EVENT_MANAGER_RX					    = 0x17, //ID of event injector 
-    LXT_ID_CLIENT_EVENT_MANAGER_TX					    = 0x18, //ID of event injector 
+    LXT_ID_CLIENT_EVENT_INJECTOR					    = 0x16, //ID of event injector
+    LXT_ID_CLIENT_EVENT_MANAGER_RX					    = 0x17, //ID of event injector
+    LXT_ID_CLIENT_EVENT_MANAGER_TX					    = 0x18, //ID of event injector
     LXT_ID_CLIENT_EVENT_MANAGER					    = 0x19, //ID of event manager
     LXT_ID_CLIENT_INVALID                                                   = 0x39, // ID of invalid
     LXT_ID_CLIENT_ANY                                                       = 0xff
@@ -120,9 +119,9 @@ enum LXT_GRP
     LXT_GRP_RESPONSE                                                        = 0x5F,  // response
     LXT_GRP_PHONE_BOOK                                                      = 0x61,  // phone book
     LXT_GRP_CARD_SMS                                                        = 0x62,  // card sms
-    LXT_GRP_GPS                                                             = 0x63,  // GPS 
+    LXT_GRP_GPS                                                             = 0x63,  // GPS
     LXT_GRP_EOT                                                             = 0x80   // eot
-    
+
 };
 
 
@@ -170,7 +169,7 @@ enum LXT_PHN_PHONE_INFO
     LXT_PHN_INTERNAL_SERVER_SIM_COVER_OPENED                                = 0x50,
     LXT_PHN_INTERNAL_SERVER_SIM_COVER_CLOSED                                = 0x51,
     LXT_PHN_INTERNAL_SERVER_PHONE_REBUILD_START                             = 0x52,
-    LXT_PHN_INTERNAL_SERVER_PHONE_REBUILD_END                               = 0x53,                
+    LXT_PHN_INTERNAL_SERVER_PHONE_REBUILD_END                               = 0x53,
     LXT_PHN_INTERNAL_SERVER_PHONE_FATAL_ERROR                               = 0x54,
     LXT_PHN_INTERNAL_SERVER_PHONE_NV_BACKUP_NOTIFICATION                    = 0x55,
     LXT_PHN_INTERNAL_PHONEBOOK_LOADING_COMPLETION_NOTIFICATION              = 0x56,
@@ -197,52 +196,52 @@ enum LXT_PHN_POWER
 
 // define of action group (configuration)+++++++++++++++++++++++++++++++++++++
 /*
-enum LXT_PDA_CONFIGURATION
-{
-    LXT_PDA_CONFIGURATION_SET_DEFAULT_CONFIGURATION_REQUEST                 = 0x41,
-    LXT_PDA_CONFIGURATION_CURRENT_TIME_REQUEST                              = 0x42,  // current time request
-    LXT_PDA_CONFIGURATION_PHONE_NUMBER_REQUEST                              = 0x43,
-    LXT_PDA_CONFIGURATION_PHONE_VERSION_REQUEST                             = 0x44,
-    LXT_PDA_CONFIGURATION_GET_PHONE_LOCK_REQUEST                            = 0x45,
-    LXT_PDA_CONFIGURATION_SET_PHONE_LOCK_REQUEST                            = 0x46,
-    LXT_PDA_CONFIGURATION_GET_RADIO_CONFIGURATION_REQUEST                   = 0x47,
-    LXT_PDA_CONFIGURATION_SET_RADIO_CONFIGURATION_REQUEST                   = 0x48,
-    LXT_PDA_CONFIGURATION_GET_SYSTEM_PREFERENCE_REQUEST                     = 0x49,
-    LXT_PDA_CONFIGURATION_SET_SYSTEM_PREFERENCE_REQUEST                     = 0x4A,
-    LXT_PDA_CONFIGURATION_GET_SYSTEM_PARAMETER_REQUEST                      = 0x4B,
-    LXT_PDA_CONFIGURATION_SET_SYSTEM_PARAMETER_REQUEST                      = 0x4C,
-    LXT_PDA_CONFIGURATION_GET_NAM_INFORMATION_REQUEST                       = 0x4D,
-    LXT_PDA_CONFIGURATION_GET_NAM_DATA_REQUEST                              = 0x4E,
-    LXT_PDA_CONFIGURATION_GET_PHONE_STATE_CHANGING_REQUEST                  = 0x4F,
-    LXT_PDA_CONFIGURATION_SET_PHONE_STATE_CHANGING_REQUEST                  = 0x50,
-    LXT_PDA_CONFIGURATION_BATTERY_MEDIATENESS_CONFIRM                       = 0x51,
-    LXT_PDA_CONFIGURATION_GET_PDA_BATTERY_REQUEST                           = 0x52
-};
+   enum LXT_PDA_CONFIGURATION
+   {
+   LXT_PDA_CONFIGURATION_SET_DEFAULT_CONFIGURATION_REQUEST                 = 0x41,
+   LXT_PDA_CONFIGURATION_CURRENT_TIME_REQUEST                              = 0x42,  // current time request
+   LXT_PDA_CONFIGURATION_PHONE_NUMBER_REQUEST                              = 0x43,
+   LXT_PDA_CONFIGURATION_PHONE_VERSION_REQUEST                             = 0x44,
+   LXT_PDA_CONFIGURATION_GET_PHONE_LOCK_REQUEST                            = 0x45,
+   LXT_PDA_CONFIGURATION_SET_PHONE_LOCK_REQUEST                            = 0x46,
+   LXT_PDA_CONFIGURATION_GET_RADIO_CONFIGURATION_REQUEST                   = 0x47,
+   LXT_PDA_CONFIGURATION_SET_RADIO_CONFIGURATION_REQUEST                   = 0x48,
+   LXT_PDA_CONFIGURATION_GET_SYSTEM_PREFERENCE_REQUEST                     = 0x49,
+   LXT_PDA_CONFIGURATION_SET_SYSTEM_PREFERENCE_REQUEST                     = 0x4A,
+   LXT_PDA_CONFIGURATION_GET_SYSTEM_PARAMETER_REQUEST                      = 0x4B,
+   LXT_PDA_CONFIGURATION_SET_SYSTEM_PARAMETER_REQUEST                      = 0x4C,
+   LXT_PDA_CONFIGURATION_GET_NAM_INFORMATION_REQUEST                       = 0x4D,
+   LXT_PDA_CONFIGURATION_GET_NAM_DATA_REQUEST                              = 0x4E,
+   LXT_PDA_CONFIGURATION_GET_PHONE_STATE_CHANGING_REQUEST                  = 0x4F,
+   LXT_PDA_CONFIGURATION_SET_PHONE_STATE_CHANGING_REQUEST                  = 0x50,
+   LXT_PDA_CONFIGURATION_BATTERY_MEDIATENESS_CONFIRM                       = 0x51,
+   LXT_PDA_CONFIGURATION_GET_PDA_BATTERY_REQUEST                           = 0x52
+   };
 
-enum LXT_PHN_CONFIGURATION
-{
-    LXT_PHN_CONFIGURATION_SET_DEFAULT_CONFIGURATION_RESPONSE                = 0x41,
-    LXT_PHN_CONFIGURATION_CURRENT_TIME_RESPONSE                             = 0x42,
-    LXT_PHN_CONFIGURATION_CURRENT_TIME_NOTIFICATION                         = 0x43,
-    LXT_PHN_CONFIGURATION_PHONE_NUMBER_RESPONSE                             = 0x44,
-    LXT_PHN_CONFIGURATION_PHONE_VERSION_RESPONSE                            = 0x45,
-    LXT_PHN_CONFIGURATION_PHONE_STATE_CHANGE_NOTIFICATION                   = 0x46,
-    LXT_PHN_CONFIGURATION_PHONE_SERVICE_READY_NOTIFICATION                  = 0x47,
-    LXT_PHN_CONFIGURATION_GET_PHONE_LOCK_RESPONSE                           = 0x48,
-    LXT_PHN_CONFIGURATION_PHONE_LOCK_NOTIFICATION                           = 0x49,
-    LXT_PHN_CONFIGURATION_GET_RADIO_CONFIGURATION_RESPONSE                  = 0x4A,
-    LXT_PHN_CONFIGURATION_GET_SYSTEM_PREFERENCE_RESPONSE                    = 0x4B,
-    LXT_PHN_CONFIGURATION_GET_SYSTEM_PARAMETER_RESPONSE                     = 0x4C,
-    LXT_PHN_CONFIGURATION_SYSTEM_PARAMETER_CHANGE_NOTIFICATION              = 0x4D,
-    LXT_PHN_CONFIGURATION_GET_NAM_INFORMATION_RESPONSE                      = 0x4E,
-    LXT_PHN_CONFIGURATION_GET_NAM_DATA_RESPONSE                             = 0x4F,
-    LXT_PHN_CONFIGURATION_GET_PHONE_STATE_CHANGING_RESPONSE                 = 0x50,
-    LXT_PHN_CONFIGURATION_SET_PHONE_STATE_CHANGING_RESPONSE                 = 0x51,
-    LXT_PHN_CONFIGURATION_HFK2_PDA_PASSWORD_INDICATION                      = 0x52,
-    LXT_PHN_CONFIGURATION_BATTERY_MEDIATENESS_INDICATION                    = 0x53,
-    LXT_PHN_CONFIGURATION_GET_PDA_BATTERY_RESPONSE                          = 0x54
-};
-*/
+   enum LXT_PHN_CONFIGURATION
+   {
+   LXT_PHN_CONFIGURATION_SET_DEFAULT_CONFIGURATION_RESPONSE                = 0x41,
+   LXT_PHN_CONFIGURATION_CURRENT_TIME_RESPONSE                             = 0x42,
+   LXT_PHN_CONFIGURATION_CURRENT_TIME_NOTIFICATION                         = 0x43,
+   LXT_PHN_CONFIGURATION_PHONE_NUMBER_RESPONSE                             = 0x44,
+   LXT_PHN_CONFIGURATION_PHONE_VERSION_RESPONSE                            = 0x45,
+   LXT_PHN_CONFIGURATION_PHONE_STATE_CHANGE_NOTIFICATION                   = 0x46,
+   LXT_PHN_CONFIGURATION_PHONE_SERVICE_READY_NOTIFICATION                  = 0x47,
+   LXT_PHN_CONFIGURATION_GET_PHONE_LOCK_RESPONSE                           = 0x48,
+   LXT_PHN_CONFIGURATION_PHONE_LOCK_NOTIFICATION                           = 0x49,
+   LXT_PHN_CONFIGURATION_GET_RADIO_CONFIGURATION_RESPONSE                  = 0x4A,
+   LXT_PHN_CONFIGURATION_GET_SYSTEM_PREFERENCE_RESPONSE                    = 0x4B,
+   LXT_PHN_CONFIGURATION_GET_SYSTEM_PARAMETER_RESPONSE                     = 0x4C,
+   LXT_PHN_CONFIGURATION_SYSTEM_PARAMETER_CHANGE_NOTIFICATION              = 0x4D,
+   LXT_PHN_CONFIGURATION_GET_NAM_INFORMATION_RESPONSE                      = 0x4E,
+   LXT_PHN_CONFIGURATION_GET_NAM_DATA_RESPONSE                             = 0x4F,
+   LXT_PHN_CONFIGURATION_GET_PHONE_STATE_CHANGING_RESPONSE                 = 0x50,
+   LXT_PHN_CONFIGURATION_SET_PHONE_STATE_CHANGING_RESPONSE                 = 0x51,
+   LXT_PHN_CONFIGURATION_HFK2_PDA_PASSWORD_INDICATION                      = 0x52,
+   LXT_PHN_CONFIGURATION_BATTERY_MEDIATENESS_INDICATION                    = 0x53,
+   LXT_PHN_CONFIGURATION_GET_PDA_BATTERY_RESPONSE                          = 0x54
+   };
+ */
 
 enum LXT_PDA_CONFIGURATION2
 {
@@ -285,10 +284,10 @@ enum LXT_PDA_CONFIGURATION2
     LXT_PHN_CONFIGURATION2_DEVICE_AUTO_TEST_CONFIRM                             = 0x64,
     LXT_PHN_CONFIGURATION2_SERVICE_LED_ONOFF_CONFIRM                        = 0x65,
     LXT_PHN_CONFIGURATION2_SET_PDA_VERSION_REQUEST                          = 0x66
-    /*
-    LXT_PDA_CONFIGURATION2_BATTRY_MEDIATENESS_CONFIRM                      = 0x51,
-    LXT_PDA_CONFIGURATION2_GET_PDA_BATTERY_REQUEST                          = 0x52
-    */
+	/*
+	   LXT_PDA_CONFIGURATION2_BATTRY_MEDIATENESS_CONFIRM                      = 0x51,
+	   LXT_PDA_CONFIGURATION2_GET_PDA_BATTERY_REQUEST                          = 0x52
+	 */
 };
 
 enum LXT_PHN_CONFIGURATION2
@@ -327,10 +326,10 @@ enum LXT_PHN_CONFIGURATION2
     LXT_PHN_CONFIGURATION2_SET_DEFAULT_CONFIGURATION_INDICATION             = 0x5F,
     LXT_PHN_CONFIGURATION2_PDA_PASSWORD_INDICATION                          = 0x60,
     LXT_PHN_CONFIGURATION2_BT_EQUIPMENT_TEST_ADDRESS_NOTIFICATION           = 0x61
-    /*
-    LXT_PHN_CONFIGURATION2_BATTERY_MEDIATENESS_INDICATION                   = 0x53,
-    LXT_PHN_CONFIGURATION2_GET_PDA_BATTERY_RESPONSE                         = 0x54
-    */
+	/*
+	   LXT_PHN_CONFIGURATION2_BATTERY_MEDIATENESS_INDICATION                   = 0x53,
+	   LXT_PHN_CONFIGURATION2_GET_PDA_BATTERY_RESPONSE                         = 0x54
+	 */
 };
 
 // define of action group (call)++++++++++++++++++++++++++++++++++++++++++++++
@@ -349,9 +348,9 @@ enum LXT_PDA_CALL
     LXT_PDA_CALL_CALL_ORIGINATION2_REQUEST                                  = 0x51,
     LXT_PDA_CALL_GET_VOICE_PRIVACY_OPTION_REQUEST                           = 0x52,
     LXT_PDA_CALL_SET_VOICE_PRIVACY_OPTION_REQUEST                           = 0x53,
-    LXT_PDA_CALL_CURRENT_VOICE_PRIVACY_STATUS_REQUEST                       = 0x54,    
+    LXT_PDA_CALL_CURRENT_VOICE_PRIVACY_STATUS_REQUEST                       = 0x54,
     LXT_PDA_CALL_SOS_CALL_REQUEST                                           = 0x55,
-    LXT_PDA_CALL_REJECT_CALL_REQUEST                                        = 0x56    
+    LXT_PDA_CALL_REJECT_CALL_REQUEST                                        = 0x56
 };
 
 enum LXT_PHN_CALL
@@ -446,7 +445,7 @@ enum LXT_PHN_CARD_SMS
     LXT_PHN_CARD_SMS_DELETE_RESPONSE                                        = 0x44,
     LXT_PHN_CARD_SMS_SET_TAG_RESPONSE                                       = 0x45,
     LXT_PHN_CARD_SMS_CLEAR_RESPONSE                                         = 0x46,
-    LXT_PHN_CARD_SMS_MESSAGE_READY_NOTIFICATION                             = 0x47,    
+    LXT_PHN_CARD_SMS_MESSAGE_READY_NOTIFICATION                             = 0x47,
     LXT_PHN_CARD_SMS_COMPLETE_NOTIFICATION                                  = 0x48,
 
     // GSM
@@ -462,7 +461,7 @@ enum LXT_PHN_CARD_SMS
     LXT_PHN_CARD_GSM_SMS_MESSAGE_REFERENCE_WRITE_RESPONSE                   = 0x6A,
 };
 
-    
+
 // define of action group (service mode)++++++++++++++++++++++++++++++++++++++
 
 enum LXT_PDA_SERVICEMODE
@@ -532,7 +531,7 @@ enum LXT_PDA_UIM
     LXT_PDA_RUIMCONF_CURRENT_FDN_STATE_REQUEST                              = 0x1C,
     LXT_PDA_RUIMCONF_CHECK_SERVICE_AVAILABLE_REQUEST                        = 0x1D,
     LXT_PDA_RUIMCONF_IMSI_REQUEST                                           = 0x1E,
-    
+
     // i519
     LXT_PDA_UIM_GET_UIM_LOCK_REQUEST                                        = 0x31,
     LXT_PDA_UIM_SET_UIM_LOCK_REQUEST                                        = 0x32,

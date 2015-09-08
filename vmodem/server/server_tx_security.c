@@ -1,30 +1,29 @@
 /*
  *  telephony-emulator
  *
- * Copyright (c) 2000 - 2011 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2000 - 2013 Samsung Electronics Co., Ltd. All rights reserved.
  *
- * Contact: 
+ * Contact:
  * Sooyoung Ha <yoosah.ha@samsung.com>
- * Sungmin Ha <sungmin82.ha@samsung.com>
  * YeongKyoon Lee <yeongkyoon.lee@samsung.com>
- * 
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Contributors:
  * - S-Core Co., Ltd
- * 
+ *
  */
 
 #include <stdio.h>
@@ -46,362 +45,362 @@
 
 int server_tx_sim_init_start(void)
 {
-	int status;
+    int status;
 
-	SIM_DEBUG("\n");
-	//not used
-	//server_tx_sim_sec_card_type_noti();
+    SIM_DEBUG("\n");
+    //not used
+    //server_tx_sim_sec_card_type_noti();
 
-	//load from sim db
-	db_sim_sec_restore(VGSM_SIMTypeLoad);
+    //load from sim db
+    db_sim_sec_restore(VGSM_SIMTypeLoad);
 
-	status = server_sec_get_sec_status();
+    status = server_sec_get_sec_status();
 
-	SIM_DEBUG("boot time sim status =[%x]\n", status);
+    SIM_DEBUG("boot time sim status =[%x]\n", status);
 
-	if(status	==	GSM_SIM_READY) {
-		server_tx_sim_sec_disable_facility();
-	}
-	else {
-		server_tx_sim_sec_enable_facility(status);
-	}
+    if(status	==	GSM_SIM_READY) {
+	server_tx_sim_sec_disable_facility();
+    }
+    else {
+	server_tx_sim_sec_enable_facility(status);
+    }
 
-	return 1;
+    return 1;
 }
 
 
 int server_tx_sim_sec_disable_facility(void)
 {
-	unsigned char *p = 0;
-	LXT_MESSAGE packet;
+    unsigned char *p = 0;
+    LXT_MESSAGE packet;
 
-	SIM_DEBUG("\n");
-	SIM_DEBUG("pin lock disable mode - it means key not needed(ready) \n");
+    SIM_DEBUG("\n");
+    SIM_DEBUG("pin lock disable mode - it means key not needed(ready) \n");
 
-	TAPIMessageInit(&packet);
+    TAPIMessageInit(&packet);
 
-	packet.data	=	malloc(2);
-	if(!packet.data)
-		return -1;
-	p			=	(unsigned char *)(packet.data);
+    packet.data	=	malloc(2);
+    if(!packet.data)
+	return -1;
+    p			=	(unsigned char *)(packet.data);
 
-	packet.group	=	GSM_SIM;
-	packet.length	=	1 + 1 ;
-	packet.action	=	GSM_SIM_FACILITY_RES;
+    packet.group	=	GSM_SIM;
+    packet.length	=	1 + 1 ;
+    packet.action	=	GSM_SIM_FACILITY_RES;
 
-	//server_sec_set_sec_status(GSM_SIM_READY);
-	//set_current_state( STATE_SIM_READY, GSM_SEC_CMD, GSM_SEC_PIN_STATUS);
+    //server_sec_set_sec_status(GSM_SIM_READY);
+    //set_current_state( STATE_SIM_READY, GSM_SEC_CMD, GSM_SEC_PIN_STATUS);
 
-	server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_READY);
+    server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_READY);
 
-	p[0]	=	0;
-	p[1]	=	GSM_SIM_READY;
+    p[0]	=	0;
+    p[1]	=	GSM_SIM_READY;
 
-	/*	++ 2008-09-29
-	*/
-	//FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
+    /*	++ 2008-09-29
+     */
+    //FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
 
-	if(packet.data)
-		free(packet.data);
+    if(packet.data)
+	free(packet.data);
 
-	return 1;
+    return 1;
 }
 
 
 int server_tx_sim_sec_enable_facility(int status)
 {
-	unsigned char *p = 0;
-	LXT_MESSAGE packet;
+    unsigned char *p = 0;
+    LXT_MESSAGE packet;
 
-	SIM_DEBUG("\n");
-	SIM_DEBUG("sim status =[%d]\n", status);
+    SIM_DEBUG("\n");
+    SIM_DEBUG("sim status =[%d]\n", status);
 
-	TAPIMessageInit(&packet);
+    TAPIMessageInit(&packet);
 
-	packet.data	=	malloc(2);
-	p			=	(unsigned char *)(packet.data);
+    packet.data	=	malloc(2);
+    p			=	(unsigned char *)(packet.data);
 
-	packet.group	=	GSM_SIM;
-	packet.length	=	1 + 1;
-	packet.action	=	GSM_SIM_FACILITY_RES;
+    packet.group	=	GSM_SIM;
+    packet.length	=	1 + 1;
+    packet.action	=	GSM_SIM_FACILITY_RES;
 
-	p[0]	=	1;
-	p[1]	=	status;
+    p[0]	=	1;
+    p[1]	=	status;
 
-	switch (status)
-	{
+    switch (status)
+    {
 	/*
-		case GSM_SIM_READY :
-			set_current_state(STATE_SIM_READY, GSM_SEC_CMD, GSM_SEC_PIN_STATUS, 0 );
-		break;
-	*/
-		case GSM_SIM_PIN_REQ_STATE :
-			server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_PIN);
-		break;
+	   case GSM_SIM_READY :
+	   set_current_state(STATE_SIM_READY, GSM_SEC_CMD, GSM_SEC_PIN_STATUS, 0 );
+	   break;
+	 */
+	case GSM_SIM_PIN_REQ_STATE :
+	    server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_PIN);
+	    break;
 
-		case GSM_SIM_PUK_REQ :
-			server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_PUK);
-		break;
+	case GSM_SIM_PUK_REQ :
+	    server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_PUK);
+	    break;
 
-		case GSM_SIM_FRIZEN :
-			server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_FRIZEN);
-		break;
+	case GSM_SIM_FRIZEN :
+	    server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_FRIZEN);
+	    break;
 
-		case GSM_SIM_NO_SIM :
-			server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_NO_SIM);
-		break;
+	case GSM_SIM_NO_SIM :
+	    server_tx_sim_sec_pin_status_noti(STATE_ON, STATE_SIM_NO_SIM);
+	    break;
 
-		default :
-			SIM_DEBUG("No handled sim status=[%x]", status);
-		break;
-	}
+	default :
+	    SIM_DEBUG("No handled sim status=[%x]", status);
+	    break;
+    }
 
-	//server_tx_sim_sec_pin_status_noti();
+    //server_tx_sim_sec_pin_status_noti();
 
-	FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
+    FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
 
-	if(packet.data)
-		free(packet.data);
+    if(packet.data)
+	free(packet.data);
 
-	return 1;
+    return 1;
 }
 
 
 ////////////////////////// 090512 //////////////////////////////////////////
 int server_tx_sim_data_get_db(unsigned char *sim_data, int len)
 {
-	int length;
-	LXT_MESSAGE packet;
+    int length;
+    LXT_MESSAGE packet;
 
-	SIM_DEBUG(" len_data :%d\n",len);
+    SIM_DEBUG(" len_data :%d\n",len);
 
-	TAPIMessageInit(&packet);
+    TAPIMessageInit(&packet);
 
-	//length = 9+9+9+9+4+4+4+4+4+4+4+4; //68
-	length = len; //43
+    //length = 9+9+9+9+4+4+4+4+4+4+4+4; //68
+    length = len; //43
 
-	packet.data	=	sim_data;
-	packet.group	=	GSM_SIM;
-	packet.length	=	length ;
-	packet.action	=	GSM_SIMDATA_RES;
+    packet.data	=	sim_data;
+    packet.group	=	GSM_SIM;
+    packet.length	=	length ;
+    packet.action	=	GSM_SIMDATA_RES;
 
-    	FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
+    FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
 
-	if(packet.data)
-		free(packet.data);
+    if(packet.data)
+	free(packet.data);
 
-	return  1;
+    return  1;
 }
 
 int server_tx_sim_info_get_db(unsigned char *sim_info, int len)
 {
-	int length;
-	LXT_MESSAGE packet;
+    int length;
+    LXT_MESSAGE packet;
 
-	SIM_DEBUG(" len_info : %d\n",len);
+    SIM_DEBUG(" len_info : %d\n",len);
 
-	TAPIMessageInit(&packet);
+    TAPIMessageInit(&packet);
 
-	//length = 9+9+9+9+4+4+4+4+4+4+4+4; //68
-	length = len; //43
+    //length = 9+9+9+9+4+4+4+4+4+4+4+4; //68
+    length = len; //43
 
-	packet.data	=	sim_info;
-	packet.group	=	GSM_SIM;
-	packet.length	=	length ;
-	packet.action	=	GSM_SIMINFO_RES;
+    packet.data	=	sim_info;
+    packet.group	=	GSM_SIM;
+    packet.length	=	length ;
+    packet.action	=	GSM_SIMINFO_RES;
 
-    	FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
+    FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
 
-	if(packet.data)
-		free(packet.data);
+    if(packet.data)
+	free(packet.data);
 
-	return  1;
+    return  1;
 }
 //////////////////////////////////////////////////////////////////////////////////
 
 int server_tx_sim_sec_get_db(SimSecurity *sim_sec)
 {
-	int length;
-	LXT_MESSAGE packet;
+    int length;
+    LXT_MESSAGE packet;
 
-	SIM_DEBUG("\n");
+    SIM_DEBUG("\n");
 
-	TAPIMessageInit(&packet);
+    TAPIMessageInit(&packet);
 
-	length = 9+9+9+9+4+4+4+4+4+4+4+4; //68
+    length = 9+9+9+9+4+4+4+4+4+4+4+4; //68
 
-	packet.data	=	malloc(sizeof(SimSecurity));
-	packet.data	=	sim_sec;
-	packet.group	=	GSM_SIM;
-	packet.length	=	length ;
-	packet.action	=	GSM_SIM_GET_SIM_DB_RES;
+    packet.data	=	malloc(sizeof(SimSecurity));
+    packet.data	=	sim_sec;
+    packet.group	=	GSM_SIM;
+    packet.length	=	length ;
+    packet.action	=	GSM_SIM_GET_SIM_DB_RES;
 
-    	FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
+    FuncServer->Cast(&GlobalPS, LXT_ID_CLIENT_EVENT_INJECTOR, &packet);
 
-	if(packet.data)
-		free(packet.data);
+    if(packet.data)
+	free(packet.data);
 
-	return  1;
+    return  1;
 }
 
 
 int server_tx_sim_sec_card_type_noti(void)
 {
-	int ret = 0;
-	int data_size = 1;
-	unsigned char *pdata = 0;
+    int ret = 0;
+    int data_size = 1;
+    unsigned char *pdata = 0;
 
-	SIM_DEBUG("\n");
+    SIM_DEBUG("\n");
 
-	pdata = malloc(sizeof(unsigned char)*data_size);
-	if(!pdata)
-		return -1;
+    pdata = malloc(sizeof(unsigned char)*data_size);
+    if(!pdata)
+	return -1;
 
-	pdata[0] = GSM_SEC_SIM_3G;
+    pdata[0] = GSM_SEC_SIM_3G;
 
-	ret = oem_tx_sim_sec_card_type_noti(pdata, data_size);
+    ret = oem_tx_sim_sec_card_type_noti(pdata, data_size);
 
-	if( pdata )
-		free( pdata );
+    if( pdata )
+	free( pdata );
 
-	return ret;
+    return ret;
 }
 
 
 /* this API is for NOTIFICATION of SIM PIN STATUS	*/
 int server_tx_sim_sec_pin_status_noti(STATE_TYPE before_state, STATE_TYPE current_state)
 {
-	int ret = 0;
-	int data_size = 2;
-	unsigned char *pdata = 0;
+    int ret = 0;
+    int data_size = 2;
+    unsigned char *pdata = 0;
 
-	int send_sim_init_msg	=	0;
+    int send_sim_init_msg	=	0;
 
-//	STATE current;
-//	STATE prev;
+    //	STATE current;
+    //	STATE prev;
 
-	SIM_DEBUG("\n");
+    SIM_DEBUG("\n");
 
-	pdata = malloc(sizeof(unsigned char)*data_size);
-	if(!pdata)
-		return -1;
+    pdata = malloc(sizeof(unsigned char)*data_size);
+    if(!pdata)
+	return -1;
 
-//	get_current_state_machine( &current );
-//	get_prev_state_machine( &prev );
+    //	get_current_state_machine( &current );
+    //	get_prev_state_machine( &prev );
 
-//	SIM_DEBUG("STATE_TYPE(prev)=%d \n", STATE_TYPE(prev));
+    //	SIM_DEBUG("STATE_TYPE(prev)=%d \n", STATE_TYPE(prev));
 
-	switch(before_state)
-	{
-		//add STATE_STANDBY for test.
-		case STATE_STANDBY :
-		case STATE_ON:
+    switch(before_state)
+    {
+	//add STATE_STANDBY for test.
+	case STATE_STANDBY :
+	case STATE_ON:
+	    {
+		switch(current_state)
 		{
-			switch(current_state)
+		    case STATE_SIM_READY :
 			{
-				case STATE_SIM_READY :
-				{
-					/*	lock disable일 경우 modem(vgsm)이 simulator로 보내줘야 할 NOTI
-						1) GSM_SEC_LOCK_TYPE_READY
-						2) GSM_SEC_SIM_INIT_COMPLETED
-						3) GSM_SEC_PB_INIT_COMPLETED	- 현재 phonebook이 미구현 상태라 보내지 않음.
-					*/
-					pdata[0]	=	GSM_SEC_LOCK_TYPE_READY;
-					pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
-#if 0 //20110714 tmp 
-					oem_tx_sim_sec_pin_status_noti(pdata, data_size);
+			    /*	 The noti that modem(vgsm) should send to emulator when the lock disabled.
+				 1) GSM_SEC_LOCK_TYPE_READY
+				 2) GSM_SEC_SIM_INIT_COMPLETED
+				 3) GSM_SEC_PB_INIT_COMPLETED - doesn't send this because the phonebook isn't implemented.
+			     */
+			    pdata[0]	=	GSM_SEC_LOCK_TYPE_READY;
+			    pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
+#if 0 //20110714 tmp
+			    oem_tx_sim_sec_pin_status_noti(pdata, data_size);
 
-					sleep(3);
+			    sleep(3);
 
-					pdata[0]	=	GSM_SEC_SIM_INIT_COMPLETED;
-					pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
-					send_sim_init_msg	=	1;
+			    pdata[0]	=	GSM_SEC_SIM_INIT_COMPLETED;
+			    pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
+			    send_sim_init_msg	=	1;
 
-				/*
-					oem_tx_sim_sec_pin_status_noti(pdata, data_size);
+			    /*
+			       oem_tx_sim_sec_pin_status_noti(pdata, data_size);
 
-					pdata[0]	=	GSM_SEC_PB_INIT_COMPLETED;
-					pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
-				*/
+			       pdata[0]	=	GSM_SEC_PB_INIT_COMPLETED;
+			       pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
+			     */
 #endif
-				}
-				break;
-
-				case STATE_SIM_PIN :
-				{
-	     				pdata[0]	=	GSM_SEC_LOCK_TYPE_SC;
-					pdata[1]	=	GSM_SEC_LOCK_KEY_PIN;
-				}
-				break;
-
-				case STATE_SIM_PUK :
-				{
-	     				pdata[0]	=	GSM_SEC_LOCK_TYPE_SC;
-					pdata[1]	=	GSM_SEC_LOCK_KEY_PUK;
-				}
-				break;
-
-				case STATE_SIM_FRIZEN :
-				{
-	     				pdata[0]	=	GSM_SEC_LOCK_TYPE_SC;
-					pdata[1]	=	GSM_SEC_LOCK_KEY_PERM_BLOCKED;
-				}
-				break;
-
-				case STATE_SIM_NO_SIM :
-				{
-	     				pdata[0]	=	GSM_SEC_LOCK_TYPE_NO_SIM;
-					pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;	//to be considered...
-				}
-				break;
-
-				default :
-					SIM_DEBUG("No handled current_state=[%d]\n",current_state);
-					break;
-
 			}
-		}
-		break;
+			break;
 
-		case STATE_SIM_PIN :
-		case STATE_SIM_PUK :
-		{
-			switch(current_state)
+		    case STATE_SIM_PIN :
 			{
-				case  STATE_SIM_PIN_OK :
-				case  STATE_SIM_PUK_OK:
-				{
-					pdata[0]	=	GSM_SEC_SIM_INIT_COMPLETED;
-					pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
-					send_sim_init_msg	=	1;
-				/*
-					oem_tx_sim_sec_pin_status_noti(pdata, data_size);
-
-					pdata[0]	=	GSM_SEC_PB_INIT_COMPLETED;
-					pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
-				*/
-				}
-				break;
-
-				default:
-					SIM_DEBUG("No handled current_state=[%d]\n",current_state);
-					break;
+			    pdata[0]	=	GSM_SEC_LOCK_TYPE_SC;
+			    pdata[1]	=	GSM_SEC_LOCK_KEY_PIN;
 			}
-		}
-		break;
+			break;
 
-		default:
+		    case STATE_SIM_PUK :
+			{
+			    pdata[0]	=	GSM_SEC_LOCK_TYPE_SC;
+			    pdata[1]	=	GSM_SEC_LOCK_KEY_PUK;
+			}
+			break;
+
+		    case STATE_SIM_FRIZEN :
+			{
+			    pdata[0]	=	GSM_SEC_LOCK_TYPE_SC;
+			    pdata[1]	=	GSM_SEC_LOCK_KEY_PERM_BLOCKED;
+			}
+			break;
+
+		    case STATE_SIM_NO_SIM :
+			{
+			    pdata[0]	=	GSM_SEC_LOCK_TYPE_NO_SIM;
+			    pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;	//to be considered...
+			}
+			break;
+
+		    default :
+			SIM_DEBUG("No handled current_state=[%d]\n",current_state);
+			break;
+
+		}
+	    }
+	    break;
+
+	case STATE_SIM_PIN :
+	case STATE_SIM_PUK :
+	    {
+		switch(current_state)
 		{
-			SIM_DEBUG("No handled case in before_state = [%d]\n", before_state);
+		    case  STATE_SIM_PIN_OK :
+		    case  STATE_SIM_PUK_OK:
+			{
+			    pdata[0]	=	GSM_SEC_SIM_INIT_COMPLETED;
+			    pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
+			    send_sim_init_msg	=	1;
+			    /*
+			       oem_tx_sim_sec_pin_status_noti(pdata, data_size);
+
+			       pdata[0]	=	GSM_SEC_PB_INIT_COMPLETED;
+			       pdata[1]	=	GSM_SEC_LOCK_KEY_UNLOCKED;
+			     */
+			}
+			break;
+
+		    default:
+			SIM_DEBUG("No handled current_state=[%d]\n",current_state);
+			break;
 		}
-		break;
+	    }
+	    break;
 
-	}
+	default:
+	    {
+		SIM_DEBUG("No handled case in before_state = [%d]\n", before_state);
+	    }
+	    break;
 
-	ret	=	oem_tx_sim_sec_pin_status_noti(pdata, data_size);
-	if( pdata )
-		free( pdata );
+    }
 
-	return ret;
+    ret	=	oem_tx_sim_sec_pin_status_noti(pdata, data_size);
+    if( pdata )
+	free( pdata );
+
+    return ret;
 }
 
