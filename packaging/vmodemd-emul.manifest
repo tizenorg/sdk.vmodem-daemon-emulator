@@ -1,5 +1,8 @@
 <manifest>
- <request>
+  <request>
     <domain name="_"/>
- </request>
+  </request>
+  <assign>
+    <filesystem path='/usr/bin/vmodem_x86' exec_label='none' />
+  </assign>
 </manifest>
